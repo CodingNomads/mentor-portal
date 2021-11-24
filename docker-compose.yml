@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5080
+    ports:
+      - 8080:8080
+      - 5080:5080
+    hostname: localhost
+    restart: unless-stopped
