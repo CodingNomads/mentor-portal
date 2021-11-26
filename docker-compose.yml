@@ -12,3 +12,25 @@ services:
       - 5080:5080
     hostname: localhost
     restart: unless-stopped
+    depends_on:
+      - database
+
+  database:
+    image: mysql:5.7
+    restart: always
+    environment:
+#      MYSQL_DATABASE: 'db'
+#      MYSQL_USER: 'user'
+#      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+    name: mysql-data
