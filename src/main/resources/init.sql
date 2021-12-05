@@ -1,7 +1,9 @@
--- user
-DROP TABLE IF EXISTS `kotlin.backend.db`.`user`;
+USE `mentor_portal_db`;
 
-CREATE TABLE `kotlin.backend.db`.`user` (
+-- user
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
     `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `role_code` int(10) UNSIGNED NOT NULL COMMENT 'The user role',
     `status_code` int(10) NOT NULL,
@@ -10,9 +12,9 @@ CREATE TABLE `kotlin.backend.db`.`user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='List of users';
 
 -- mentor_student_lookup
-DROP TABLE IF EXISTS `kotlin.backend.db`.`mentor_student_lookup`;
+DROP TABLE IF EXISTS `mentor_student_lookup`;
 
-CREATE TABLE `kotlin.backend.db`.`mentor_student_lookup` (
+CREATE TABLE `mentor_student_lookup` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `mentor_id` int NOT NULL COMMENT 'Foreign Key',
     `student_id` int NOT NULL COMMENT 'Foreign Key',
@@ -27,9 +29,9 @@ CREATE TABLE `kotlin.backend.db`.`mentor_student_lookup` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Mentor and student status';
 
 -- security
-DROP TABLE IF EXISTS `kotlin.backend.db`.`security`;
+DROP TABLE IF EXISTS `security`;
 
-CREATE TABLE `kotlin.backend.db`.`security` (
+CREATE TABLE `security` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `user_id` int NOT NULL COMMENT 'Foreign Key',
     `username` varchar(255) NOT NULL,
@@ -43,9 +45,9 @@ CREATE TABLE `kotlin.backend.db`.`security` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Username, password, admin status';
 
 -- contact
-DROP TABLE IF EXISTS `kotlin.backend.db`.`contact`;
+DROP TABLE IF EXISTS `contact`;
 
-CREATE TABLE `kotlin.backend.db`.`contact` (
+CREATE TABLE `contact` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `user_id` int NOT NULL,
     `first_name` varchar(255) NOT NULL,
@@ -62,9 +64,9 @@ CREATE TABLE `kotlin.backend.db`.`contact` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='User contact and account information';
 
 -- support_log
-DROP TABLE IF EXISTS `kotlin.backend.db`.`support_log`;
+DROP TABLE IF EXISTS `support_log`;
 
-CREATE TABLE `kotlin.backend.db`.`support_log` (
+CREATE TABLE `support_log` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `mentor_student_lookup_id` int NOT NULL,
     `log` varchar(255) NOT NULL,
@@ -76,9 +78,9 @@ CREATE TABLE `kotlin.backend.db`.`support_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Log for tracking mentorship program';
 
 -- role
-DROP TABLE IF EXISTS `kotlin.backend.db`.`role`;
+DROP TABLE IF EXISTS `role`;
 
-CREATE TABLE `kotlin.backend.db`.`role` (
+CREATE TABLE `role` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `code` int NOT NULL,
     `name` varchar(255) NOT NULL,
@@ -89,9 +91,9 @@ CREATE TABLE `kotlin.backend.db`.`role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Classification of user role with code';
 
 -- status
-DROP TABLE IS EXISTS `kotlin.backend.db`.`status`;
+DROP TABLE IF EXISTS `status`;
 
-CREATE TABLE `kotlin.backend.db`.`status` (
+CREATE TABLE `status` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `code` int NOT NULL,
     `description` varchar(255) NOT NULL,
