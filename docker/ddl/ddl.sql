@@ -1,4 +1,8 @@
-USE `mentor_portal_db`;
+DROP DATABASE IF EXISTS `mentor_portal_db_dev`;
+
+CREATE DATABASE `mentor_portal_db_dev`;
+
+USE `mentor_portal_db_dev`;
 
 -- user
 DROP TABLE IF EXISTS `user`;
@@ -16,8 +20,8 @@ DROP TABLE IF EXISTS `mentor_student_lookup`;
 
 CREATE TABLE `mentor_student_lookup` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `mentor_id` int NOT NULL COMMENT 'Foreign Key',
-    `student_id` int NOT NULL COMMENT 'Foreign Key',
+    `mentor_id` int(10) UNSIGNED NOT NULL COMMENT 'Foreign Key',
+    `student_id` int(10) UNSIGNED NOT NULL COMMENT 'Foreign Key',
     `status_code` int NOT NULL,
     `created_at` timestamp NOT NULL,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -33,7 +37,7 @@ DROP TABLE IF EXISTS `security`;
 
 CREATE TABLE `security` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `user_id` int NOT NULL COMMENT 'Foreign Key',
+    `user_id` int(10) UNSIGNED NOT NULL COMMENT 'Foreign Key',
     `username` varchar(255) NOT NULL,
     `password_hash` varchar(255) NOT NULL,
     `is_admin` tinyint NOT NULL,
@@ -49,7 +53,7 @@ DROP TABLE IF EXISTS `contact`;
 
 CREATE TABLE `contact` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `user_id` int NOT NULL,
+    `user_id` int(10) UNSIGNED NOT NULL,
     `first_name` varchar(255) NOT NULL,
     `last_name` varchar(255) NOT NULL,
     `email` varchar(255) NOT NULL,
@@ -68,20 +72,19 @@ DROP TABLE IF EXISTS `support_log`;
 
 CREATE TABLE `support_log` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
-    `mentor_student_lookup_id` int NOT NULL,
+    `mentor_id` int(10) UNSIGNED NOT NULL,
+    `student_id` int(10) UNSIGNED NOT NULL,
     `log` varchar(255) NOT NULL,
     `created_at` timestamp NOT NULL,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    KEY `mentor_student_lookup_id_idx` (`mentor_student_lookup_id`),
-    CONSTRAINT `fk_mentor_student_lookup_id_support_log` FOREIGN KEY (`mentor_student_lookup_id`) REFERENCES `mentor_student_lookup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Log for tracking mentorship program';
 
 -- role
 DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
-    `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
+    `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `code` int NOT NULL,
     `name` varchar(255) NOT NULL,
     `description` varchar(255) NOT NULL,
@@ -94,7 +97,7 @@ CREATE TABLE `role` (
 DROP TABLE IF EXISTS `status`;
 
 CREATE TABLE `status` (
-    `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
+    `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `code` int NOT NULL,
     `description` varchar(255) NOT NULL,
     `created_at` timestamp NOT NULL,

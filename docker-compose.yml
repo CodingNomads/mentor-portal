@@ -19,9 +19,7 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-#      MYSQL_DATABASE: 'db'
-#      MYSQL_USER: 'user'
-#      MYSQL_PASSWORD: 'password'
+      MYSQL_DATABASE: 'mentor_portal_db_dev'
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
       - '3306:3306'
@@ -29,6 +27,7 @@ services:
       # Opens port 3306 on the container
       - '3306'
     volumes:
+      - ./docker/ddl:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
 
 volumes:
