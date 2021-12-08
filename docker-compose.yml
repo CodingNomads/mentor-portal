@@ -27,7 +27,7 @@ services:
       # Opens port 3306 on the container
       - '3306'
     volumes:
-      - ./docker/ddl:/docker-entrypoint-initdb.d
+      - ./docker/database:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
 
 volumes:

@@ -9,9 +9,13 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
     `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
+    `first_name` varchar(255),
+    `last_name` varchar(255),
     `role_code` int(10) UNSIGNED NOT NULL COMMENT 'The user role',
     `status_code` int(10) NOT NULL,
     `timezone_offset` varchar(255) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='List of users';
 
@@ -23,7 +27,7 @@ CREATE TABLE `mentor_student_lookup` (
     `mentor_id` int(10) UNSIGNED NOT NULL COMMENT 'Foreign Key',
     `student_id` int(10) UNSIGNED NOT NULL COMMENT 'Foreign Key',
     `status_code` int NOT NULL,
-    `created_at` timestamp NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `mentor_id_idx` (`mentor_id`),
@@ -41,7 +45,7 @@ CREATE TABLE `security` (
     `username` varchar(255) NOT NULL,
     `password_hash` varchar(255) NOT NULL,
     `is_admin` tinyint NOT NULL,
-    `created_at` timestamp NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `user_id_idx` (`user_id`),
@@ -54,13 +58,11 @@ DROP TABLE IF EXISTS `contact`;
 CREATE TABLE `contact` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `user_id` int(10) UNSIGNED NOT NULL,
-    `first_name` varchar(255) NOT NULL,
-    `last_name` varchar(255) NOT NULL,
-    `email` varchar(255) NOT NULL,
-    `telephone` varchar(255) NOT NULL,
-    `forum_username` varchar(255) NOT NULL,
-    `slack_username` varchar(255) NOT NULL,
-    `created_at` timestamp NOT NULL,
+    `email` varchar(255),
+    `telephone` varchar(255),
+    `forum_username` varchar(255),
+    `slack_username` varchar(255),
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `user_id_idx` (`user_id`),
@@ -75,7 +77,7 @@ CREATE TABLE `support_log` (
     `mentor_id` int(10) UNSIGNED NOT NULL,
     `student_id` int(10) UNSIGNED NOT NULL,
     `log` varchar(255) NOT NULL,
-    `created_at` timestamp NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Log for tracking mentorship program';
@@ -88,7 +90,7 @@ CREATE TABLE `role` (
     `code` int NOT NULL,
     `name` varchar(255) NOT NULL,
     `description` varchar(255) NOT NULL,
-    `created_at` timestamp NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Classification of user role with code';
@@ -100,7 +102,7 @@ CREATE TABLE `status` (
     `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `code` int NOT NULL,
     `description` varchar(255) NOT NULL,
-    `created_at` timestamp NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Classification of mentorship status';
