@@ -12,12 +12,17 @@ services:
       - 5080:5080
     hostname: localhost
     restart: unless-stopped
+    networks:
+      - mentor-portal-data
     depends_on:
       - database
 
   database:
+    container_name: database
     image: mysql:5.7
     restart: always
+    networks:
+      - mentor-portal-data
     environment:
       MYSQL_DATABASE: 'mentor_portal_db_dev'
       MYSQL_ROOT_PASSWORD: 'password'
@@ -33,3 +38,6 @@ services:
 volumes:
   mysql-data:
     name: mysql-data
+
+networks:
+  mentor-portal-data:
