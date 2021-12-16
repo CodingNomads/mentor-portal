@@ -1,73 +1,27 @@
 <script>
+    import InputText from './InputText.svelte';
+    import {lock, envelope} from 'svelte-awesome/icons'
+
     let email = "";
     let password = "";
-    let errors = {};
-    let isLoading = false;
-    let isSuccess = false;
 
     export let submit;
 
-    const handleSubmit = () => {
-        errors = {};
-        if (email.length === 0) {
-            errors.email = "Please enter an email";
-        }
-        if (password.length === 0) {
-            errors.password = "Please enter your password";
-        }
-        if (Object.keys(errors).length === 0) {
-            isLoading = true;
-            submit ({email, password})
-                .then(() => {
-                    isSuccess = true;
-                    isLoading - false;
-                })
-                .catch(err => {
-                    errors.server = err;
-                    isLoading = false;
-                });
-        }
+    const submitLogin = () => console.log("User is logged in")
         
-    };   
 </script>
 
-<div class="container justify-content: center">
-    <div class="row">
-        <div class="container section scrollspy">
-            <div class="col-6 col-md-4">
-                logo in here
-            </div>
-            <div class="col-6 col-md-4 offset">
-                <br>
-                <form class="form" on:submit|preventDefault={handleSubmit}>
-                    {#if isSuccess}
-                    <div class="success">
-                        You're logged in!
-                    </div>
-                    {:else}
-                    <h1>Mentor Portal Login</h1>
+<div class="container">
+    <div class="columns is-centered">
+        <div class="column m-3 is-5-tablet is-4-desktop is-5-widescreen">
+            <form class="form box" on:submit|preventDefault={submitLogin}>
+                <h1>Mentor Portal Login</h1>
+    
+                <InputText label="email" icon={envelope} bind:value={email} type="email" placeholder="email" />
+                <InputText label="password" icon={lock} bind:value={password} type="password" placeholder="*******" />
                 
-                    <label class="label" for="email">Email</label>
-                    <input class="input" type="text" name="email" placeholder="name@email.com" bind:value={email} />
-                
-                    <label class="label" for="password">Password</label>
-                    <input class="input" type="password" name="password" placeholder="********" bind:value={password}/>
-                    {/if}
-                </form>
-                <br>
-                <button class="button" type="submit">Login</button>
-                        {#if Object.keys(errors).length > 1}
-                        <ul>
-                            {#each Object.keys(errors) as field}
-                            <li>{field}: {errors[field]}</li>
-                            {/each}
-                        </ul>
-                        {/if}
-            <!-- end column -->
-            </div>            
-        <!-- end container section -->
+                <button class="button" type="submit">Sign In</button>
+            </form>   
         </div>
-    <!-- end row -->
-    </div>  
-<!-- end container -->
+    </div>
 </div> 
