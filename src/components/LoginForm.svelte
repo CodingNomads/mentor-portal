@@ -17,7 +17,7 @@
             <form class="form box" on:submit|preventDefault={submitLogin}>
                 <h1>Mentor Portal Login</h1>
     
-                <InputText label="email" icon={envelope} bind:value={email} type="email" placeholder="email" />
+                <InputText label="email" icon={envelope} bind:value={email} type="email" placeholder="name@codingnomads.com" />
                 <InputText label="password" icon={lock} bind:value={password} type="password" placeholder="*******" />
                 
                 <button class="button" type="submit">Sign In</button>
