@@ -1,10 +1,9 @@
 package com.codingnomads.mentor_portal_api.mappers
 
-import com.codingnomads.mentor_portal_api.entities.data.UserModel
+import com.codingnomads.mentor_portal_api.entities.data.UserRow
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
-import org.springframework.stereotype.Component
 
 /**
  * Mapper for user table.
@@ -19,16 +18,16 @@ interface UserMapper {
      * @return a UserModel
      */
     @Select(SELECT_USER_STATEMENT + FROM_USER_ID)
-    fun selectUserById(id: Int): UserModel
+    fun selectUserById(id: Int): UserRow
 
     /**
      * Inserts a new user.
      *
-     * @param userModel the user payload to be inserted
+     * @param userRow the user payload to be inserted
      * @return the number of rows affected
      */
     @Insert(INSERT_USER_STATEMENT + INSERT_USER_VALUES)
-    fun insertUser(userModel: UserModel) : Int
+    fun insertUser(userRow: UserRow) : Int
 
     /**
      * A companion object to hold sql statement strings

@@ -1,6 +1,7 @@
 package com.codingnomads.mentor_portal_api.controllers
 
-import com.codingnomads.mentor_portal_api.entities.data.UserModel
+import com.codingnomads.mentor_portal_api.entities.business.User
+import com.codingnomads.mentor_portal_api.entities.data.UserRow
 import com.codingnomads.mentor_portal_api.handlers.UserHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -15,7 +16,7 @@ class UserController (@Autowired private val userHandler: UserHandler) {
      * @return a UserModel.
      */
     @GetMapping("/user/{userId}")
-    fun getUserById(@PathVariable userId: Int): UserModel = userHandler.getUserById(userId)
+    fun getUserById(@PathVariable userId: Int): User = userHandler.getUserById(userId)
 
     /**
      * Creates a new user
@@ -24,5 +25,5 @@ class UserController (@Autowired private val userHandler: UserHandler) {
      * @return The payload if insertion was successful.
      */
     @PostMapping("/user")
-    fun createUser(@RequestBody payload: UserModel) = userHandler.createUser(payload)
+    fun createUser(@RequestBody payload: User) = userHandler.createUser(payload)
 }
