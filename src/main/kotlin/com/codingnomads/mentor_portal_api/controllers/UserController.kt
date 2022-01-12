@@ -4,6 +4,7 @@ import com.codingnomads.mentor_portal_api.entities.business.User
 import com.codingnomads.mentor_portal_api.entities.data.UserRow
 import com.codingnomads.mentor_portal_api.handlers.UserHandler
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController

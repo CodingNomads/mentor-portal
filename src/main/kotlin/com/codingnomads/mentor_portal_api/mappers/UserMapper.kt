@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Select
  */
 @Mapper
 interface UserMapper {
-
     /**
      * Selects User from database by ID.
      *
@@ -43,6 +42,7 @@ interface UserMapper {
             status_code, 
             timezone_offset
             """
+
         const val FROM_USER_ID = "FROM user where id = #{value}"
         const val INSERT_USER_STATEMENT =
             """
@@ -55,6 +55,7 @@ interface UserMapper {
             timezone_offset
             )
             """
+
         const val INSERT_USER_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{timezoneOffset})"
     }
 }
