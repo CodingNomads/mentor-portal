@@ -8,5 +8,4 @@ data class Student(
     val lastName: String,
     val roleCode: Int,
     val statusCode: Int,
-    val timezoneOffset: String,
 )

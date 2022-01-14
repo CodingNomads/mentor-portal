@@ -14,4 +14,9 @@ class StudentController (@Autowired private val studentHandler: StudentHandler) 
     @GetMapping("/students")
     fun getStudents(): List<Student> = studentHandler.getStudents()
 
+    /**
+     * Get student by Id
+     */
+    @GetMapping("/student/{studentId}")
+    fun getStudentById(@PathVariable studentId: Int): Student = studentHandler.getStudentById(studentId)
 }

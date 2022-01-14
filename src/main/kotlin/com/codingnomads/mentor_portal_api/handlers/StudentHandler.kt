@@ -13,5 +13,10 @@ class StudentHandler(private val studentMapper: StudentMapper) {
      * Get all Students
      */
     fun getStudents() = studentMapper.selectStudents()
+
+    /**
+     * Get student by id
+     */
+    fun getStudentById(studentId: Int) = studentMapper.selectStudentById(studentId)
 }
 

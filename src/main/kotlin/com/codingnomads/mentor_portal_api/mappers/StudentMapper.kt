@@ -16,6 +16,12 @@ interface StudentMapper {
     @Select(SELECT_STUDENTS_STATEMENT)
     fun selectStudents(): List<Student>
 
+    /**
+     * Get student by id
+     */
+    @Select(SELECT_STUDENT_STATEMENT)
+    fun selectStudentById(id: Int): Student
+
     companion object {
         const val SELECT_STUDENTS_STATEMENT =
             """
@@ -29,6 +35,20 @@ interface StudentMapper {
                 JOIN mentor_student_lookup on student_id = user.id
                 JOIN contact on user_id = user.id
                 WHERE role_code = 20 and user.status_code = 100
+            """
+
+        const val SELECT_STUDENT_STATEMENT =
+            """
+                SELECT DISTINCT 
+                user.id,
+                first_name,
+                last_name,
+                role_code,
+                user.status_code 
+                FROM user
+                JOIN mentor_student_lookup on student_id = user.id
+                JOIN contact on user_id = user.id
+                WHERE role_code = 20 and user.status_code = 100 and user.id = #{value}
             """
     }
 }
