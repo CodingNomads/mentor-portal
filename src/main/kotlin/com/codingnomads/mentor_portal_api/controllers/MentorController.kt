@@ -5,6 +5,7 @@ import com.codingnomads.mentor_portal_api.handlers.MentorHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
+@CrossOrigin(origins = ["http://localhost:5000"])
 @RestController
 @RequestMapping("/api")
 

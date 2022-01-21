@@ -8,4 +8,6 @@ data class Student(
     val lastName: String,
     val roleCode: Int,
     val statusCode: Int,
+    val email: String,
+    val telephone: String
 )

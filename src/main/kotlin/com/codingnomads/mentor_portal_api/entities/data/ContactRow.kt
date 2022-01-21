@@ -1,7 +1,6 @@
 package com.codingnomads.mentor_portal_api.entities.data
 
-import com.codingnomads.mentor_portal_api.entities.business.User
-import java.time.LocalDateTime
+import com.codingnomads.mentor_portal_api.entities.business.Contact
 
 data class ContactRow(
     val id:Int,
@@ -10,6 +9,15 @@ data class ContactRow(
     val telephone: String,
     val forumUsername: String,
     val slackUsername: String,
-    val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
-)
+){
+    companion object {
+        fun fromEntity(contact: Contact) = ContactRow (
+            id = contact.id,
+            userId = contact.userId,
+            email = contact.email,
+            telephone = contact.telephone,
+            forumUsername = contact.forumUsername,
+            slackUsername = contact.slackUsername
+        )
+    }
+}

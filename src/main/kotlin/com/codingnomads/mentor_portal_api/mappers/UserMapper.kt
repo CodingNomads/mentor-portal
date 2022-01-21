@@ -1,6 +1,8 @@
 package com.codingnomads.mentor_portal_api.mappers
 
 import com.codingnomads.mentor_portal_api.entities.data.UserRow
+import com.codingnomads.mentor_portal_api.entities.business.User
+import com.codingnomads.mentor_portal_api.entities.data.ContactRow
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
@@ -10,6 +12,13 @@ import org.apache.ibatis.annotations.Select
  */
 @Mapper
 interface UserMapper {
+
+    /**
+     * Select all users
+     */
+    @Select(SELECT_USERS_STATEMENT)
+    fun selectUsers(): List<User>
+
     /**
      * Selects User from database by ID.
      *
@@ -32,6 +41,19 @@ interface UserMapper {
      * A companion object to hold sql statement strings
      */
     companion object {
+
+        const val SELECT_USERS_STATEMENT =
+            """
+                SELECT
+                user.id,
+                user.first_name,
+                user.last_name,
+                user.role_code,
+                user.status_code,
+                user.timezone_offset
+                FROM user
+            """
+
         const val SELECT_USER_STATEMENT =
             """
             SELECT 
@@ -44,6 +66,7 @@ interface UserMapper {
             """
 
         const val FROM_USER_ID = "FROM user where id = #{value}"
+
         const val INSERT_USER_STATEMENT =
             """
             INSERT INTO user 
@@ -57,5 +80,19 @@ interface UserMapper {
             """
 
         const val INSERT_USER_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{timezoneOffset})"
+
+        const val INSERT_CONTACT_STATEMENT =
+            """
+                INSERT INTO contact
+                (
+                id,
+                user_id,
+                email,
+                telephone,
+                forum_username,
+                slack_username,
+                )
+            """
+        const val INSERT_CONTACT_VALUES = "VALUES (#{id}, #{userId}, #{email}, #{telephone}, #{forumUsername}, #{slackUsername})"
     }
 }

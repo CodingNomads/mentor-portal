@@ -30,9 +30,11 @@ interface StudentMapper {
                 first_name,
                 last_name,
                 role_code,
-                user.status_code 
+                user.status_code,
+                contact.email,
+                contact.telephone
                 FROM user
-                JOIN mentor_student_lookup on student_id = user.id
+                JOIN mentor_student_lookup on mentor_student_lookup.student_id = user.id
                 JOIN contact on user_id = user.id
                 WHERE role_code = 20 and user.status_code = 100
             """
@@ -41,10 +43,12 @@ interface StudentMapper {
             """
                 SELECT DISTINCT 
                 user.id,
-                first_name,
-                last_name,
-                role_code,
-                user.status_code 
+                user.first_name,
+                user.last_name,
+                user.role_code,
+                user.status_code, 
+                contact.email,
+                contact.telephone
                 FROM user
                 JOIN mentor_student_lookup on student_id = user.id
                 JOIN contact on user_id = user.id
