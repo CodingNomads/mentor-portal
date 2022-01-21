@@ -1,11 +1,18 @@
 version: '3.7'
 
 services:
-  client:
+
+  front:
+    container_name: front
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: recipe-client
     hostname: localhost
     ports:
       - 5000:5000
+    networks:
+      - front-end
+
+networks:
+  front-end:
+    name: front-end

@@ -1,5 +1,5 @@
-
 <script>
+    import Mentor from "../routes/Mentors.svelte"
     let navbarToggle = false;
     const toggleNavbar = () => {
 		navbarToggle = !navbarToggle
@@ -22,9 +22,9 @@
     <div class="navbar-menu" class:is-active={navbarToggle} id="nav-links">
       <!-- right links -->
       <div class="navbar-end">
-        <a class="navbar-item">Admin</a>
-        <a class="navbar-item">Students</a>
-        <a class="navbar-item">Mentors</a>
+        <a class="navbar-item" href="#/">Admin</a>
+        <a class="navbar-item" href="#/">Students</a>
+        <a class="navbar-item" href="#/">Mentors</a>
       </div>
     </div>
   </nav>

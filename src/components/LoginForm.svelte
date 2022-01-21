@@ -5,8 +5,6 @@
     let email = "";
     let password = "";
 
-    export let submit;
-
     const submitLogin = () => console.log("User is logged in")
         
 </script>
