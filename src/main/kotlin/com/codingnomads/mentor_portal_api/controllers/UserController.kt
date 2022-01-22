@@ -35,5 +35,5 @@ class UserController (@Autowired private val userHandler: UserHandler) {
      * @return The payload if insertion was successful.
      */
     @PostMapping("/create-user")
-    fun createUser(@RequestBody payload: UserPostPayload) = userHandler.createUser(payload)
+    fun createUser(@RequestBody payload: User) = userHandler.createUser(payload)
 }
