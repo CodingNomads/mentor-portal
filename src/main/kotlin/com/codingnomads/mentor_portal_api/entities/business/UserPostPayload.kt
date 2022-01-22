@@ -7,7 +7,7 @@ data class UserPostPayload (
     /**
      * user fields
      */
-    val id: Int,
+    val id: Int? = null,
     val firstName: String,
     val lastName: String,
     val roleCode: Int,
@@ -16,7 +16,6 @@ data class UserPostPayload (
     /**
      * contact fields
      */
-    val userId: Int,
     val email: String,
     val telephone: String,
     val forumUsername: String,

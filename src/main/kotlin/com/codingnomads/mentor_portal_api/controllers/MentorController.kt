@@ -5,15 +5,13 @@ import com.codingnomads.mentor_portal_api.handlers.MentorHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
-@CrossOrigin(origins = ["http://localhost:5000"])
 @RestController
-@RequestMapping("/api")
-
+@RequestMapping("/api/mentors")
 class MentorController(@Autowired private val mentorHandler: MentorHandler) {
     /**
      * Get all Mentors
      */
-    @GetMapping("/mentors")
+    @GetMapping("")
     fun getMentors(): List<Mentor> = mentorHandler.getMentors()
 
     /**
@@ -21,6 +19,6 @@ class MentorController(@Autowired private val mentorHandler: MentorHandler) {
      *
      * @param  mentorId of user that is a mentor name
      */
-    @GetMapping("/mentor/{mentorId}")
+    @GetMapping("/{mentorId}")
     fun getMentorById(@PathVariable mentorId: Int): Mentor = mentorHandler.getMentorById(mentorId)
 }
