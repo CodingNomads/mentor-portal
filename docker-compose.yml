@@ -14,12 +14,13 @@ services:
     restart: unless-stopped
     networks:
       - mentor-portal-data
+      - front-end
     depends_on:
       - database
 
   database:
     container_name: database
-    image: mysql:5.7
+    image: mysql:8.0
     restart: always
     networks:
       - mentor-portal-data
@@ -34,6 +35,8 @@ services:
     volumes:
       - ./docker/database:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
 
 volumes:
   mysql-data:
@@ -41,3 +44,5 @@ volumes:
 
 networks:
   mentor-portal-data:
+  front-end:
+    external: true

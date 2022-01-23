@@ -9,7 +9,7 @@ data class UserRow (
     val roleCode: Int,
     val statusCode: Int,
     val timezoneOffset: String
-        ) {
+    ) {
     companion object {
         fun fromEntity(user: User) = UserRow(
             id = user.id,

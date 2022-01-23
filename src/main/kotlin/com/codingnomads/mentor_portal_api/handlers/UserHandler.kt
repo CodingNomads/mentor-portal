@@ -1,6 +1,10 @@
 package com.codingnomads.mentor_portal_api.handlers
 
 import com.codingnomads.mentor_portal_api.entities.business.User
+import com.codingnomads.mentor_portal_api.entities.business.Contact
+import com.codingnomads.mentor_portal_api.entities.business.UserPostPayload
+import com.codingnomads.mentor_portal_api.entities.data.ContactRow
+import com.codingnomads.mentor_portal_api.entities.data.SecurityRow
 import com.codingnomads.mentor_portal_api.entities.data.UserRow
 import com.codingnomads.mentor_portal_api.mappers.UserMapper
 import org.springframework.stereotype.Component
@@ -10,6 +14,12 @@ import org.springframework.stereotype.Component
  */
 @Component
 class UserHandler(private val userMapper: UserMapper) {
+
+    /**
+     * Get all users
+     */
+    fun getUsers() = userMapper.selectUsers()
+
     /**
      * Gets a user by id
      *
