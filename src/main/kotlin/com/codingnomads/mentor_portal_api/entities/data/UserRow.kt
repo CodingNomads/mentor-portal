@@ -3,7 +3,7 @@ package com.codingnomads.mentor_portal_api.entities.data
 import com.codingnomads.mentor_portal_api.entities.business.User
 
 data class UserRow (
-    val id: Int,
+    val id: Int? = null,
     val firstName: String,
     val lastName: String,
     val roleCode: Int,

@@ -12,7 +12,7 @@ data class UserPostPayload (
     val lastName: String,
     val roleCode: Int,
     val statusCode: Int,
-    val timezoneOffset: Int,
+    val timezoneOffset: String,
     /**
      * contact fields
      */

@@ -5,6 +5,7 @@ import com.codingnomads.mentor_portal_api.entities.business.User
 import com.codingnomads.mentor_portal_api.entities.data.ContactRow
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Select
 
 /**
@@ -35,6 +36,7 @@ interface UserMapper {
      * @return the number of rows affected
      */
     @Insert(INSERT_USER_STATEMENT + INSERT_USER_VALUES)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     fun insertUser(userRow: UserRow) : Int
 
     /**

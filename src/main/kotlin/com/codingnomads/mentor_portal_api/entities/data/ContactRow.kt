@@ -3,7 +3,7 @@ package com.codingnomads.mentor_portal_api.entities.data
 import com.codingnomads.mentor_portal_api.entities.business.Contact
 
 data class ContactRow(
-    val id:Int,
+    val id:Int? = null,
     val userId: Int,
     val email: String,
     val telephone: String,
