@@ -1,5 +1,6 @@
 <script>
     import CourseCheckbox from './CourseCheckbox.svelte';
+    import DateSelect from './DateSelect.svelte';
     import MentorDropdown from './MentorDropdown.svelte';
     import InputText from './InputText.svelte';
 
@@ -75,8 +76,8 @@
                 <InputText label="Location" bind:value={location} placeholder="California" />
                 <CourseCheckbox label="Course Track" bind:checked={courseTrack} />
                 <InputText label="Bio" bind:value={bio} placeholder="A few sentences about this student here." />
-                <!-- <InputText label="Start Date" bind:value={startDate} placeholder="" /> -->
-                <!-- <InputText label="End Data" bind:value={endDate} placeholder="Python, Java" /> -->
+                <DateSelect label="Start Date" bind:value={startDate} />
+                <DateSelect label="End Date" bind:value={endDate} />
                 <MentorDropdown label="Assign Mentor" bind:value={mentor} />
                 
                 <button class="button" type="submit" on:click={submitStudent}>Submit</button>
