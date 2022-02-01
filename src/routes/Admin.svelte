@@ -10,17 +10,17 @@
     }
 </script>
 
-<NavBar />
 <div class="container">
+    <NavBar />
     <!-- create navigation -->
     <br>
-    <ul class="nav nav-tabs">
+    <div class="tabs is-left">
+        <ul class="nav nav-tabs">
         {#each navOptions as option, i}
-            <button class={intSelected==i ? "nav-link active p-2 ml-1" : "p-2 ml-1 nav-link"} on:click={changeComponent} id={i} role="tab">{option.page}</button>
+            <a class={intSelected==i ? "nav-link active p-2 ml-1" : "p-2 ml-1 nav-link"} on:click={changeComponent} id={i} role="tab">{option.page}</a>
         {/each}
-    </ul>
+        </ul>
+    </div>
     <!-- display selected navigation -->
-    <div class="row">	
-        <svelte:component this={selected.component} />
-    </div>        
+    <svelte:component this={selected.component} />        
 </div>

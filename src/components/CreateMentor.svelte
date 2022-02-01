@@ -57,39 +57,10 @@
             alert(createFailure.status, createFailure.error)
         }
     }
-    // async function submitOuterFunction (event) {
-    //     const body = JSON.stringify({
-    //         firstName: event.detail.firstName,
-    //         lastName: event.detail.lastName,
-    //         timezoneOffset: event.detail.timezoneOffset,
-    //         email: event.detail.email,
-    //         telephone: event.detail.telephone,
-    //         forumUsername: event.detail.forumUsername,
-    //         slackUsername: event.detail.slackUsername,
-    //         username: event.detail.username,
-    //         passwordHash: event.detail.passwordHash,
-    //         isAdmin: event.detail.isAdmin
-    //     })
-    //     const headers = {
-    //         'Content-Type': 'application/json',
-    //         'Access-Control-Allow-Origin': '*'
-    //     }
-    //     console.log(body)
-    //     const response = await fetch('http://localhost:8080/api/mentors', {
-    //         headers,
-    //         body,
-    //         method: 'POST',
-    //         mode: 'cors',
-    //         credentials: 'same-origin',
-    //     })
-    //     const json = await response.json()
-    //     post_result = JSON.stringify(json)
-    //     return post_result
-    // } 
 </script>
 
 <div class="container">
-    <div class="columns is-centered">
+    <div class="columns is-left">
         <div class="column m-3 is-5-tablet is-4-desktop is-5-widescreen">
             <!-- mentor data to bind to post request -->
             <form class="form box" on:submit|preventDefault={submitMentor}>

@@ -62,7 +62,7 @@
 </script>
 
 <div class="container">
-    <div class="columns is-centered">
+    <div class="columns is-left">
         <div class="column m-3 is-5-tablet is-4-desktop is-5-widescreen">
             <!-- student data to bind to post request -->
             <form class="form box" on:submit|preventDefault={submitStudent}>
