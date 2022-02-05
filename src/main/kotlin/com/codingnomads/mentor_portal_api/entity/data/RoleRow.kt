@@ -1,4 +1,4 @@
-package com.codingnomads.mentor_portal_api.entities.data
+package com.codingnomads.mentor_portal_api.entity.data
 
 import java.time.LocalDateTime
 

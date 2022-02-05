@@ -1,6 +1,6 @@
-package com.codingnomads.mentor_portal_api.controllers
+package com.codingnomads.mentor_portal_api.controller
 
-import com.codingnomads.mentor_portal_api.entities.business.Status
+import com.codingnomads.mentor_portal_api.entity.business.Status
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

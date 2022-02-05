@@ -1,7 +1,6 @@
-package com.codingnomads.mentor_portal_api.handlers
+package com.codingnomads.mentor_portal_api.handler
 
-import com.codingnomads.mentor_portal_api.entities.business.Student
-import com.codingnomads.mentor_portal_api.mappers.StudentMapper
+import com.codingnomads.mentor_portal_api.mapper.StudentMapper
 import org.springframework.stereotype.Component
 
 /**

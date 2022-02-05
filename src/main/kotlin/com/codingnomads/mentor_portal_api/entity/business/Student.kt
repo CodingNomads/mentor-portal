@@ -1,6 +1,6 @@
-package com.codingnomads.mentor_portal_api.entities.business
+package com.codingnomads.mentor_portal_api.entity.business
 
-data class Mentor(
+data class Student(
     val id: Int,
     val firstName: String,
     val lastName: String,
