@@ -1,6 +1,6 @@
-package com.codingnomads.mentor_portal_api.entities.business
+package com.codingnomads.mentor_portal_api.entity.business
 
-import com.codingnomads.mentor_portal_api.entities.data.UserRow
+import com.codingnomads.mentor_portal_api.entity.data.UserRow
 
 data class User(
     val id: Int? = null,

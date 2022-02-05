@@ -1,4 +1,4 @@
-package com.codingnomads.mentor_portal_api.mappers
+package com.codingnomads.mentor_portal_api.mapper
 
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper

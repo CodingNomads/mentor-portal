@@ -42,5 +42,11 @@ VALUES (2, 1, 100),
 INSERT INTO `support_log` (mentor_id, student_id, log)
 VALUES (2, 1, 'logging some support for student1');
 
+INSERT INTO `user_config_option` (option_name, description, is_sensitive)
+VALUES ("maxStudents", "The maximum students a mentor can be assigned.", 0);
 
+INSERT INTO `user_config_value` (user_id, option_id, value)
+VALUES (2, 1, "10"),
+       (4, 1, "10"),
+       (6, 1, "10");
 

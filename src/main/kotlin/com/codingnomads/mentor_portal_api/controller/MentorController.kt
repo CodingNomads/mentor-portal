@@ -1,18 +1,18 @@
-package com.codingnomads.mentor_portal_api.controllers
+package com.codingnomads.mentor_portal_api.controller
 
-import com.codingnomads.mentor_portal_api.entities.business.Mentor
-import com.codingnomads.mentor_portal_api.entities.business.UserPostPayload
-import com.codingnomads.mentor_portal_api.handlers.MentorHandler
+import com.codingnomads.mentor_portal_api.entity.business.Mentor
+import com.codingnomads.mentor_portal_api.entity.business.MentorPostPayload
+import com.codingnomads.mentor_portal_api.handler.MentorHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/mentors")
+@RequestMapping("/api")
 class MentorController(@Autowired private val mentorHandler: MentorHandler) {
     /**
      * Get all Mentors
      */
-    @GetMapping("")
+    @GetMapping("/mentors")
     fun getMentors(): List<Mentor> = mentorHandler.getMentors()
 
     /**
@@ -20,12 +20,12 @@ class MentorController(@Autowired private val mentorHandler: MentorHandler) {
      *
      * @param  mentorId of user that is a mentor name
      */
-    @GetMapping("/{mentorId}")
+    @GetMapping("/mentors/{mentorId}")
     fun getMentorById(@PathVariable mentorId: Int): Mentor = mentorHandler.getMentorById(mentorId)
 
     /**
      * Create mentor
      */
-    @PostMapping("")
-    fun createMentor(@RequestBody payload: UserPostPayload) = mentorHandler.createMentor(payload)
+    @PostMapping("/mentors")
+    fun createMentor(@RequestBody payload: MentorPostPayload) = mentorHandler.createMentor(payload)
 }

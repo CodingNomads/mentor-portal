@@ -1,6 +1,6 @@
-package com.codingnomads.mentor_portal_api.entities.business
+package com.codingnomads.mentor_portal_api.entity.business
 
-import com.codingnomads.mentor_portal_api.entities.data.ContactRow
+import com.codingnomads.mentor_portal_api.entity.data.ContactRow
 
 data class Contact(
     val id:Int? = null,

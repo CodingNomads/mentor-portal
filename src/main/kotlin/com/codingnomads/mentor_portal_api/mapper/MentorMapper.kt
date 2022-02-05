@@ -1,7 +1,6 @@
-package com.codingnomads.mentor_portal_api.mappers
+package com.codingnomads.mentor_portal_api.mapper
 
-import com.codingnomads.mentor_portal_api.entities.business.Mentor
-import org.apache.ibatis.annotations.Insert
+import com.codingnomads.mentor_portal_api.entity.business.Mentor
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
 

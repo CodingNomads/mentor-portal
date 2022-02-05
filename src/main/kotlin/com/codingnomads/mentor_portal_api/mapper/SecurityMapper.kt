@@ -1,8 +1,9 @@
-package com.codingnomads.mentor_portal_api.mappers
+package com.codingnomads.mentor_portal_api.mapper
 
-import com.codingnomads.mentor_portal_api.entities.data.SecurityRow
+import com.codingnomads.mentor_portal_api.entity.data.SecurityRow
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Insert
+import org.apache.ibatis.annotations.Options
 
 @Mapper
 interface SecurityMapper {
@@ -10,6 +11,7 @@ interface SecurityMapper {
      * Insert security information
      */
     @Insert(INSERT_SECURITY_STATEMENT + INSERT_SECURITY_VALUES)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     fun insertSecurity(securityRow: SecurityRow)
 
     companion object{

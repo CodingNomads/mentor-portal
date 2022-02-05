@@ -1,12 +1,8 @@
-package com.codingnomads.mentor_portal_api.handlers
+package com.codingnomads.mentor_portal_api.handler
 
-import com.codingnomads.mentor_portal_api.entities.business.User
-import com.codingnomads.mentor_portal_api.entities.business.Contact
-import com.codingnomads.mentor_portal_api.entities.business.UserPostPayload
-import com.codingnomads.mentor_portal_api.entities.data.ContactRow
-import com.codingnomads.mentor_portal_api.entities.data.SecurityRow
-import com.codingnomads.mentor_portal_api.entities.data.UserRow
-import com.codingnomads.mentor_portal_api.mappers.UserMapper
+import com.codingnomads.mentor_portal_api.entity.business.User
+import com.codingnomads.mentor_portal_api.entity.data.UserRow
+import com.codingnomads.mentor_portal_api.mapper.UserMapper
 import org.springframework.stereotype.Component
 
 /**

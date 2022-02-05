@@ -107,3 +107,28 @@ CREATE TABLE `status` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Classification of mentorship status';
 
+-- user config options
+DROP TABLE IF EXISTS `user_config_option`;
+
+CREATE TABLE `user_config_option` (
+                          `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
+                          `option_name` varchar(255) NOT NULL,
+                          `description` varchar(255) NOT NULL,
+                          `is_sensitive` tinyint NOT NULL DEFAULT 0,
+                          `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Classification of mentorship status';
+
+-- user config values
+DROP TABLE IF EXISTS `user_config_value`;
+
+CREATE TABLE `user_config_value` (
+                          `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
+                          `user_id`int(10) UNSIGNED NOT NULL,
+                          `option_id` int NOT NULL,
+                          `value` varchar(255) NOT NULL,
+                          `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=compressed COMMENT='Classification of mentorship status';
