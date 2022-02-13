@@ -1,5 +1,5 @@
 <script>
-    import NavBar from './NavBar.svelte'
+    import NavBar from '../components/NavBar.svelte'
 </script>
 
 <div class="container">
