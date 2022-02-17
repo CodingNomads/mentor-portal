@@ -10,7 +10,7 @@
     <!-- logo / brand -->
     <div class="navbar-brand">
       <a href="http://localhost:5000/" class="navbar-item">
-        <img src="assets/small_new_cropped_codingnomads_logo.png" alt="placeholder" style="max-height: 70px" class="py-2 px-2">
+        <img src="/assets/small_new_cropped_codingnomads_logo.png" alt="placeholder" style="max-height: 70px" class="py-2 px-2">
       </a>
       <a class="navbar-burger" id="burger" on:click={toggleNavbar}>
         <span></span>

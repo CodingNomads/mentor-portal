@@ -1,15 +1,16 @@
 <script>
+	import { Router, Link, Route } from 'svelte-routing';
+
 	import Login from './routes/Login.svelte';
 	import Main from './routes/Main.svelte';
 	import Admin from './routes/Admin.svelte';
 	import Status from './routes/Status.svelte';
 	import Students from './routes/Students.svelte';
+	import Student from './routes/Student.svelte';
 	import Mentors from './routes/Mentors.svelte';
-
-	import { Router, Link, Route } from 'svelte-routing';
+	import Mentor from './routes/Mentor.svelte';
 
 	export let url = "";
-
 </script>
 
 <Router url ="{url}">
@@ -35,8 +36,16 @@
 			<Mentors />
 		</Route>
 
+		<Route path="/mentors/:mentorId" component="{Mentor}" let:params>
+			<Mentor mentorId="{params.mentorId}"/>
+		</Route>
+
 		<Route path="/students">
 			<Students />
+		</Route>
+
+		<Route path="/students/:studentId" component="{Student}" let:params>
+			<Student studentId="{params.studentId}" />
 		</Route>
 	</div>
 

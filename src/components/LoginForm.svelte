@@ -1,5 +1,5 @@
 <script>
-    import InputText from './InputText.svelte';
+    import InputText from './formInputs/InputText.svelte';
     import {lock, envelope} from 'svelte-awesome/icons'
 
     let email = "";

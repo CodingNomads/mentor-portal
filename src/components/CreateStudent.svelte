@@ -1,8 +1,8 @@
 <script>
-    import CourseCheckbox from './CourseCheckbox.svelte';
-    import DateSelect from './DateSelect.svelte';
-    import MentorDropdown from './MentorDropdown.svelte';
-    import InputText from './InputText.svelte';
+    import CourseCheckbox from './formInputs/CourseCheckbox.svelte';
+    import DateSelect from './formInputs/DateSelect.svelte';
+    import MentorDropdown from './formInputs/MentorDropdown.svelte';
+    import InputText from './formInputs/InputText.svelte';
 
     // post request body/payload
     let firstName = "";

@@ -1,8 +1,8 @@
 <script>
     // import { onMount } from 'svelte';
     // import FormTemplate from './FormTemplate.svelte';
-    import CourseCheckbox from './CourseCheckbox.svelte';
-    import InputText from './InputText.svelte';
+    import CourseCheckbox from './formInputs/CourseCheckbox.svelte';
+    import InputText from './formInputs/InputText.svelte';
 
     // post request body/payload
     let firstName = "";
@@ -82,11 +82,3 @@
         </div>
     </div>
 </div>
-
-<!-- <div class="container">
-    <FormTemplate 
-        formTitleItem = {"Create Mentor"}
-        submitCTA="Submit"
-        on:formSubmit={submitOuterFunction}
-    />
-</div> -->

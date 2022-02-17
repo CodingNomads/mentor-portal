@@ -1,5 +1,5 @@
 <script>
-    import StudentList from '../components/StudentList.svelte';
+    import StudentList from '../components/students/StudentList.svelte';
 </script>
 
 <div>
