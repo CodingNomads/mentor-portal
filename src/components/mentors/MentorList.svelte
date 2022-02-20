@@ -33,7 +33,7 @@
     <div class="row">
         <div class="columns">
             <div class="column is-one-fifth">
-                <h1 class="title is-1"><strong>Mentors:</strong></h1>
+                <h1 class="title is-1"><strong>Mentors</strong></h1>
             </div>
             <div class="column is-two-fifths is-justify-content-left">
                 <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchMentors} placeholder="Search Mentor" />
@@ -41,38 +41,67 @@
         </div>
     </div>          
     <br>
-    <!-- mentor list -->
-    <div class="row">
+    <!-- filtered mentor list -->
     {#if filteredMentors.length > 0}
         {#each filteredMentors as mentor (mentor.id)}
             <div class="row">
                 <div class="columns">
-                    <div class="column is-offset-one-fifth">
-                        <ul>
+                    <div class="column is-2 is-offset-one-fifth">
+                        <!-- mentor name -->
+                        <div class="row">
                             <a href="/mentors/{mentor.id}" class="button is-info is-small"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
-                            <p class="card-text">{mentor.email}</p>
-                            <p class="card-text">{mentor.telephone}</p>
-                        </ul>
+                        </div>
+                        <!-- quick view of proficiencies -->
+                        <div class="row">
+                            <span class="tag is-dark">python</span>
+                            <span class="tag is-dark">java</span>
+                        </div>
+                    </div>
+                    <!-- offset student count view -->
+                    <div class="column is-4">
+                        <div class="row">
+                            <progress class="progress is-small is-info" value=4 max=10></progress>
+                        </div>
+                        <div class="row">
+                            <p><em>4/10</em></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <br>
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <hr>
+            </div>
         {/each}
+    <!-- original mentor list -->
     {:else}
         {#each mentorList as mentor (mentor.id)}
             <div class="row">
                 <div class="columns">
-                    <div class="column is-offset-one-fifth">
-                        <ul>
+                    <div class="column is-2 is-offset-one-fifth">
+                        <!-- mentor name -->
+                        <div class="row">
                             <a href="/mentors/{mentor.id}" class="button is-info is-small"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
-                            <p class="card-text">{mentor.email}</p>
-                            <p class="card-text">{mentor.telephone}</p>
-                        </ul>
+                        </div>
+                        <!-- quick view of proficiencies -->
+                        <div class="row">
+                            <span class="tag is-dark">python</span>
+                            <span class="tag is-dark">java</span>
+                        </div>
+                    </div>
+                    <!-- offset student count view -->
+                    <div class="column is-4">
+                        <div class="row">
+                            <progress class="progress is-small is-info" value=4 max=10></progress>
+                        </div>
+                        <div class="row">
+                            <p><em>4/10</em></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <br>
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <hr>
+            </div>
         {/each}
     {/if}
-    </div>
 </div>
