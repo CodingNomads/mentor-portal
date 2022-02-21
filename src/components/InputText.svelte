@@ -1,6 +1,6 @@
 <script>
     import Icon from 'svelte-awesome';
-    import {capitolize} from '../js/Capitolize.js';
+    import {capitolize} from '../js/capitolize.js';
 
     export let label;
     export let value;
