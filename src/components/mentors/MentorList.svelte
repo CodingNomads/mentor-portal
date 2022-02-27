@@ -60,10 +60,10 @@
                     <!-- offset student count view -->
                     <div class="column is-4">
                         <div class="row">
-                            <progress class="progress is-small is-info" value=4 max=10></progress>
+                            <progress class="progress is-small is-info" value=4 max={mentor.value}></progress>
                         </div>
                         <div class="row">
-                            <p><em>4/10</em></p>
+                            <p><em>4/{mentor.value} {mentor.optionName}</em></p>
                         </div>
                     </div>
                 </div>
@@ -91,10 +91,10 @@
                     <!-- offset student count view -->
                     <div class="column is-4">
                         <div class="row">
-                            <progress class="progress is-small is-info" value=4 max=10></progress>
+                            <progress class="progress is-small is-info" value=4 max={mentor.value}></progress>
                         </div>
                         <div class="row">
-                            <p><em>4/10</em></p>
+                            <p><em>4/{mentor.value} {mentor.optionName}</em></p>
                         </div>
                     </div>
                 </div>

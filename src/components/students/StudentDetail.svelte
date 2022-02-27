@@ -15,7 +15,7 @@
     export let student;
 
     onMount(async() => {
-        const url = `http://localhost:8080/api/student/${studentId}`
+        const url = `http://localhost:8080/api/students/${studentId}`
         console.log(studentId)
         console.log(url)
         const headers = {
@@ -41,7 +41,7 @@ onDestroy(student, studentId)
         <!-- title row -->
         <div class="row">
             <div class="column is-7">
-                <h1 class="title is-1"><strong>{student.firstName} {student.lastName} ({student.userName})</strong></h1>
+                <h1 class="title is-1"><strong>{student.firstName} {student.lastName} ({student.forumUsername})</strong></h1>
                 <p><progress class="progress is-info" value=2 max=10></progress>20%</p> 
             </div>
         </div>

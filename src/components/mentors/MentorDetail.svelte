@@ -43,10 +43,9 @@
         <!-- container for title and progress -->
         <div class="row">
             <div class="column is-7">
-                <h1 class="title is-1"><strong>{mentor.firstName} {mentor.lastName} ({mentor.userName})</strong></h1>
+                <h1 class="title is-1"><strong>{mentor.firstName} {mentor.lastName} ({mentor.forumUsername})</strong></h1>
                 <!-- progress bar: value=studentCount, max=maxStudent -->
-                <p><progress class="progress is-info" value=4 max=10>4</progress>4/10</p>
-                <!-- <progress class="progress is-info" value=4 max=10>4</progress> -->
+                <p><progress class="progress is-info" value={mentor.studentCount} max={mentor.maxStudents}>4</progress>{mentor.studentCount}/{mentor.maxStudents} students</p>
             </div>
         </div>
         <!-- container for buttons -->
@@ -63,6 +62,6 @@
         </div>
     </div>
     {:else}
-    <p class="alert is-warning">Mentor Detail Page: Didn't load</p>
+    <p class="alert is-warning">Mentor Detail Page: Didn't load :/</p>
     {/if}
 </div>

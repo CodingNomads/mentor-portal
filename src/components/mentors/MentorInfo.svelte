@@ -1,4 +1,7 @@
 <script>
+    import { slack, compass, phone, envelope, home} from "svelte-awesome/icons";
+    import Icon from "svelte-awesome";
+
     export let mentor;
 </script>
 
@@ -13,22 +16,42 @@
 <ul>
     <div class="row">
         <div class="tags has-addons">
-            <span class="tag is-dark is-info is-medium">email</span>
-            <span class="tag is-dark is-medium">{mentor.email}</span>
+            <div class="column is-1">
+                <i><span><Icon data={envelope} scale={2} /></span></i>
+            </div>
+            <p class="is-medium">{mentor.email}</p>
         </div>
     </div>
-    <br>
     <div class="row">
         <div class="tags has-addons">
-            <span class="tag is-dark is-info is-medium">telephone</span>
-            <span class="tag is-dark is-medium">{mentor.telephone}</span>
+            <div class="column is-1">
+                <i><span><Icon data={phone} scale={2} /></span></i>
+            </div>
+            <p class="is-medium">{mentor.telephone}</p>
         </div>
     </div>
-    <br>
     <div class="row">
         <div class="tags has-addons">
-            <span class="tag is-dark is-info is-medium">location</span>
-            <span class="tag is-dark is-medium">{mentor.location}</span>
+            <div class="column is-1">
+                <i><span><Icon data={slack} scale={2} /></span></i>
+            </div>
+            <p class="is-medium">{mentor.slackUsername}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tags has-addons">
+            <div class="column is-1">
+                <i><span><Icon data={compass} scale={2} /></span></i>
+            </div>
+            <p class="is-medium">{mentor.forumUsername}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tags has-addons">
+            <div class="column is-1">
+                <i><span><Icon data={home} scale={2} /></span></i>
+            </div>
+            <p class="is-medium">{mentor.location}</p>
         </div>
     </div>
 </ul>   

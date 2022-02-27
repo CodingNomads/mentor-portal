@@ -59,9 +59,9 @@
                             <span class="tag is-dark">java</span>
                         </div>
                     </div>
-                    {#if student.mentor}
+                    {#if student.assignedMentor}
                     <div class="column is-offset-1">
-                        <p><strong>Mentor: </strong>{student.mentor}</p>
+                        <p><strong>Mentor: </strong>{student.assignedMentor}</p>
                     </div>
                     {:else}
                     <div class="column is-offset-1">
@@ -86,9 +86,9 @@
                             <span class="tag is-dark">java</span>
                         </div>
                     </div>
-                    {#if student.mentor}
+                    {#if student.assignedMentor}
                     <div class="column is-offset-1">
-                        <p><strong>Mentor: </strong>{student.mentor}</p>
+                        <p><strong>Mentor: </strong>{student.assignedMentor}</p>
                     </div>
                     {:else}
                     <div class="column is-offset-1">
