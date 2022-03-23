@@ -44,16 +44,16 @@
             credentials: 'same-origin'
         })
         const json = await response.json()
-        post_response = JSON.stringify(json)
+        const postResponse = JSON.stringify(json)
 
         // notify user whether creation was successful
-        console.log(post_response)
-        if (post_response.status === 200) {
-            let createSuccess = post_response.status_text;
+        console.log(postResponse)
+        if (postResponse.status === 200) {
+            let createSuccess = postResponse.status_text;
             alert(createSuccess)
         }
         else {
-            let createFailure = Error(post_response)
+            let createFailure = Error(postResponse)
             alert(createFailure.status, createFailure.error)
         }
     }

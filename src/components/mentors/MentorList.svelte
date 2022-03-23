@@ -35,7 +35,7 @@
             <div class="column is-one-fifth">
                 <h1 class="title is-1"><strong>Mentors</strong></h1>
             </div>
-            <div class="column is-two-fifths is-justify-content-left">
+            <div class="column is-4">
                 <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchMentors} placeholder="Search Mentor" />
             </div>
         </div>
@@ -53,17 +53,18 @@
                         </div>
                         <!-- quick view of proficiencies -->
                         <div class="row">
-                            <span class="tag is-dark">python</span>
-                            <span class="tag is-dark">java</span>
+                            {#each mentor.proficiencies as proficiency}
+                            <span class="tag is-dark">{proficiency} </span>
+                            {/each}
                         </div>
                     </div>
                     <!-- offset student count view -->
-                    <div class="column is-4">
+                    <div class="column is-offset-1 is-4">
                         <div class="row">
-                            <progress class="progress is-small is-info" value=4 max={mentor.value}></progress>
+                            <progress class="progress is-small is-info" value={mentor.studentCount} max={mentor.maxStudents}></progress>
                         </div>
                         <div class="row">
-                            <p><em>4/{mentor.value} {mentor.optionName}</em></p>
+                            <p><em>{mentor.studentCount}/{mentor.maxStudents} students</em></p>
                         </div>
                     </div>
                 </div>
@@ -84,17 +85,18 @@
                         </div>
                         <!-- quick view of proficiencies -->
                         <div class="row">
-                            <span class="tag is-dark">python</span>
-                            <span class="tag is-dark">java</span>
+                            {#each mentor.proficiencies as proficiency}
+                            <span class="tag is-dark">{proficiency} </span>
+                            {/each}
                         </div>
                     </div>
                     <!-- offset student count view -->
-                    <div class="column is-4">
+                    <div class="column is-offset-1 is-4">
                         <div class="row">
-                            <progress class="progress is-small is-info" value=4 max={mentor.value}></progress>
+                            <progress class="progress is-small is-info" value={mentor.studentCount} max={mentor.maxStudents}></progress>
                         </div>
                         <div class="row">
-                            <p><em>4/{mentor.value} {mentor.optionName}</em></p>
+                            <p><em>{mentor.studentCount}/{mentor.maxStudents} students</em></p>
                         </div>
                     </div>
                 </div>

@@ -14,23 +14,20 @@
     const resetAddLog = () => {
         return addLog = false;
     };
-    const submitLog = () => {
-        
-    };
 </script>
 
 <div class="container">
     <!-- add new log button -->
     <div class="row">
-        <button class="button is-medium is-focused" on:click={newLog}>
-            <Icon data={plusCircle} />
+        <button class="button is-medium" on:click={newLog}>
+            <Icon data={plusCircle} scale={3} />
         </button>
     </div>
 
     <br>
     {#if addLog === true}
         <!-- support log form displays on click -->
-        <CreateSupportLog />
+        <CreateSupportLog studentId={student.id}/>
         <div class="row">
             <button class="button is-danger" on:click={resetAddLog}>Cancel</button>
         </div>
@@ -38,22 +35,25 @@
     {/if}
     
     <!-- display past logs -->
-    {#each student.supportLog as entry (entry.id)}
-        <div class="box">
-            <div class="row">
-                <div class="columns">
-                    <!-- meta data -->
-                    <div class="column is-one-fifth">
-                        <p><em>{entry.createdAt}</em></p>
-                        <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                        <p><em>{entry.duration}</em></p>
-                    </div>
-                    <!-- support log topic body -->
-                    <div class="column is-four-fifths">
-                        <p>{entry.log}</p>
+    {#if student.supportLog.length > 0}
+        {#each student.supportLog.reverse() as entry (entry.id)}
+            <div class="box">
+                <div class="row">
+                    <div class="columns">
+                        <!-- meta data -->
+                        <div class="column is-one-fifth">
+                            <p><em>{entry.logDate}</em></p>
+                            <p><em>{entry.type}</em></p>
+                            <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
+                            <p><em>{entry.duration} minutes</em></p>
+                        </div>
+                        <!-- support log topic body -->
+                        <div class="is-offset-1 column is-three-fifths">
+                            <p>{entry.log}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {/each}    
+        {/each}
+    {/if}    
 </div>
