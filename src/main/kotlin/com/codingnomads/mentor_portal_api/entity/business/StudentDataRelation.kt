@@ -1,7 +1,7 @@
 package com.codingnomads.mentor_portal_api.entity.business
 
-data class Student(
-    val id: Int? = null,
+data class StudentDataRelation(
+    val id: Int,
     val firstName: String,
     val lastName: String,
     val roleCode: Int = 20,
@@ -10,7 +10,6 @@ data class Student(
     val telephone: String,
     val forumUsername: String,
     val slackUsername: String,
-    val assignedMentors: List<MentorData>? = null,
-    val supportLog: List<SupportLog>? = null,
+    val assignedMentors: List<MentorData>,
     val courseTrack: String? = null
 )

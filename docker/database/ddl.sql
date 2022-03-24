@@ -76,7 +76,10 @@ CREATE TABLE `support_log` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `mentor_id` int(10) UNSIGNED NOT NULL,
     `student_id` int(10) UNSIGNED NOT NULL,
+    `type` varchar(255),
+    `duration` int(10) NOT NULL,
     `log` varchar(255) NOT NULL,
+    `log_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)

@@ -24,6 +24,12 @@ interface StudentMapper {
     fun selectStudentById(id: Int): StudentData
 
     /**
+     * Select ALL students with a mentor
+     */
+    @Select(SELECT_ALL_STUDENTS_WITH_MENTORS)
+    fun selectAllStudentsWithMentors(): List<StudentData>
+
+    /**
      * Select students assigned to a mentor
      */
     @Select(SELECT_ASSIGNED_STUDENTS)
@@ -43,9 +49,8 @@ interface StudentMapper {
                 contact.forum_username,
                 contact.slack_username
                 FROM user
-                JOIN mentor_student_lookup on mentor_student_lookup.student_id = user.id
                 JOIN contact on user_id = user.id
-                WHERE role_code = 20 and user.status_code = 100
+                WHERE role_code = 20
             """
 
         const val SELECT_STUDENT_STATEMENT =
@@ -61,9 +66,25 @@ interface StudentMapper {
                 contact.forum_username,
                 contact.slack_username 
                 FROM user
-                JOIN mentor_student_lookup on student_id = user.id
                 JOIN contact on user_id = user.id
-                WHERE role_code = 20 and user.status_code = 100 and user.id = #{value}
+                WHERE role_code = 20 and user.id = #{value}
+            """
+        const val SELECT_ALL_STUDENTS_WITH_MENTORS =
+            """
+                SELECT DISTINCT
+                user.id,
+                user.first_name,
+                user.last_name,
+                user.role_code,
+                user.status_code,
+                contact.email,
+                contact.telephone,
+                contact.forum_username,
+                contact.slack_username
+                FROM user
+                JOIN mentor_student_lookup on user.id = mentor_student_lookup.student_id
+                JOIN contact on user.id = contact.user_id
+                WHERE role_code = 20
             """
         const val SELECT_ASSIGNED_STUDENTS =
             """

@@ -10,6 +10,8 @@ data class  MentorData(
     val telephone: String,
     val forumUsername: String,
     val slackUsername: String,
-    val optionName: String? = "",
-    val value: String? = ""
+//    val maxStudentOption: String,
+//    val maxStudentValue: List<String>,
+//    val proficiencyOption: String,
+//    val proficienciesValue: List<String>
 )

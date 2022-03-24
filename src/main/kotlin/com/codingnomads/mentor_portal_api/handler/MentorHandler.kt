@@ -1,8 +1,6 @@
 package com.codingnomads.mentor_portal_api.handler
 
-import com.codingnomads.mentor_portal_api.entity.business.Mentor
-import com.codingnomads.mentor_portal_api.entity.business.MentorData
-import com.codingnomads.mentor_portal_api.entity.business.MentorPostPayload
+import com.codingnomads.mentor_portal_api.entity.business.*
 import com.codingnomads.mentor_portal_api.entity.data.*
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Component
 class MentorHandler(
     private val contactMapper: ContactMapper,
     private val mentorMapper: MentorMapper,
+    private val mentorStudentLookupMapper: MentorStudentLookupMapper,
     private val securityMapper: SecurityMapper,
     private val studentMapper: StudentMapper,
     private val userMapper: UserMapper,
@@ -24,36 +23,74 @@ class MentorHandler(
      * Get all Mentors
      */
     fun getMentors(): List<Mentor> {
+        // lists
         val mentorList: MutableList<Mentor> = mutableListOf()
-        val mentorData = mentorMapper.selectMentors()
-        for (mentorObject in mentorData) {
+        val mentorDataList = mentorMapper.selectMentors()
+        val mentorshipDataList = mentorStudentLookupMapper.selectMentorships()
+        val studentsWithMentorsList = studentMapper.selectAllStudentsWithMentors()
+        val mentorsConfigValues = userConfigValueMapper.selectAllMentorValues()
+        // maps
+        val studentsWithMentorsByIdMap: Map<Int, StudentData> = studentsWithMentorsList.associateBy { it.id!! }
+        val mentorshipDataMap: Map<Int, MentorshipData> = mentorshipDataList.associateBy { it.mentorId }
 
-            val id = mentorObject.id
-            val assignedStudents = studentMapper.selectAssignedStudents(id!!)
-            val someMentor = Mentor(
-                id = mentorObject.id,
-                firstName = mentorObject.firstName,
-                lastName = mentorObject.lastName,
-                roleCode = mentorObject.roleCode,
-                statusCode = mentorObject.statusCode,
-                email = mentorObject.email,
-                telephone = mentorObject.telephone,
-                forumUsername = mentorObject.forumUsername,
-                slackUsername = mentorObject.slackUsername,
-                assignedStudents = assignedStudents,
-                studentCount = assignedStudents.size,
-                maxStudents = mentorObject.value!!.toInt()
+        for (mentor in mentorDataList){
+            val filteredMentorshipPair = mentorshipDataList.filter { it.mentorId == mentor.id }
+            val filteredAssignedStudents = filteredMentorshipPair.map { student -> studentsWithMentorsByIdMap[student.studentId]!! }
+            val maxStudentCount = mentorsConfigValues.filter{ it.userId == mentor.id }.filter { it.optionId == 1 }[0].value.toInt()
+            val proficiencies = mentorsConfigValues.filter { it.userId == mentor.id }.filter { it.optionId == 2 }.map { proficiencyList -> proficiencyList.value }
+
+            if (mentorshipDataMap[mentor.id] != null){
+                val someMentor = Mentor(
+                id = mentor.id,
+                firstName = mentor.firstName,
+                lastName = mentor.lastName,
+                roleCode = mentor.roleCode,
+                statusCode = mentor.statusCode,
+                email = mentor.email,
+                telephone = mentor.telephone,
+                forumUsername = mentor.forumUsername,
+                slackUsername = mentor.slackUsername,
+                assignedStudents = filteredAssignedStudents,
+                studentCount = filteredAssignedStudents.size,
+                maxStudents = maxStudentCount,
+                proficiencies = proficiencies
             )
-            mentorList.add(someMentor)
+                mentorList.add(someMentor)
+            }else{
+                val someMentor = Mentor(
+                    id = mentor.id,
+                    firstName = mentor.firstName,
+                    lastName = mentor.lastName,
+                    roleCode = mentor.roleCode,
+                    statusCode = mentor.statusCode,
+                    email = mentor.email,
+                    telephone = mentor.telephone,
+                    forumUsername = mentor.forumUsername,
+                    slackUsername = mentor.slackUsername,
+                    assignedStudents = listOf(),
+                    studentCount = 0,
+                    maxStudents = maxStudentCount,
+                    proficiencies = proficiencies
+                )
+                mentorList.add(someMentor)
+            }
         }
         return mentorList
     }
+
     /**
      * Get Mentor by id
      */
     fun getMentorById(mentorId: Int) : Mentor {
         val mentorData = mentorMapper.selectMentorById(mentorId)
         val assignedStudents = studentMapper.selectAssignedStudents(mentorId)
+        val maxNumber = userConfigValueMapper.selectMaxStudentValue(mentorId)
+        val mentorProficiencies = userConfigValueMapper.selectProficienciesValue(mentorId)
+        val proficienciesList: MutableList<String> = mutableListOf()
+
+        for (data in mentorProficiencies){
+            proficienciesList.add(data.proficiencies)
+        }
 
         return Mentor(
             id = mentorData.id,
@@ -67,7 +104,8 @@ class MentorHandler(
             slackUsername = mentorData.slackUsername,
             assignedStudents = assignedStudents,
             studentCount = assignedStudents.size,
-            maxStudents = mentorData.value!!.toInt()
+            maxStudents = maxNumber.maxStudentsCount.toInt(),
+            proficiencies = proficienciesList
         )
     }
 
@@ -106,14 +144,23 @@ class MentorHandler(
 
         securityMapper.insertSecurity(securityRow)
 
-        val configOptionRow = userConfigOptionMapper.selectOptionByName("maxStudents")
-        val configValueRow = ConfigValueRow(
-            optionId = configOptionRow.id,
+        val maxStudentsOptionRow = userConfigOptionMapper.selectOptionByName("maxStudents")
+        val maxStudentsValueRow = ConfigValueRow(
+            optionId = maxStudentsOptionRow.id,
             userId = userId,
             value = mentorPostPayload.maxStudents.toString()
         )
 
-        userConfigValueMapper.insertConfigValue(configValueRow)
+        userConfigValueMapper.insertConfigValue(maxStudentsValueRow)
+
+        val proficienciesOptionRow = userConfigOptionMapper.selectOptionByName("proficiencies")
+        val proficienciesValueRow = ConfigValueRow(
+            optionId = proficienciesOptionRow.id,
+            userId = userId,
+            value = mentorPostPayload.proficiencies
+        )
+
+        userConfigValueMapper.insertConfigValue(proficienciesValueRow)
 
         return MentorData(
             userId,
@@ -124,8 +171,7 @@ class MentorHandler(
             contactRow.email,
             contactRow.telephone,
             contactRow.forumUsername,
-            configOptionRow.name,
-            configValueRow.value
+            contactRow.slackUsername,
         )
     }
 }

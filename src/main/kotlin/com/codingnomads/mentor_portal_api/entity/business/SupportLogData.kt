@@ -7,18 +7,20 @@ data class SupportLogData (
     val id: Int? = null,
     val mentorId: Int,
     val studentId: Int,
+    val type: String,
+    val duration: Int,
     val log: String,
-    val createdAt: Timestamp,
-    val updatedAt: Timestamp
+    val logDate: Timestamp
     ) {
     companion object {
         fun fromEntity(supportLogRow: SupportLogRow) = SupportLogData(
             id = supportLogRow.id,
             mentorId = supportLogRow.mentorId,
             studentId = supportLogRow.studentId,
+            type = supportLogRow.type,
+            duration = supportLogRow.duration,
             log = supportLogRow.log,
-            createdAt = supportLogRow.createdAt,
-            updatedAt = supportLogRow.updatedAt
+            logDate = supportLogRow.logDate
         )
     }
 }

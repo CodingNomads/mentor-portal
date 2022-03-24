@@ -12,5 +12,6 @@ data class  Mentor(
     val slackUsername: String,
     val assignedStudents: List<StudentData>,
     val studentCount: Int,
-    val maxStudents: Int?
+    val maxStudents: Int,
+    val proficiencies: List<String>
 )
