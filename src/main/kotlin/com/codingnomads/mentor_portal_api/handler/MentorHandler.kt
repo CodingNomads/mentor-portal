@@ -118,6 +118,7 @@ class MentorHandler(
             lastName = mentorPostPayload.lastName,
             roleCode = 10,
             statusCode = 100,
+            flag = false,
             timezoneOffset = mentorPostPayload.timezoneOffset
         )
 

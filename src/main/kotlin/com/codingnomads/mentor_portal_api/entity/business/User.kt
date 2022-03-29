@@ -8,6 +8,7 @@ data class User(
     val lastName: String,
     val roleCode: Int,
     val statusCode: Int,
+    val flag: Boolean,
     val timezoneOffset: String
 ) {
     companion object {
@@ -17,6 +18,7 @@ data class User(
             lastName = userRow.lastName,
             roleCode = userRow.roleCode,
             statusCode = userRow.statusCode,
+            flag = userRow.flag,
             timezoneOffset = userRow.timezoneOffset
         )
     }

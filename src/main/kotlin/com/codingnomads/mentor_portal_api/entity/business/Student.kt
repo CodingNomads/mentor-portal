@@ -6,6 +6,7 @@ data class Student(
     val lastName: String,
     val roleCode: Int = 20,
     val statusCode: Int,
+    val flag: Boolean,
     val email: String,
     val telephone: String,
     val forumUsername: String,

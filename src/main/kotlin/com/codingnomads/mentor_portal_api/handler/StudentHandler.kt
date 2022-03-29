@@ -43,6 +43,7 @@ class StudentHandler(
                     lastName = student.lastName,
                     roleCode = student.roleCode,
                     statusCode = student.statusCode,
+                    flag = student.flag,
                     email = student.email,
                     telephone = student.telephone,
                     forumUsername = student.forumUsername,
@@ -58,6 +59,7 @@ class StudentHandler(
                     lastName = student.lastName,
                     roleCode = student.roleCode,
                     statusCode = student.statusCode,
+                    flag = student.flag,
                     email = student.email,
                     telephone = student.telephone,
                     forumUsername = student.forumUsername,
@@ -86,6 +88,7 @@ class StudentHandler(
             lastName = studentData.lastName,
             roleCode = studentData.roleCode,
             statusCode = studentData.statusCode,
+            flag = studentData.flag,
             email = studentData.email,
             telephone = studentData.telephone,
             forumUsername = studentData.forumUsername,
@@ -98,13 +101,59 @@ class StudentHandler(
     /**
      * Assign a mentor to a student
      */
-    fun assignMentor(assignMentorPayload: AssignMentorPayload){
+    fun assignMentor(assignMentorPayload: AssignMentorPayload): StudentDataRelation{
+        // create mentorStudentLookup row to insert
         val mentorStudentLookupRow = MentorStudentLookupRow(
             mentorId = assignMentorPayload.mentorId,
             studentId = assignMentorPayload.studentId,
             statusCode = 100
         )
+        // insert mentor pairing
         mentorStudentLookupMapper.insertMentorStudentLookup(mentorStudentLookupRow)
+        // get student data to return
+        val someStudentData = studentMapper.selectStudentById(assignMentorPayload.studentId)
+        val mentorData = mentorMapper.selectAssignedMentor(assignMentorPayload.studentId)
+        val courseTrack = userConfigValueMapper.selectStudentCourseTrack(assignMentorPayload.studentId)
+        return StudentDataRelation(
+            id = assignMentorPayload.studentId,
+            firstName = someStudentData.firstName,
+            lastName = someStudentData.lastName,
+            roleCode = someStudentData.roleCode,
+            statusCode = someStudentData.statusCode,
+            flag = someStudentData.flag,
+            email = someStudentData.email,
+            telephone = someStudentData.telephone,
+            forumUsername = someStudentData.forumUsername,
+            slackUsername = someStudentData.slackUsername,
+            assignedMentors = mentorData,
+            courseTrack = courseTrack.courseTrack
+        )
+    }
+
+    /**
+     * Update student flag
+     */
+    fun updateFlag(flagPayload: FlagPayload): StudentDataRelation {
+        // update flag boolean
+        userMapper.updateFlag(flagPayload.flag, flagPayload.studentId)
+        // return updated student object
+        val mentorData = mentorMapper.selectAssignedMentor(flagPayload.studentId)
+        val courseTrack = userConfigValueMapper.selectStudentCourseTrack(flagPayload.studentId)
+        val someStudentData = studentMapper.selectStudentById(flagPayload.studentId)
+        return StudentDataRelation(
+            id = flagPayload.studentId,
+            firstName = someStudentData.firstName,
+            lastName = someStudentData.lastName,
+            roleCode = someStudentData.roleCode,
+            statusCode = someStudentData.statusCode,
+            flag = someStudentData.flag,
+            email = someStudentData.email,
+            telephone = someStudentData.telephone,
+            forumUsername = someStudentData.forumUsername,
+            slackUsername = someStudentData.slackUsername,
+            assignedMentors = mentorData,
+            courseTrack = courseTrack.courseTrack
+        )
     }
 }
 

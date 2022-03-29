@@ -10,14 +10,14 @@ VALUES (100, 'active'),
        (300, 'cancelled'),
        (999, 'deleted');
 
-INSERT INTO `user` (first_name, last_name, role_code, status_code, timezone_offset)
-VALUES ('student 1', 'smith', 20, 100, '-8'),
-       ('mentor 1', 'doe', 10, 100, '-4'),
-       ('student 2', 'smith', 20, 100, '-8'),
-       ('mentor 2', 'doe', 10, 100, '-4'),
-       ('inactive student', 'smith', 20, 200, '-4'),
-       ('admin', 'admin', 10, 100, '-8'),
-       ('student', 'smith', 20, 100, "-5");
+INSERT INTO `user` (first_name, last_name, role_code, status_code, flag, timezone_offset)
+VALUES ('student 1', 'smith', 20, 100, 0, '-8'),
+       ('mentor 1', 'doe', 10, 100, 0, '-4'),
+       ('student 2', 'smith', 20, 100, 0, '-8'),
+       ('mentor 2', 'doe', 10, 100, 0, '-4'),
+       ('inactive student', 'smith', 20, 200, 1, '-4'),
+       ('admin', 'admin', 10, 100, 0, '-8'),
+       ('student', 'smith', 20, 100, 1, "-5");
 
 INSERT INTO `security` (user_id, username, password_hash, is_admin)
 VALUES (1, 'username1', 'placeholder until real hash', 0),

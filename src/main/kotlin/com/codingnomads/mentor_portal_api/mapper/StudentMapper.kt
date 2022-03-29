@@ -4,6 +4,7 @@ import com.codingnomads.mentor_portal_api.entity.business.Student
 import com.codingnomads.mentor_portal_api.entity.business.StudentData
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.Update
 
 /**
  * Mapper for Students
@@ -44,6 +45,7 @@ interface StudentMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -61,6 +63,7 @@ interface StudentMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code, 
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -77,6 +80,7 @@ interface StudentMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -94,6 +98,7 @@ interface StudentMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
