@@ -1,5 +1,7 @@
 <script>
     import { onMount, onDestroy } from "svelte";
+    import { userCircle } from "svelte-awesome/icons";
+    import Icon from "svelte-awesome";
     import NavBar from "../../components/NavBar.svelte";
     import AssignMentor from "../formInputs/AssignMentor.svelte";
     import UpdateFlag from "../formInputs/UpdateFlag.svelte";
@@ -51,9 +53,7 @@
                 <div class="columns">
                     <div class="column is-offset-1 is-2">
                         <div class="row">
-                            <figure class="image is-128x128">
-                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" alt="">
-                            </figure>
+                            <Icon data={userCircle} scale={5} />
                         </div>
                     </div>
                     <div class="column is-2">
@@ -65,15 +65,9 @@
                         <br>
                         <br>
                         {#if student.flag === true }
-                        <div class="row">
-                            <div class="tags has-addons">
-                                <span class="tag is-danger">Flagged</span>
-                                <UpdateFlag bind:studentId={student.id} flag={falseFlag} />
-                            </div>
-                        </div>
-                        {:else}
-                        <div class="row">
-                            <UpdateFlag bind:studentId={student.id} flag={trueFlag} />
+                        <div class="tags has-addons">
+                            <span class="tag is-danger">Flagged</span>
+                            <UpdateFlag bind:studentId={student.id} flag={falseFlag} />
                         </div>
                         {/if}
                     </div>
@@ -106,9 +100,9 @@
                 <div class="columns">
                     <div class="column is-offset-1 is-2">
                         <div class="row ">
-                            <figure class="image is-128x128">
-                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" alt="">
-                            </figure>
+                            <div class="row">
+                                <Icon data={userCircle} scale={5} />
+                            </div>
                         </div>
                     </div>
                     <div class="column is-2">
@@ -123,10 +117,6 @@
                         <div class="tags has-addons">
                             <span class="tag is-danger">Flagged</span>
                             <UpdateFlag bind:studentId={student.id} flag={falseFlag} />
-                        </div>
-                        {:else}
-                        <div class="row">
-                            <UpdateFlag bind:studentId={student.id} flag={trueFlag} label="Raise Flag"/>
                         </div>
                         {/if}
                     </div>

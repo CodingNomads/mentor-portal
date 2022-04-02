@@ -1,7 +1,6 @@
 <script>
     export let studentId;
     export let flag;
-    export let label;
 
     async function updateFlag() {
         // submit user flag update to DB
@@ -31,12 +30,6 @@
     };
 </script>
 
-{#if label === "Raise Flag"}
-<form class="form" on:submit|preventDefault={updateFlag}>
-    <button class="tag is-light is-small">{label}</button>
-</form>
-{:else}
 <form class="form" on:submit|preventDefault={updateFlag}>
     <button class="tag is-delete"></button>
 </form>
-{/if}
