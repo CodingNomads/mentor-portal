@@ -1,8 +1,7 @@
 package com.codingnomads.mentor_portal_api.controller
 
 import com.codingnomads.mentor_portal_api.entity.business.AssignMentorPayload
-import com.codingnomads.mentor_portal_api.entity.business.FlagPayload
-import com.codingnomads.mentor_portal_api.entity.business.StudentData
+import com.codingnomads.mentor_portal_api.entity.business.UserFlagPayload
 import com.codingnomads.mentor_portal_api.entity.business.StudentDataRelation
 import com.codingnomads.mentor_portal_api.handler.StudentHandler
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,5 +30,5 @@ class StudentController (@Autowired private val studentHandler: StudentHandler) 
      * Update flag status for students
      */
     @PutMapping("/students/{studentId}")
-    fun updateFlag(@RequestBody payload: FlagPayload, @PathVariable studentId: Int) = studentHandler.updateFlag(payload)
+    fun updateFlag(@RequestBody payload: UserFlagPayload, @PathVariable studentId: Int) = studentHandler.updateFlag(payload)
 }

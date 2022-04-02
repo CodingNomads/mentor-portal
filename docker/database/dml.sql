@@ -42,11 +42,11 @@ VALUES (2, 1, 100),
        (2, 3, 100),
        (4, 3, 200);
 
-INSERT INTO `support_log` (mentor_id, student_id, type, duration, log)
-VALUES (2, 1, 'Scheduled 1:1', 25, 'logging some support for student1'),
-       (2, 1, 'Impromptu 1:1', 10, 'second support log for student1'),
-       (2, 3, 'Slack/Discord', 5, 'logging some support for student2'),
-       (4, 1, 'Forum', 12, 'logging some support for student1 by another mentor');
+INSERT INTO `support_log` (mentor_id, student_id, type, flag, duration, log)
+VALUES (2, 1, 'Scheduled 1:1', 0, 25, 'logging some support for student1.'),
+       (2, 1, 'Impromptu 1:1', 0, 10, 'second support log for student1.'),
+       (2, 3, 'Slack/Discord', 0, 5, 'logging some support for student2.'),
+       (4, 1, 'Forum', 1, 12, 'logging some support for student1 by another mentor.');
 
 INSERT INTO `user_config_option` (option_name, description, is_sensitive)
 VALUES ("maxStudents", "The maximum students a mentor can be assigned.", 0),

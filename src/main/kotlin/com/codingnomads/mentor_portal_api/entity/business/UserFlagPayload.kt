@@ -1,6 +1,6 @@
 package com.codingnomads.mentor_portal_api.entity.business
 
-data class FlagPayload(
+data class UserFlagPayload(
     val flag: Boolean,
     val studentId: Int
 )

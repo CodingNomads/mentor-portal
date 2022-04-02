@@ -8,6 +8,7 @@ data class SupportLogRow (
     val mentorId: Int,
     val studentId: Int,
     val type: String,
+    val flag: Boolean,
     val duration: Int,
     val log: String,
     val logDate: Timestamp
@@ -18,6 +19,7 @@ data class SupportLogRow (
             mentorId = supportLog.mentorId,
             studentId = supportLog.studentId,
             type = supportLog.type,
+            flag = supportLog.flag,
             duration = supportLog.duration,
             log = supportLog.log,
             logDate = supportLog.logDate

@@ -133,7 +133,7 @@ class StudentHandler(
     /**
      * Update student flag
      */
-    fun updateFlag(flagPayload: FlagPayload): StudentDataRelation {
+    fun updateFlag(flagPayload: UserFlagPayload): StudentDataRelation {
         // update flag boolean
         userMapper.updateFlag(flagPayload.flag, flagPayload.studentId)
         // return updated student object

@@ -78,6 +78,7 @@ CREATE TABLE `support_log` (
     `mentor_id` int(10) UNSIGNED NOT NULL,
     `student_id` int(10) UNSIGNED NOT NULL,
     `type` varchar(255),
+    `flag` tinyint NOT NULL COMMENT 'Flag boolean for admin attention',
     `duration` int(10) NOT NULL,
     `log` varchar(255) NOT NULL,
     `log_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
