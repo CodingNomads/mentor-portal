@@ -25,6 +25,7 @@ class MyConfiguration {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**")
                     .allowedOrigins("http://localhost:5000")
+                    .allowedMethods("*")
             }
         }
     }

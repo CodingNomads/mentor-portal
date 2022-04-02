@@ -2,10 +2,7 @@ package com.codingnomads.mentor_portal_api.mapper
 
 import com.codingnomads.mentor_portal_api.entity.data.UserRow
 import com.codingnomads.mentor_portal_api.entity.business.User
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Options
-import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.*
 
 /**
  * Mapper for user table.
@@ -39,6 +36,12 @@ interface UserMapper {
     fun insertUser(userRow: UserRow) : Int
 
     /**
+     * Update user flag boolean
+     */
+    @Update(UPDATE_USER_FLAG_STATEMENT)
+    fun updateFlag(flag: Boolean, studentId: Int): Int
+
+    /**
      * A companion object to hold sql statement strings
      */
     companion object {
@@ -51,6 +54,7 @@ interface UserMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 user.timezone_offset
                 FROM user
             """
@@ -95,5 +99,11 @@ interface UserMapper {
                 )
             """
         const val INSERT_CONTACT_VALUES = "VALUES (#{id}, #{userId}, #{email}, #{telephone}, #{forumUsername}, #{slackUsername})"
+        const val UPDATE_USER_FLAG_STATEMENT =
+            """
+               UPDATE user
+               SET user.flag = #{flag}
+               WHERE user.id = #{studentId}
+            """
     }
 }

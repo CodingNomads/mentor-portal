@@ -25,5 +25,5 @@ data class MentorPostPayload (
      * config
      */
     val maxStudents: Int,
-    val proficiencies: List<String>? = listOf(),
+    val proficiencies: String,
 )
