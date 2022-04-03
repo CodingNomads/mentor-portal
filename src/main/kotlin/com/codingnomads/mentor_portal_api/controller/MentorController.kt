@@ -1,8 +1,8 @@
 package com.codingnomads.mentor_portal_api.controller
 
-import com.codingnomads.mentor_portal_api.entity.business.Mentor
-import com.codingnomads.mentor_portal_api.entity.business.MentorData
+import com.codingnomads.mentor_portal_api.entity.business.MentorDataRelation
 import com.codingnomads.mentor_portal_api.entity.business.MentorPostPayload
+import com.codingnomads.mentor_portal_api.entity.business.UserFlagPayload
 import com.codingnomads.mentor_portal_api.handler.MentorHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -14,7 +14,7 @@ class MentorController(@Autowired private val mentorHandler: MentorHandler) {
      * Get all Mentors
      */
     @GetMapping("/mentors")
-    fun getMentors(): List<Mentor> = mentorHandler.getMentors()
+    fun getMentors(): List<MentorDataRelation> = mentorHandler.getMentors()
 
     /**
      * Get Mentor by id
@@ -23,7 +23,11 @@ class MentorController(@Autowired private val mentorHandler: MentorHandler) {
      */
     @GetMapping("/mentors/{mentorId}")
     fun getMentorById(@PathVariable mentorId: Int) = mentorHandler.getMentorById(mentorId)
-
+    /**
+     * Update flag status for students
+     */
+    @PutMapping("/mentors/{mentorId}")
+    fun updateFlag(@RequestBody payload: UserFlagPayload, @PathVariable mentorId: Int) = mentorHandler.updateFlag(payload)
     /**
      * Create mentor
      */

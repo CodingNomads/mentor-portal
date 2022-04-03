@@ -8,15 +8,15 @@ import org.apache.ibatis.annotations.*
 @Mapper
 interface SupportLogMapper {
     /**
-     * SELECT ALL of a student's support logs
+     * SELECT ALL of a user's support logs
      */
     @Select(SELECT_SUPPORT_LOGS_STATEMENT)
-    fun selectSupportLogs(id: Int): List<SupportLog>
+    fun selectSupportLogs(userId: Int): List<SupportLog>
     /**
-     * SELECT single support log for a student
+     * SELECT single support log for a user
      */
     @Select(SELECT_SINGLE_LOG_STATEMENT)
-    fun selectSingleSupportLog(studentId: Int, supportLogId: Int): SupportLog
+    fun selectSingleSupportLog(userId: Int, supportLogId: Int): SupportLog
     /**
      * INSERT new support log for student
      */
@@ -48,7 +48,7 @@ interface SupportLogMapper {
                 support_log.updated_at
                 FROM user
                 JOIN support_log on user.id = mentor_id
-                WHERE user.role_code = 10 AND student_id = #{value}
+                WHERE user.role_code = 10 AND student_id = #{userId}
             """
         const val SELECT_SINGLE_LOG_STATEMENT =
             """
@@ -67,7 +67,7 @@ interface SupportLogMapper {
                 support_log.updated_at
                 FROM user
                 JOIN support_log on user.id = mentor_id
-                WHERE user.role_code = 10 AND student_id = #{studentId} AND support_log.id = #{supportLogId}
+                WHERE user.role_code = 10 AND student_id = #{userId} AND support_log.id = #{supportLogId}
             """
         const val INSERT_SUPPORT_LOG_STATEMENT =
             """

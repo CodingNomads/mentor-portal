@@ -15,12 +15,12 @@ class SupportLogHandler(private val supportLogMapper: SupportLogMapper){
     /**
      * Get all of a student's support logs
      */
-    fun getSupportLogs(studentId: Int) = supportLogMapper.selectSupportLogs(studentId)
+    fun getSupportLogs(userId: Int) = supportLogMapper.selectSupportLogs(userId)
     /**
-     * GET single support log for student
+     * GET single support log for a student
      */
-    fun getSingleSupportLog(studentId: Int,
-                            supportLogId: Int) = supportLogMapper.selectSingleSupportLog(studentId, supportLogId)
+    fun getSingleSupportLog(userId: Int,
+                            supportLogId: Int) = supportLogMapper.selectSingleSupportLog(userId, supportLogId)
     /**
      * UPDATE single support log for student
      */

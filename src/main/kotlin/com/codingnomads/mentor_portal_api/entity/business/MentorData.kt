@@ -6,6 +6,7 @@ data class  MentorData(
     val lastName: String,
     val roleCode: Int = 10,
     val statusCode: Int,
+    val flag: Boolean,
     val email: String,
     val telephone: String,
     val forumUsername: String,

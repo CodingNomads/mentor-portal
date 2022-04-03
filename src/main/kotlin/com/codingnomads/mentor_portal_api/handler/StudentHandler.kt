@@ -135,13 +135,13 @@ class StudentHandler(
      */
     fun updateFlag(flagPayload: UserFlagPayload): StudentDataRelation {
         // update flag boolean
-        userMapper.updateFlag(flagPayload.flag, flagPayload.studentId)
+        userMapper.updateFlag(flagPayload.flag, flagPayload.userId)
         // return updated student object
-        val mentorData = mentorMapper.selectAssignedMentor(flagPayload.studentId)
-        val courseTrack = userConfigValueMapper.selectStudentCourseTrack(flagPayload.studentId)
-        val someStudentData = studentMapper.selectStudentById(flagPayload.studentId)
+        val mentorData = mentorMapper.selectAssignedMentor(flagPayload.userId)
+        val courseTrack = userConfigValueMapper.selectStudentCourseTrack(flagPayload.userId)
+        val someStudentData = studentMapper.selectStudentById(flagPayload.userId)
         return StudentDataRelation(
-            id = flagPayload.studentId,
+            id = flagPayload.userId,
             firstName = someStudentData.firstName,
             lastName = someStudentData.lastName,
             roleCode = someStudentData.roleCode,

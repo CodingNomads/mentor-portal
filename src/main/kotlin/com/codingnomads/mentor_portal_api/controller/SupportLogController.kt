@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api")
 class SupportLogController(@Autowired private val supportLogHandler: SupportLogHandler) {
     /**
-     * GET all of a student's support logs
+     * GET all of a user's support logs
      */
-    @GetMapping("/students/{studentId}/supportLogs")
-    fun getSupportLogs(@PathVariable studentId: Int): List<SupportLog> = supportLogHandler.getSupportLogs(studentId)
+    @GetMapping("/{userId}/supportLogs")
+    fun getStudentSupportLogs(@PathVariable userId: Int): List<SupportLog> = supportLogHandler.getSupportLogs(userId)
     /**
-     * GET single support log for student
+     * GET single support log for user
      */
-    @GetMapping("/students/{studentId}/supportLogs/{supportLogId}")
-    fun getSingleSupportLog(
-        @PathVariable studentId: Int,
+    @GetMapping("/{userId}/supportLogs/{supportLogId}")
+    fun getSingleStudentSupportLog(
+        @PathVariable userId: Int,
         @PathVariable supportLogId: Int
-    ): SupportLog = supportLogHandler.getSingleSupportLog(studentId, supportLogId)
+    ): SupportLog = supportLogHandler.getSingleSupportLog(userId, supportLogId)
     /**
      * PUT endpoint for updating flag of single support log
      */
-    @PutMapping("/students/{studentId}/supportLogs/{supportLogId}")
+    @PutMapping("/{userId}/supportLogs/{supportLogId}")
     fun updateSupportLogFlag(@RequestBody payload: SupportLogFlagPayload,
-                             @PathVariable studentId: Int,
-                             @PathVariable supportLogId: Int) = supportLogHandler.updateSupportLogFlag(payload, studentId, supportLogId)
+                             @PathVariable userId: Int,
+                             @PathVariable supportLogId: Int) = supportLogHandler.updateSupportLogFlag(payload, userId, supportLogId)
     /**
      * POST endpoint for creating new support log
      */
