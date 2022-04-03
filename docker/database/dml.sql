@@ -14,7 +14,7 @@ INSERT INTO `user` (first_name, last_name, role_code, status_code, flag, timezon
 VALUES ('student 1', 'smith', 20, 100, 0, '-8'),
        ('mentor 1', 'doe', 10, 100, 0, '-4'),
        ('student 2', 'smith', 20, 100, 0, '-8'),
-       ('mentor 2', 'doe', 10, 100, 0, '-4'),
+       ('mentor 2', 'doe', 10, 100, 1, '-4'),
        ('inactive student', 'smith', 20, 200, 1, '-4'),
        ('admin', 'admin', 10, 100, 0, '-8'),
        ('student', 'smith', 20, 100, 1, "-5");
@@ -46,7 +46,9 @@ INSERT INTO `support_log` (mentor_id, student_id, type, flag, duration, log)
 VALUES (2, 1, 'Scheduled 1:1', 0, 25, 'logging some support for student1.'),
        (2, 1, 'Impromptu 1:1', 0, 10, 'second support log for student1.'),
        (2, 3, 'Slack/Discord', 0, 5, 'logging some support for student2.'),
-       (4, 1, 'Forum', 1, 12, 'logging some support for student1 by another mentor.');
+       (4, 1, 'Forum', 1, 12, 'logging some support for student1 by another mentor.'),
+       (6, 2, 'Slack/Discord', 0, 10, 'admin logging support for mentor2.'),
+       (6, 2, 'Scheduled 1:1', 1, 15, 'admin logging flagged log for mentor2');
 
 INSERT INTO `user_config_option` (option_name, description, is_sensitive)
 VALUES ("maxStudents", "The maximum students a mentor can be assigned.", 0),
@@ -63,5 +65,6 @@ VALUES (2, 1, "10"),
        (1, 3, "Python Web Dev Career"),
        (3, 3, "Java Career"),
        (5, 3, "Month-to-Month"),
-       (7, 3, "Month-to-Month");
+       (7, 3, "Month-to-Month"),
+       (6, 2, "python");
 

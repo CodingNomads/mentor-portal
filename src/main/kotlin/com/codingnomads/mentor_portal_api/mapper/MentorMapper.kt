@@ -40,12 +40,12 @@ interface MentorMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
                 FROM user
-                JOIN mentor_student_lookup on user.id = mentor_student_lookup.mentor_id
                 JOIN contact on user.id = contact.user_id
                 WHERE user.role_code = 10
             """
@@ -57,13 +57,13 @@ interface MentorMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
                 FROM user_config_value
                 JOIN user on user_config_value.user_id = user.id
-                JOIN mentor_student_lookup on user.id = mentor_student_lookup.mentor_id
                 JOIN contact on user.id = contact.user_id
                 WHERE role_code = 10 and user.id = #{value}
             """
@@ -75,6 +75,7 @@ interface MentorMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -93,6 +94,7 @@ interface MentorMapper {
                 user.last_name,
                 user.role_code,
                 user.status_code,
+                user.flag,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
