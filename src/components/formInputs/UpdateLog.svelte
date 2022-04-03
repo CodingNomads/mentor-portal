@@ -19,7 +19,7 @@
             "flag": flag,
             "log": compiledLog
         })
-        const response = await fetch(`http://localhost:8080/api/students/${studentId}/supportLogs/${supportLogId}`,{
+        const response = await fetch(`http://localhost:8080/api/${studentId}/supportLogs/${supportLogId}`,{
             headers,
             body,
             method: "PUT",

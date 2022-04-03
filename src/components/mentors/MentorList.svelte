@@ -1,9 +1,11 @@
 <script>
     import { onMount, onDestroy } from "svelte"; 
     import NavBar from "../../components/NavBar.svelte";
+    import UpdateFlag from "../formInputs/UpdateFlag.svelte";
 
     export let mentorList = [];
-    export let filteredMentors = [];    
+    export let filteredMentors = [];
+    let falseFlag = false    
 
     let searchMentors = (e) => {
         const searchString = e.target.value
@@ -57,6 +59,16 @@
                             <span class="tag is-dark">{proficiency} </span>
                             {/each}
                         </div>
+                        <!-- flagged status -->
+                        <br>
+                        <div class="row">
+                            {#if mentor.flag === true }
+                            <div class="tags has-addons">
+                                <span class="tag is-danger">Flagged</span>
+                                <UpdateFlag bind:mentorId={mentor.id} flag={falseFlag} />
+                            </div>
+                            {/if}
+                        </div>
                     </div>
                     <!-- offset student count view -->
                     <div class="column is-offset-1 is-4">
@@ -88,6 +100,16 @@
                             {#each mentor.proficiencies as proficiency}
                             <span class="tag is-dark">{proficiency} </span>
                             {/each}
+                        </div>
+                        <!-- flagged status -->
+                        <br>
+                        <div class="row">
+                            {#if mentor.flag === true }
+                            <div class="tags has-addons">
+                                <span class="tag is-danger">Flagged</span>
+                                <UpdateFlag bind:mentorId={mentor.id} flag={falseFlag} />
+                            </div>
+                            {/if}
                         </div>
                     </div>
                     <!-- offset student count view -->
