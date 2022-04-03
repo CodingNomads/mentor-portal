@@ -1,4 +1,6 @@
 <script>
+    import StudentList from "../students/StudentList.svelte";
+
     import MentorDropdown from "./MentorDropdown.svelte";
     
     export let mentor;
@@ -25,14 +27,13 @@
         const json = await response.json();
         const postResponse = JSON.stringify(json);
         console.log(postResponse)
-
-        // if (postResponse) {
-        //     const assignSuccess = alert(`Mentor successfully assigned to student.`);
-        // }
-        // else {
-        //     const assignFail = alert(`Failed to assign mentor.`);
-        // }
-    }
+        if (response.ok) {
+            alert(`Successfully assigned mentor to Student: \n\n${postResponse}`)
+            window.location.reload()
+        } else {
+            alert(`Failed to assign Mentor to Student`)
+        }
+    };
 </script>
 
 <form class="form box" on:submit|preventDefault={assign}>

@@ -29,6 +29,7 @@
             });
             if (response.ok){
                 alert(`Updated flag to: \n\n${flag}`)
+                window.location.reload()
             } else{
                 alert(`Failed to change flag value.`)
             }

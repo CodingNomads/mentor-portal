@@ -1,7 +1,5 @@
 <script>
-    import { onMount } from "svelte";
-import FlagDropdown from "./formInputs/FlagDropdown.svelte";
-
+    import FlagDropdown from "./formInputs/FlagDropdown.svelte";
     import DateSelect from "./formInputs/DateSelect.svelte";
     import InputText from "./formInputs/InputText.svelte";
     import MentorDropdown from "./formInputs/MentorDropdown.svelte";
@@ -46,6 +44,7 @@ import FlagDropdown from "./formInputs/FlagDropdown.svelte";
             alert(`Support log submitted: \n\n${postResponse}`)
             updateTrigger = true
             updateFlag()
+            window.location.reload()
         }
         else {  
             alert(`Support log submission failed.`)
