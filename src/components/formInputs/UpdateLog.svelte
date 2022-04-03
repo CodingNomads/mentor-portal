@@ -28,6 +28,7 @@
         })
         if (response.ok) {
             alert(`Successfully updated support log.`)
+            window.location.reload()
         } else{
             alert(`Failed to update support log.`)
         }
