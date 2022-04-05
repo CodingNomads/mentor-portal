@@ -15,6 +15,7 @@ CREATE TABLE `user` (
     `status_code` int(10) NOT NULL COMMENT 'Active or inactive status',
     `flag` tinyint NOT NULL COMMENT 'Flag boolean for admin attention',
     `timezone_offset` varchar(255) NOT NULL,
+    `bio` varchar(255),
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
@@ -61,6 +62,7 @@ CREATE TABLE `contact` (
     `user_id` int(10) UNSIGNED NOT NULL,
     `email` varchar(255),
     `telephone` varchar(255),
+    `location` varchar(255),
     `forum_username` varchar(255),
     `slack_username` varchar(255),
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

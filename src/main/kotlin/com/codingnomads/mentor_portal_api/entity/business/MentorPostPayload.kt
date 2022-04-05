@@ -7,12 +7,15 @@ data class MentorPostPayload (
     val id: Int? = null,
     val firstName: String,
     val lastName: String,
+    val flag: Boolean,
+    val bio: String,
     val timezoneOffset: String,
     /**
      * contact fields
      */
     val email: String,
     val telephone: String,
+    val location: String,
     val forumUsername: String,
     val slackUsername: String,
     /**

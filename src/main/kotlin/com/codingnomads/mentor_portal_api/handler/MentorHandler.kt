@@ -48,6 +48,8 @@ class MentorHandler(
                     roleCode = mentor.roleCode,
                     statusCode = mentor.statusCode,
                     flag = mentor.flag,
+                    bio = mentor.bio,
+                    location = mentor.location,
                     email = mentor.email,
                     telephone = mentor.telephone,
                     forumUsername = mentor.forumUsername,
@@ -66,6 +68,8 @@ class MentorHandler(
                     roleCode = mentor.roleCode,
                     statusCode = mentor.statusCode,
                     flag = mentor.flag,
+                    bio = mentor.bio,
+                    location = mentor.location,
                     email = mentor.email,
                     telephone = mentor.telephone,
                     forumUsername = mentor.forumUsername,
@@ -105,6 +109,8 @@ class MentorHandler(
             roleCode = mentorData.roleCode,
             statusCode = mentorData.statusCode,
             flag = mentorData.flag,
+            bio = mentorData.bio,
+            location = mentorData.location,
             email = mentorData.email,
             telephone = mentorData.telephone,
             forumUsername = mentorData.forumUsername,
@@ -119,14 +125,21 @@ class MentorHandler(
     /**
      * Update student flag
      */
-    fun updateFlag(flagPayload: UserFlagPayload): MentorDataRelation {
-        // update flag boolean
-        userMapper.updateFlag(flagPayload.flag, flagPayload.userId)
+    fun updateMentor(userUpdatePayload: UserUpdatePayload): MentorDataRelation {
+        println(userUpdatePayload)
+        // check payload for update fields
+        if (userUpdatePayload.flag != null) {
+            // update flag
+            userMapper.updateFlag(userUpdatePayload.userId, userUpdatePayload.flag)
+        }
+        if (userUpdatePayload.bio != null){
+            userMapper.updateBio(userUpdatePayload.userId, userUpdatePayload.bio)
+        }
         // return updated mentorDataRelation object
-        val assignedStudents = studentMapper.selectAssignedStudents(flagPayload.userId)
-        val maxNumber = userConfigValueMapper.selectMaxStudentValue(flagPayload.userId)
-        val someMentorData = mentorMapper.selectMentorById(flagPayload.userId)
-        val mentorProficiencies = userConfigValueMapper.selectProficienciesValue(flagPayload.userId)
+        val assignedStudents = studentMapper.selectAssignedStudents(userUpdatePayload.userId)
+        val maxNumber = userConfigValueMapper.selectMaxStudentValue(userUpdatePayload.userId)
+        val someMentorData = mentorMapper.selectMentorById(userUpdatePayload.userId)
+        val mentorProficiencies = userConfigValueMapper.selectProficienciesValue(userUpdatePayload.userId)
         val proficienciesList: MutableList<String> = mutableListOf()
 
         for (data in mentorProficiencies){
@@ -134,12 +147,14 @@ class MentorHandler(
         }
 
         return MentorDataRelation(
-            id = flagPayload.userId,
+            id = userUpdatePayload.userId,
             firstName = someMentorData.firstName,
             lastName = someMentorData.lastName,
             roleCode = someMentorData.roleCode,
             statusCode = someMentorData.statusCode,
             flag = someMentorData.flag,
+            bio = someMentorData.bio,
+            location = someMentorData.location,
             email = someMentorData.email,
             telephone = someMentorData.telephone,
             forumUsername = someMentorData.forumUsername,
@@ -160,6 +175,7 @@ class MentorHandler(
             roleCode = 10,
             statusCode = 100,
             flag = false,
+            bio = mentorPostPayload.bio,
             timezoneOffset = mentorPostPayload.timezoneOffset
         )
 
@@ -169,6 +185,7 @@ class MentorHandler(
 
         val contactRow = ContactRow(
             userId = userId,
+            location = mentorPostPayload.location,
             email = mentorPostPayload.email,
             telephone = mentorPostPayload.telephone,
             forumUsername = mentorPostPayload.username,
@@ -211,6 +228,8 @@ class MentorHandler(
             userRow.roleCode,
             userRow.statusCode,
             userRow.flag,
+            userRow.bio,
+            contactRow.location,
             contactRow.email,
             contactRow.telephone,
             contactRow.forumUsername,

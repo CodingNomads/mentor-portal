@@ -7,6 +7,7 @@ data class ContactRow(
     val userId: Int,
     val email: String,
     val telephone: String,
+    val location: String,
     val forumUsername: String,
     val slackUsername: String,
 ){
@@ -16,6 +17,7 @@ data class ContactRow(
             userId = contact.userId,
             email = contact.email,
             telephone = contact.telephone,
+            location = contact.location,
             forumUsername = contact.forumUsername,
             slackUsername = contact.slackUsername
         )

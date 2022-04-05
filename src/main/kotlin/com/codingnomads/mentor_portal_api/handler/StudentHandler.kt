@@ -44,6 +44,8 @@ class StudentHandler(
                     roleCode = student.roleCode,
                     statusCode = student.statusCode,
                     flag = student.flag,
+                    bio = student.bio,
+                    location = student.location,
                     email = student.email,
                     telephone = student.telephone,
                     forumUsername = student.forumUsername,
@@ -60,6 +62,8 @@ class StudentHandler(
                     roleCode = student.roleCode,
                     statusCode = student.statusCode,
                     flag = student.flag,
+                    bio = student.bio,
+                    location = student.location,
                     email = student.email,
                     telephone = student.telephone,
                     forumUsername = student.forumUsername,
@@ -89,6 +93,8 @@ class StudentHandler(
             roleCode = studentData.roleCode,
             statusCode = studentData.statusCode,
             flag = studentData.flag,
+            bio = studentData.bio,
+            location = studentData.location,
             email = studentData.email,
             telephone = studentData.telephone,
             forumUsername = studentData.forumUsername,
@@ -121,6 +127,8 @@ class StudentHandler(
             roleCode = someStudentData.roleCode,
             statusCode = someStudentData.statusCode,
             flag = someStudentData.flag,
+            bio = someStudentData.bio,
+            location = someStudentData.location,
             email = someStudentData.email,
             telephone = someStudentData.telephone,
             forumUsername = someStudentData.forumUsername,
@@ -129,24 +137,34 @@ class StudentHandler(
             courseTrack = courseTrack.courseTrack
         )
     }
-
     /**
-     * Update student flag
+     * Update student bio
      */
-    fun updateFlag(flagPayload: UserFlagPayload): StudentDataRelation {
-        // update flag boolean
-        userMapper.updateFlag(flagPayload.flag, flagPayload.userId)
+    fun updateStudent(userUpdatePayload: UserUpdatePayload): StudentDataRelation{
+        println(userUpdatePayload)
+        // check for update fields in payload
+        if (userUpdatePayload.flag != null){
+            // update user flag
+            userMapper.updateFlag(userUpdatePayload.userId, userUpdatePayload.flag)
+        }
+        if (userUpdatePayload.bio != null){
+            // update user bio
+            userMapper.updateBio(userUpdatePayload.userId, userUpdatePayload.bio)
+        }
+
         // return updated student object
-        val mentorData = mentorMapper.selectAssignedMentor(flagPayload.userId)
-        val courseTrack = userConfigValueMapper.selectStudentCourseTrack(flagPayload.userId)
-        val someStudentData = studentMapper.selectStudentById(flagPayload.userId)
+        val mentorData = mentorMapper.selectAssignedMentor(userUpdatePayload.userId)
+        val courseTrack = userConfigValueMapper.selectStudentCourseTrack(userUpdatePayload.userId)
+        val someStudentData = studentMapper.selectStudentById(userUpdatePayload.userId)
         return StudentDataRelation(
-            id = flagPayload.userId,
+            id = userUpdatePayload.userId,
             firstName = someStudentData.firstName,
             lastName = someStudentData.lastName,
             roleCode = someStudentData.roleCode,
             statusCode = someStudentData.statusCode,
             flag = someStudentData.flag,
+            bio = someStudentData.bio,
+            location = someStudentData.location,
             email = someStudentData.email,
             telephone = someStudentData.telephone,
             forumUsername = someStudentData.forumUsername,
