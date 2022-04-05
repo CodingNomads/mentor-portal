@@ -1,14 +1,32 @@
 <script>
     import { envelope, phone, slack, compass, home } from "svelte-awesome/icons";
     import Icon from "svelte-awesome";
+    import UpdateBio from "../formInputs/UpdateBio.svelte";
 
     export let student;
+    let editTrigger = false;
+
+    const editBio = () => {
+        return editTrigger = true
+    };
+    const cancelEdit = () => {
+        return editTrigger = false
+    };
 </script>
 
 <div class="box">
     <div class="row">
         <div class="column is-6 is-centered">
-            A students's bio/primary goal goes here.
+            {#if editTrigger === false}
+            {student.bio}
+            <br>
+            <br>
+            <button class="button is-small" on:click={editBio}>Edit</button>
+            {:else}   
+            <UpdateBio studentId={student.id} bio={student.bio} />
+            <br>
+            <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+            {/if}
         </div>
     </div>
 </div>

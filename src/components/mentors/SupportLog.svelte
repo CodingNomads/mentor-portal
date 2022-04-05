@@ -66,9 +66,9 @@
                                 <button class="button is-small" on:click={editLog}>Edit</button>
                                 <!-- triggered edit form -->
                                 {:else}
-                                    <UpdateLog log={entry.log} studentId={mentor.id} supportLogId={entry.id} />
-                                    <br>
-                                    <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                                <UpdateLog log={entry.log} studentId={mentor.id} supportLogId={entry.id} />
+                                <br>
+                                <button class="button is-small" on:click={cancelEdit}>Cancel</button>
                                 {/if}
                             </div>
                         </div>
