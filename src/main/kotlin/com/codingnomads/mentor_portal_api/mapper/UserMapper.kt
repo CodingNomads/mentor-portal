@@ -39,7 +39,12 @@ interface UserMapper {
      * Update user flag boolean
      */
     @Update(UPDATE_USER_FLAG_STATEMENT)
-    fun updateFlag(flag: Boolean, studentId: Int): Int
+    fun updateFlag(userId: Int, flag: Boolean): Int
+    /**
+     * Update user bio
+     */
+    @Update(UPDATE_USER_BIO_STATEMENT)
+    fun updateBio(userId: Int, bio:String): Int
 
     /**
      * A companion object to hold sql statement strings
@@ -55,6 +60,7 @@ interface UserMapper {
                 user.role_code,
                 user.status_code,
                 user.flag,
+                user.bio,
                 user.timezone_offset
                 FROM user
             """
@@ -67,7 +73,8 @@ interface UserMapper {
             last_name, 
             role_code, 
             status_code, 
-            timezone_offset
+            timezone_offset,
+            bio
             """
 
         const val FROM_USER_ID = "FROM user where id = #{value}"
@@ -103,7 +110,13 @@ interface UserMapper {
             """
                UPDATE user
                SET user.flag = #{flag}
-               WHERE user.id = #{studentId}
+               WHERE user.id = #{userId}
+            """
+        const val UPDATE_USER_BIO_STATEMENT =
+            """
+                UPDATE user
+                SET user.bio = #{bio}
+                WHERE user.id = #{userId}
             """
     }
 }

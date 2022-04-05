@@ -7,6 +7,8 @@ data class Student(
     val roleCode: Int = 20,
     val statusCode: Int,
     val flag: Boolean,
+    val bio: String,
+    val location: String,
     val email: String,
     val telephone: String,
     val forumUsername: String,

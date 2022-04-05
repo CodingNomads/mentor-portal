@@ -41,6 +41,8 @@ interface MentorMapper {
                 user.role_code,
                 user.status_code,
                 user.flag,
+                user.bio,
+                contact.location,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -58,6 +60,8 @@ interface MentorMapper {
                 user.role_code,
                 user.status_code,
                 user.flag,
+                user.bio,
+                contact.location,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -76,6 +80,8 @@ interface MentorMapper {
                 user.role_code,
                 user.status_code,
                 user.flag,
+                user.bio,
+                contact.location,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -95,6 +101,8 @@ interface MentorMapper {
                 user.role_code,
                 user.status_code,
                 user.flag,
+                user.bio,
+                contact.location,
                 contact.email,
                 contact.telephone,
                 contact.forum_username,
@@ -113,9 +121,11 @@ interface MentorMapper {
             last_name, 
             status_code, 
             role_code, 
-            timezone_offset
+            timezone_offset,
+            flag,
+            bio,
             )
             """
-        const val INSERT_MENTOR_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{timezoneOffset})"
+        const val INSERT_MENTOR_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{timezoneOffset}, #{flag}, #{bio})"
     }
 }
