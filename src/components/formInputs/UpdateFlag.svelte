@@ -14,6 +14,7 @@
             "Content-type": "application/json",
             "Access-Control-Allow-Origin": "*"
         }
+        // if student flag being updated
         if (typeof(studentId) === 'number' && typeof(mentorId) === 'undefined') {
             const body = JSON.stringify({
                 "flag": flag,
@@ -33,7 +34,8 @@
             } else{
                 alert(`Failed to change flag value.`)
             }
-        } 
+        }
+        // if mentor flag being updated 
         if (typeof(mentorId) === 'number' && typeof(studentId) === 'undefined') {
             const body = JSON.stringify({
                 "flag": flag,
@@ -49,6 +51,7 @@
             });
             if (response.ok){
                 alert(`Updated flag to: \n\n${flag}`)
+                window.location.reload()
             } else{
                 alert(`Failed to change flag value.`)
             }
