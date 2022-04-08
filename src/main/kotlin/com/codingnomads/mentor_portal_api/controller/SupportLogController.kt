@@ -29,15 +29,10 @@ class SupportLogController(@Autowired private val supportLogHandler: SupportLogH
     @PutMapping("/{userId}/supportLogs/{supportLogId}")
     fun updateSupportLogFlag(@RequestBody payload: SupportLogFlagPayload,
                              @PathVariable userId: Int,
-                             @PathVariable supportLogId: Int) = supportLogHandler.updateSupportLogFlag(payload, userId, supportLogId)
+                             @PathVariable supportLogId: Int) = supportLogHandler.updateSupportLog(payload, userId, supportLogId)
     /**
      * POST endpoint for creating new support log
      */
     @PostMapping("/supportLog")
     fun createSupportLog(@RequestBody payload: SupportLogPayload) = supportLogHandler.createSupportLog(payload)
-    /**
-     * PUT endpoint for changing flag status of support log
-     */
-//    @PutMapping("/supportLog/{supportLogId}")
-//    fun updateLogFlag(@RequestBody payload: )
 }

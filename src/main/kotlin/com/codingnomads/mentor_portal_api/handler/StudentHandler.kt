@@ -140,16 +140,16 @@ class StudentHandler(
     /**
      * Update student bio
      */
-    fun updateStudent(userUpdatePayload: UserUpdatePayload): StudentDataRelation{
+    fun updateStudent(userUpdatePayload: UserUpdatePayload, studentId: Int): StudentDataRelation{
         println(userUpdatePayload)
         // check for update fields in payload
         if (userUpdatePayload.flag != null){
             // update user flag
-            userMapper.updateFlag(userUpdatePayload.userId, userUpdatePayload.flag)
+            userMapper.updateFlag(userId=studentId, userUpdatePayload.flag)
         }
         if (userUpdatePayload.bio != null){
             // update user bio
-            userMapper.updateBio(userUpdatePayload.userId, userUpdatePayload.bio)
+            userMapper.updateBio(userId=studentId, userUpdatePayload.bio)
         }
 
         // return updated student object
