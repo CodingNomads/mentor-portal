@@ -1,11 +1,16 @@
 <script>
     import FlagDropdown from "../formInputs/FlagDropdown.svelte";
 
-    export let studentId;
+    export let userId;
     export let supportLogId;
     export let log;
     let updatedLog;
-    let flag;
+    export let flag;
+
+    // export let flaggedLogCount;
+    // export let studentFlag;
+    // export let mentorFlag;
+    // export let mentorId;
 
     async function submitUpdates() {
         let compiledLog = log + " UPDATE: " + updatedLog
@@ -14,12 +19,12 @@
             "Access-Control-Allow-Origin": "*"
         }
         const body = JSON.stringify({
-            "studentId": studentId,
+            "studentId": userId,
             "supportLogId": supportLogId,
             "flag": flag,
             "log": compiledLog
         })
-        const response = await fetch(`http://localhost:8080/api/${studentId}/supportLogs/${supportLogId}`,{
+        const response = await fetch(`http://localhost:8080/api/${userId}/supportLogs/${supportLogId}`,{
             headers,
             body,
             method: "PUT",
@@ -33,6 +38,7 @@
             alert(`Failed to update support log.`)
         }
     };
+    
 </script>
 <div class="box">
     {log}

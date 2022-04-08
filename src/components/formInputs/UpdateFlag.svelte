@@ -15,10 +15,10 @@
             "Access-Control-Allow-Origin": "*"
         }
         // if student flag being updated
-        if (typeof(studentId) === 'number' && typeof(mentorId) === 'undefined') {
+        if (typeof(studentId) === 'number') {
             const body = JSON.stringify({
-                "flag": flag,
-                "userId": studentId
+                "userId": studentId,
+                "flag": flag
             })
             console.log(body)
             const response = await fetch(studentEndpoint, {
@@ -29,17 +29,17 @@
                 credentials: "same-origin"
             });
             if (response.ok){
-                alert(`Updated flag to: \n\n${flag}`)
+                alert(`Updated flag to: ${flag}`)
                 window.location.reload()
             } else{
                 alert(`Failed to change flag value.`)
             }
         }
         // if mentor flag being updated 
-        if (typeof(mentorId) === 'number' && typeof(studentId) === 'undefined') {
+        if (typeof(mentorId) === 'number') {
             const body = JSON.stringify({
+                "userId": mentorId,
                 "flag": flag,
-                "userId": mentorId
             })
             console.log(body)
             const response = await fetch(mentorEndpoint, {
@@ -50,7 +50,7 @@
                 credentials: "same-origin"
             });
             if (response.ok){
-                alert(`Updated flag to: \n\n${flag}`)
+                alert(`Updated flag to: ${flag}`)
                 window.location.reload()
             } else{
                 alert(`Failed to change flag value.`)
@@ -59,6 +59,15 @@
     };
 </script>
 
+{#if flag === true}
 <form class="form" on:submit|preventDefault={updateFlag}>
-    <button class="tag is-delete"></button>
+    <button class="button is-small">Rasie Flag</button>
 </form>
+{:else}
+<div class="tags has-addons">
+    <span class="tag is-danger">Flagged</span>
+    <form class="form" on:submit|preventDefault={updateFlag}>
+        <button class="tag is-delete"></button>
+    </form>
+</div>
+{/if}

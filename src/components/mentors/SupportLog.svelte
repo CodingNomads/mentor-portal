@@ -9,6 +9,10 @@
     let addLog = false;
     let editTrigger = false;
 
+    // count flagged logs
+    let flaggedLogCount = mentor.supportLog.filter(log => log.flag === true).length
+    console.log(flaggedLogCount)
+
     // handler functions
     const newLog = () => {
         return addLog = true;
@@ -35,9 +39,9 @@
     <br>
     {#if addLog === true}
         <!-- support log form displays on click -->
-        <CreateSupportLog studentId={mentor.id} studentFlag={mentor.flag} />
+        <CreateSupportLog studentId={mentor.id} studentFlag={mentor.flag} flaggedLogCount={flaggedLogCount} />
         <div class="row">
-            <button class="button is-danger" on:click={resetAddLog}>Cancel</button>
+            <button class="button is-small" on:click={resetAddLog}>Cancel</button>
         </div>
         <br>
     {/if}
@@ -66,7 +70,7 @@
                                 <button class="button is-small" on:click={editLog}>Edit</button>
                                 <!-- triggered edit form -->
                                 {:else}
-                                <UpdateLog log={entry.log} studentId={mentor.id} supportLogId={entry.id} />
+                                <UpdateLog log={entry.log} userId={mentor.id} supportLogId={entry.id} />
                                 <br>
                                 <button class="button is-small" on:click={cancelEdit}>Cancel</button>
                                 {/if}
