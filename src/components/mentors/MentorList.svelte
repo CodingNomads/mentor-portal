@@ -63,10 +63,7 @@
                         <br>
                         <div class="row">
                             {#if mentor.flag === true }
-                            <div class="tags has-addons">
-                                <span class="tag is-danger">Flagged</span>
-                                <UpdateFlag bind:mentorId={mentor.id} flag={falseFlag} />
-                            </div>
+                            <span class="tag is-danger">Flagged</span>
                             {/if}
                         </div>
                     </div>
@@ -105,10 +102,7 @@
                         <br>
                         <div class="row">
                             {#if mentor.flag === true }
-                            <div class="tags has-addons">
-                                <span class="tag is-danger">Flagged</span>
-                                <UpdateFlag bind:mentorId={mentor.id} flag={falseFlag} />
-                            </div>
+                            <span class="tag is-danger">Flagged</span>
                             {/if}
                         </div>
                     </div>

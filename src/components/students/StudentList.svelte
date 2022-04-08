@@ -65,10 +65,7 @@
                         <br>
                         <br>
                         {#if student.flag === true }
-                        <div class="tags has-addons">
-                            <span class="tag is-danger">Flagged</span>
-                            <UpdateFlag bind:studentId={student.id} flag={falseFlag} />
-                        </div>
+                        <span class="tag is-danger">Flagged</span>
                         {/if}
                     </div>
                     {#if student.assignedMentors.length > 0}
@@ -114,10 +111,7 @@
                         <br>
                         <br>
                         {#if student.flag === true }
-                        <div class="tags has-addons">
-                            <span class="tag is-danger">Flagged</span>
-                            <UpdateFlag bind:studentId={student.id} flag={falseFlag} />
-                        </div>
+                        <span class="tag is-danger">Flagged</span>
                         {/if}
                     </div>
                     {#if student.assignedMentors.length > 0}
