@@ -31,5 +31,5 @@ class StudentController (@Autowired private val studentHandler: StudentHandler) 
      */
     @PutMapping("/students/{studentId}")
     fun updateStudent(@RequestBody payload: UserUpdatePayload,
-                      @PathVariable studentId: Int) = studentHandler.updateStudent(payload)
+                      @PathVariable studentId: Int) = studentHandler.updateStudent(payload, studentId)
 }

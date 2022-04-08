@@ -72,9 +72,10 @@ interface UserMapper {
             first_name, 
             last_name, 
             role_code, 
-            status_code, 
-            timezone_offset,
-            bio
+            status_code,
+            flag,
+            bio,
+            timezone_offset
             """
 
         const val FROM_USER_ID = "FROM user where id = #{value}"
