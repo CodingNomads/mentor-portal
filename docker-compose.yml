@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+
+  front:
+    container_name: front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: localhost
+    ports:
+      - 5000:5000
+    networks:
+      - front-end
+
+networks:
+  front-end:
+    name: front-end
