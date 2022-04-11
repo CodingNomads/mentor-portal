@@ -1,6 +1,6 @@
 package com.codingnomads.mentor_portal_api.entity.business
 
-data class MentorPostPayload (
+data class StudentPostPayload(
     /**
      * user fields
      */
@@ -26,6 +26,6 @@ data class MentorPostPayload (
     /**
      * config
      */
-    val maxStudents: Int,
-    val proficiencies: List<String>,
+    val courseTrack: List<String>,
+    val assignedMentors: MentorData? = null
 )

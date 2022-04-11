@@ -1,6 +1,6 @@
 package com.codingnomads.mentor_portal_api.entity.enum
 
-enum class CourseTrack(val courseTrackTitle: String) {
+enum class CourseTrack(val title: String) {
     javaProgramming("Java Programming"),
     advancedJavaAndSpring("Advanced Java and Spring"),
     pythonProgramming("Python Programming"),

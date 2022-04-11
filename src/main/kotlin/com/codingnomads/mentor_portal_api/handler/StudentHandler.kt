@@ -1,7 +1,7 @@
 package com.codingnomads.mentor_portal_api.handler
 
 import com.codingnomads.mentor_portal_api.entity.business.*
-import com.codingnomads.mentor_portal_api.entity.data.MentorStudentLookupRow
+import com.codingnomads.mentor_portal_api.entity.data.*
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
 
@@ -13,9 +13,11 @@ class StudentHandler(
     private val contactMapper: ContactMapper,
     private val mentorMapper: MentorMapper,
     private val mentorStudentLookupMapper: MentorStudentLookupMapper,
+    private val securityMapper: SecurityMapper,
     private val studentMapper: StudentMapper,
     private val supportLogMapper: SupportLogMapper,
     private val userMapper: UserMapper,
+    private val userConfigOptionMapper: UserConfigOptionMapper,
     private val userConfigValueMapper: UserConfigValueMapper
     ) {
     /**
@@ -103,6 +105,100 @@ class StudentHandler(
             supportLog = supportLog,
             courseTrack = studentCourseTrack.courseTrack
         )
+    }
+
+    /**
+     * Create a student
+     */
+    fun createStudent(studentPostPayload: StudentPostPayload): StudentDataRelation {
+        println(studentPostPayload)
+        // user table fields
+        val userRow = UserRow(
+            firstName = studentPostPayload.firstName,
+            lastName = studentPostPayload.lastName,
+            roleCode = 20,
+            statusCode = 100,
+            flag = false,
+            bio = studentPostPayload.bio,
+            timezoneOffset = studentPostPayload.timezoneOffset
+        )
+        userMapper.insertUser(userRow)
+        val userId = userRow.id!!
+
+        // contact table fields
+        val contactRow = ContactRow(
+            userId = userId,
+            email = studentPostPayload.email,
+            telephone = studentPostPayload.telephone,
+            location = studentPostPayload.location,
+            forumUsername = studentPostPayload.forumUsername,
+            slackUsername = studentPostPayload.slackUsername
+        )
+        contactMapper.insertContact(contactRow)
+
+//        // security table fields
+//        val securityRow = SecurityRow(
+//            userId = userId,
+//            username = studentPostPayload.username,
+//            passwordHash = studentPostPayload.passwordHash,
+//            isAdmin = false
+//        )
+//        securityMapper.insertSecurity(securityRow)
+
+        // config data
+        val courseTrackOptionRow = userConfigOptionMapper.selectOptionByName("courseTrack")
+        val courseTrackValueRow = ConfigValueRow(
+            optionId = courseTrackOptionRow.id,
+            userId = userId,
+            value = studentPostPayload.courseTrack[0]
+        )
+        userConfigValueMapper.insertConfigValue(courseTrackValueRow)
+
+        // assign mentor if studentPostPayload.assignedMentors != null
+        // otherwise make assignedMentors and empty list
+        if (studentPostPayload.assignedMentors != null) {
+            val mentorStudentLookUpRow = MentorStudentLookupRow(
+                mentorId = studentPostPayload.assignedMentors.id!!,
+                studentId = userId,
+                statusCode = 100
+            )
+            mentorStudentLookupMapper.insertMentorStudentLookup(mentorStudentLookUpRow)
+            val assignedMentors = mentorMapper.selectAssignedMentor(userId)
+            return StudentDataRelation(
+                id = userId,
+                firstName = userRow.firstName,
+                lastName = userRow.lastName,
+                roleCode = userRow.roleCode,
+                statusCode = userRow.statusCode,
+                flag = userRow.flag,
+                bio = userRow.bio,
+                location = contactRow.location,
+                email = contactRow.email,
+                telephone = contactRow.telephone,
+                forumUsername = contactRow.forumUsername,
+                slackUsername = contactRow.slackUsername,
+                assignedMentors = assignedMentors,
+                courseTrack = courseTrackValueRow.value
+            )
+        }else{
+            return StudentDataRelation(
+                id = userId,
+                firstName = userRow.firstName,
+                lastName = userRow.lastName,
+                roleCode = userRow.roleCode,
+                statusCode = userRow.statusCode,
+                flag = userRow.flag,
+                bio = userRow.bio,
+                location = contactRow.location,
+                email = contactRow.email,
+                telephone = contactRow.telephone,
+                forumUsername = contactRow.forumUsername,
+                slackUsername = contactRow.slackUsername,
+                assignedMentors = mutableListOf(),
+                courseTrack = courseTrackValueRow.value
+            )
+        }
+
     }
     /**
      * Assign a mentor to a student
