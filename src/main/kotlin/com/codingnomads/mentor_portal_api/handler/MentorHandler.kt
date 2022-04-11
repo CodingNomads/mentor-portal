@@ -123,7 +123,7 @@ class MentorHandler(
         )
     }
     /**
-     * Update student flag
+     * Update mentor flag
      */
     fun updateMentor(userUpdatePayload: UserUpdatePayload): MentorDataRelation {
         println(userUpdatePayload)
@@ -185,23 +185,23 @@ class MentorHandler(
 
         val contactRow = ContactRow(
             userId = userId,
-            location = mentorPostPayload.location,
             email = mentorPostPayload.email,
             telephone = mentorPostPayload.telephone,
-            forumUsername = mentorPostPayload.username,
+            location = mentorPostPayload.location,
+            forumUsername = mentorPostPayload.forumUsername,
             slackUsername = mentorPostPayload.slackUsername
         )
 
         contactMapper.insertContact(contactRow)
 
-        val securityRow = SecurityRow(
-            userId = userId,
-            username = mentorPostPayload.username,
-            passwordHash = mentorPostPayload.passwordHash,
-            isAdmin = mentorPostPayload.isAdmin
-        )
-
-        securityMapper.insertSecurity(securityRow)
+//        val securityRow = SecurityRow(
+//            userId = userId,
+//            username = mentorPostPayload.username,
+//            passwordHash = mentorPostPayload.passwordHash,
+//            isAdmin = mentorPostPayload.isAdmin
+//        )
+//
+//        securityMapper.insertSecurity(securityRow)
 
         val maxStudentsOptionRow = userConfigOptionMapper.selectOptionByName("maxStudents")
         val maxStudentsValueRow = ConfigValueRow(
@@ -213,13 +213,16 @@ class MentorHandler(
         userConfigValueMapper.insertConfigValue(maxStudentsValueRow)
 
         val proficienciesOptionRow = userConfigOptionMapper.selectOptionByName("proficiencies")
-        val proficienciesValueRow = ConfigValueRow(
-            optionId = proficienciesOptionRow.id,
-            userId = userId,
-            value = mentorPostPayload.proficiencies
-        )
-
-        userConfigValueMapper.insertConfigValue(proficienciesValueRow)
+        println(proficienciesOptionRow)
+        println(mentorPostPayload)
+        for (proficiency in mentorPostPayload.proficiencies){
+            val proficienciesValueRow = ConfigValueRow(
+                optionId = proficienciesOptionRow.id,
+                userId = userId,
+                value = proficiency
+            )
+            userConfigValueMapper.insertConfigValue(proficienciesValueRow)
+        }
 
         return MentorData(
             userId,

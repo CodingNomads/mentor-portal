@@ -87,26 +87,14 @@ interface UserMapper {
             first_name, 
             last_name, 
             status_code, 
-            role_code, 
+            role_code,
+            bio,
+            flag,
             timezone_offset
             )
             """
 
-        const val INSERT_USER_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{timezoneOffset})"
-
-        const val INSERT_CONTACT_STATEMENT =
-            """
-                INSERT INTO contact
-                (
-                id,
-                user_id,
-                email,
-                telephone,
-                forum_username,
-                slack_username,
-                )
-            """
-        const val INSERT_CONTACT_VALUES = "VALUES (#{id}, #{userId}, #{email}, #{telephone}, #{forumUsername}, #{slackUsername})"
+        const val INSERT_USER_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{bio}, #{flag}, #{timezoneOffset})"
         const val UPDATE_USER_FLAG_STATEMENT =
             """
                UPDATE user

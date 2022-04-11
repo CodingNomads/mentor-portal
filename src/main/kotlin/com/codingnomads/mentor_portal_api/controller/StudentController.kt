@@ -2,6 +2,7 @@ package com.codingnomads.mentor_portal_api.controller
 
 import com.codingnomads.mentor_portal_api.entity.business.AssignMentorPayload
 import com.codingnomads.mentor_portal_api.entity.business.StudentDataRelation
+import com.codingnomads.mentor_portal_api.entity.business.StudentPostPayload
 import com.codingnomads.mentor_portal_api.entity.business.UserUpdatePayload
 import com.codingnomads.mentor_portal_api.handler.StudentHandler
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +22,11 @@ class StudentController (@Autowired private val studentHandler: StudentHandler) 
      */
     @GetMapping("/students/{studentId}")
     fun getStudentById(@PathVariable studentId: Int) = studentHandler.getStudentById(studentId)
+    /**
+     * Create a new student
+     */
+    @PostMapping("/students")
+    fun createStudent(@RequestBody payload: StudentPostPayload) = studentHandler.createStudent(payload)
     /**
      * Assign a mentor to a student
      */
