@@ -8,15 +8,15 @@
     let firstName = "";
     let lastName = "";
     let email = "";
+    let forumUsername = "";
+    let slackUsername = "";
     let telephone = "";
     let location = "";
+    let timezoneOffset = "";
     let jobInfo = "";
     let bio = "";
     let maxStudents = "";
     let proficiencies = "";
-
-    // post response
-    let post_response = "";
 
     // post request function
     async function submitMentor() {
@@ -24,17 +24,20 @@
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         }
-        const body = {
+        const body = JSON.stringify({
             firstName,
             lastName,
+            timezoneOffset,
             email,
+            forumUsername,
+            slackUsername,
             telephone,
             location,
             jobInfo,
             bio,
             maxStudents,
             proficiencies
-        }
+        })
         console.log(body)
         const response = await fetch('http://localhost:8080/api/mentors', {
             headers,
@@ -48,13 +51,12 @@
 
         // notify user whether creation was successful
         console.log(postResponse)
-        if (postResponse.status === 200) {
-            let createSuccess = postResponse.status_text;
-            alert(createSuccess)
+        if (response.ok) {
+            alert(`Successfully created mentor.\n\n${postResponse}`)
+            window.location.reload()
         }
         else {
-            let createFailure = Error(postResponse)
-            alert(createFailure.status, createFailure.error)
+            alert(`Failed to create mentor.\n\n${Error(postResponse)}`)
         }
     }
 </script>
@@ -67,17 +69,19 @@
                 <h1>Create Mentor</h1>
                 <hr>
                 
-                <InputText label="First Name" bind:value={firstName} placeholder="Ryan" />
-                <InputText label="Last Name" bind:value={lastName} placeholder="Desmond" />
-                <InputText label="Email" bind:value={email} placeholder="mentoremail@domain.com" />
+                <InputText label="First Name" bind:value={firstName} placeholder="Frodo" />
+                <InputText label="Last Name" bind:value={lastName} placeholder="Baggins" />
+                <InputText label="Email" bind:value={email} placeholder="frodofromtheshire@domain.com" />
+                <InputText label="Forum Username" bind:value={forumUsername} placeholder="littleHobbit666" />
+                <InputText label="Slack Username" bind:value={slackUsername} placeholder="frodoslack" />
                 <InputText label="telephone" bind:value={telephone} placeholder="8007006000"/>
-                <InputText label="Location" bind:value={location} placeholder="California" />
-                <InputText label="Job Info" bind:value={jobInfo} placeholder="Co-founder of CodingNomads." />
-                <InputText label="Bio" bind:value={bio}  placeholder="A few sentences about this mentor here." />
+                <InputText label="Location" bind:value={location} placeholder="Mordor" />
+                <InputText label="Timezone Offset" bind:value={timezoneOffset} placeholder="-6" />
+                <InputText label="Bio" bind:value={bio}  placeholder="Just a wee hobbit from the shire that knows data science" />
                 <InputText label="Max Students" bind:value={maxStudents} placeholder="10" />
                 <CourseCheckbox label="Proficiencies" bind:checked={proficiencies} />
                 
-                <button class="button" type="submit" on:click={submitMentor}>Submit</button>
+                <button class="button" type="submit">Submit</button>
             </form>
         </div>
     </div>

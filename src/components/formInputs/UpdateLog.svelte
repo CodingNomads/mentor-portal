@@ -7,11 +7,6 @@
     let updatedLog;
     export let flag;
 
-    // export let flaggedLogCount;
-    // export let studentFlag;
-    // export let mentorFlag;
-    // export let mentorId;
-
     async function submitUpdates() {
         let compiledLog = log + " UPDATE: " + updatedLog
         const headers = {

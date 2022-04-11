@@ -8,16 +8,16 @@
     let firstName = "";
     let lastName = "";
     let location = "";
+    let timezoneOffset = "";
     let email = "";
+    let forumUsername = "";
+    let slackUsername = "";
     let telephone = "";
     let courseTrack = "";
     let bio = "";
-    let startDate = "";
-    let endDate = "";
+    // let startDate = "";
+    // let endDate = "";
     let mentor = "";
-
-    // post response
-    let post_response = "";
 
     // post request function
     async function submitStudent() {
@@ -25,18 +25,21 @@
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         }
-        const body = {
+        const body = JSON.stringify({
             firstName,
             lastName,
             email,
+            forumUsername,
+            slackUsername,
             telephone,
             location,
+            timezoneOffset,
             courseTrack,
             bio,
-            startDate,
-            endDate,
+            // startDate,
+            // endDate,
             mentor
-        }
+        })
         console.log(body)
         const response = await fetch('http://localhost:8080/api/students', {
             headers,
@@ -46,17 +49,16 @@
             credentials: 'same-origin'
         })
         const json = await response.json()
-        post_response = JSON.stringify(json)
+        const postResponse = JSON.stringify(json)
         
         // notify user whether creation was successful
-        console.log(post_response)
-        if (post_response.status === 200) {
-            let createSuccess = post_response.status_text;
-            alert(createSuccess)
+        console.log(postResponse)
+        if (response.ok) {
+            alert(`Successfully created student.\n\n${postResponse}`)
+            window.location.reload()
         }
         else {
-            let createFailure = Error(post_response)
-            alert(createFailure.status, createFailure.error)
+            alert(`Failed to create student.\n\n${Error(postResponse)}`)
         }
     } 
 </script>
@@ -69,18 +71,21 @@
                 <h1>Create Student</h1>
                 <hr>
                 
-                <InputText label="First Name" bind:value={firstName} placeholder="Ryan" />
-                <InputText label="Last Name" bind:value={lastName} placeholder="Desmond" />
-                <InputText label="Email" bind:value={email} placeholder="studentemail@domain.com" />
+                <InputText label="First Name" bind:value={firstName} placeholder="Samwise" />
+                <InputText label="Last Name" bind:value={lastName} placeholder="Gamjee" />
+                <InputText label="Email" bind:value={email} placeholder="potatoes@domain.com" />
+                <InputText label="Forum Username" bind:value={forumUsername} placeholder="boilthem" />
+                <InputText label="Slack Username" bind:value={slackUsername} placeholder="mashthem" />
                 <InputText label="telephone" bind:value={telephone} placeholder="8007006000"/>
-                <InputText label="Location" bind:value={location} placeholder="California" />
+                <InputText label="Location" bind:value={location} placeholder="Not California" />
+                <InputText label="Timezone Offset" bind:value={timezoneOffset} placeholder="-5"/>
+                <InputText label="Bio" bind:value={bio} placeholder="A hobbit that likes stews" />
                 <CourseCheckbox label="Course Track" bind:checked={courseTrack} />
-                <InputText label="Bio" bind:value={bio} placeholder="A few sentences about this student here." />
-                <DateSelect label="Start Date" bind:value={startDate} />
-                <DateSelect label="End Date" bind:value={endDate} />
+                <!-- <DateSelect label="Start Date" bind:value={startDate} /> -->
+                <!-- <DateSelect label="End Date" bind:value={endDate} /> -->
                 <MentorDropdown label="Assign Mentor" bind:value={mentor} />
                 
-                <button class="button" type="submit" on:click={submitStudent}>Submit</button>
+                <button class="button" type="submit">Submit</button>
             </form>
         </div>
     </div>
