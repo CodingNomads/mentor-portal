@@ -1,0 +1,11 @@
+auth0:
+  audience: mentor-portal-dev
+  issuer: 'https://dev-0xs8ho26.us.auth0.com/'
+  jwks: https://dev-0xs8ho26.us.auth0.com/.well-known/jwks.json
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://database:3306/mentor_portal_db_dev?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: password
