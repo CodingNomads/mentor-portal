@@ -1,9 +1,22 @@
 version: '3.7'
 
 services:
-  server:
+
+  client:
+    container_name: client
     build:
-      context: .
+      context: ./service/mentor-portal-client
+      dockerfile: Dockerfile
+    hostname: localhost
+    ports:
+      - 5000:5000
+    networks:
+      - front-end
+
+  server:
+    container_name: server
+    build:
+      context: ./service/mentor-portal-api
       dockerfile: Dockerfile
       args:
         DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5080
@@ -33,7 +46,7 @@ services:
       # Opens port 3306 on the container
       - '3306'
     volumes:
-      - ./docker/database:/docker-entrypoint-initdb.d
+      - ./service/mentor-portal-db:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
     cap_add:
       - SYS_NICE  # CAP_SYS_NICE
@@ -44,5 +57,6 @@ volumes:
 
 networks:
   mentor-portal-data:
+    name: mentor-portal-data
   front-end:
-    external: true
+    name: front-end
