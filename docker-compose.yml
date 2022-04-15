@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile
     hostname: localhost
     ports:
-      - 5000:5000
+      - ${FRONTEND_PORTS}:${FRONTEND_PORTS}
     networks:
       - front-end
 
@@ -21,8 +21,14 @@ services:
       args:
         DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5080
     ports:
-      - 8080:8080
-      - 5080:5080
+        - ${API_PORTS_ONE}:${API_PORTS_ONE}
+        - ${API_PORTS_TWO}:${API_PORTS_TWO}
+    environment:
+      - DATABASE_ROOT
+      - EXPOSED_DB_PORT
+      - MYSQL_DATABASE_NAME
+      - MYSQL_DATABASE_USER
+      - MYSQL_DATABASE_PASSWORD
     hostname: localhost
     restart: unless-stopped
     networks:
@@ -33,18 +39,18 @@ services:
 
   database:
     container_name: database
-    image: mysql:8.0
+    image: 'mysql:${MYSQL_VERSION}'
     restart: always
     networks:
       - mentor-portal-data
     environment:
-      MYSQL_DATABASE: 'mentor_portal_db_dev'
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
     ports:
-      - '3306:3306'
+      - ${MYSQL_DATABASE_PORTS}
     expose:
-      # Opens port 3306 on the container
-      - '3306'
+      # Opens desired port on the container
+      - ${EXPOSED_DB_PORT}
     volumes:
       - ./service/mentor-portal-db:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql

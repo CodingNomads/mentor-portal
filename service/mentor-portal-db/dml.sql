@@ -52,8 +52,9 @@ VALUES (2, 1, 'Scheduled 1:1', 0, 25, 'logging some support for student1.'),
 
 INSERT INTO `user_config_option` (option_name, description, is_sensitive)
 VALUES ("maxStudents", "The maximum students a mentor can be assigned.", 0),
-       ("proficiencies", "The programming language(s) a mentor id proficient with", 0),
-       ("courseTrack", "The mentorship program a student is enrolled in", 0);
+       ("proficiencies", "The programming language(s) a mentor id proficient with.", 0),
+       ("courseTrack", "The course a student is enrolled in.", 0),
+       ("mentorshipOption", "The mentorship option a student is enrolled in.", 0);
 
 INSERT INTO `user_config_value` (user_id, option_id, value)
 VALUES (2, 1, "10"),

@@ -6,6 +6,6 @@ auth0:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://database:3306/mentor_portal_db_dev?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: password
+    url: jdbc:mysql://${DATABASE_ROOT}:${EXPOSED_DB_PORT}/${MYSQL_DATABASE_NAME}?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: ${MYSQL_DATABASE_USER}
+    password: ${MYSQL_DATABASE_PASSWORD}
