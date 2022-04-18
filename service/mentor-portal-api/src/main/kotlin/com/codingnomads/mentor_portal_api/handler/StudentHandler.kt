@@ -2,6 +2,7 @@ package com.codingnomads.mentor_portal_api.handler
 
 import com.codingnomads.mentor_portal_api.entity.business.*
 import com.codingnomads.mentor_portal_api.entity.data.*
+import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
 
@@ -110,31 +111,38 @@ class StudentHandler(
     /**
      * Create a student
      */
-    fun createStudent(studentPostPayload: StudentPostPayload): StudentDataRelation {
+    fun createStudent(studentPostPayload: StudentPostPayload): StudentDataRelation{
+        // validate courseTrack sent in studentPostPayload
+        val courseTrackLowerCase = studentPostPayload.courseTrack.map { it.lowercase() }
+        val courseTrackVerification = CourseOption.values().filter { it.title == courseTrackLowerCase[0] }
         println(studentPostPayload)
-        // user table fields
-        val userRow = UserRow(
-            firstName = studentPostPayload.firstName,
-            lastName = studentPostPayload.lastName,
-            roleCode = 20,
-            statusCode = 100,
-            flag = false,
-            bio = studentPostPayload.bio,
-            timezoneOffset = studentPostPayload.timezoneOffset
-        )
-        userMapper.insertUser(userRow)
-        val userId = userRow.id!!
+        println(courseTrackLowerCase)
+        println(courseTrackVerification)
+        // if courseTrack is valid
+        if (courseTrackVerification.isNotEmpty()){
+            // user table fields
+            val userRow = UserRow(
+                firstName = studentPostPayload.firstName,
+                lastName = studentPostPayload.lastName,
+                roleCode = 20,
+                statusCode = 100,
+                flag = false,
+                bio = studentPostPayload.bio,
+                timezoneOffset = studentPostPayload.timezoneOffset
+            )
+            userMapper.insertUser(userRow)
+            val userId = userRow.id!!
 
-        // contact table fields
-        val contactRow = ContactRow(
-            userId = userId,
-            email = studentPostPayload.email,
-            telephone = studentPostPayload.telephone,
-            location = studentPostPayload.location,
-            forumUsername = studentPostPayload.forumUsername,
-            slackUsername = studentPostPayload.slackUsername
-        )
-        contactMapper.insertContact(contactRow)
+            // contact table fields
+            val contactRow = ContactRow(
+                userId = userId,
+                email = studentPostPayload.email,
+                telephone = studentPostPayload.telephone,
+                location = studentPostPayload.location,
+                forumUsername = studentPostPayload.forumUsername,
+                slackUsername = studentPostPayload.slackUsername
+            )
+            contactMapper.insertContact(contactRow)
 
 //        // security table fields
 //        val securityRow = SecurityRow(
@@ -145,60 +153,62 @@ class StudentHandler(
 //        )
 //        securityMapper.insertSecurity(securityRow)
 
-        // config data
-        val courseTrackOptionRow = userConfigOptionMapper.selectOptionByName("courseTrack")
-        val courseTrackValueRow = ConfigValueRow(
-            optionId = courseTrackOptionRow.id,
-            userId = userId,
-            value = studentPostPayload.courseTrack[0]
-        )
-        userConfigValueMapper.insertConfigValue(courseTrackValueRow)
+            // config data
+            val courseTrackOptionRow = userConfigOptionMapper.selectOptionByName("courseTrack")
+            val courseTrackValueRow = ConfigValueRow(
+                optionId = courseTrackOptionRow.id,
+                userId = userId,
+                value = studentPostPayload.courseTrack[0]
+            )
+            userConfigValueMapper.insertConfigValue(courseTrackValueRow)
 
-        // assign mentor if studentPostPayload.assignedMentors != null
-        // otherwise make assignedMentors and empty list
-        if (studentPostPayload.assignedMentors != null) {
-            val mentorStudentLookUpRow = MentorStudentLookupRow(
-                mentorId = studentPostPayload.assignedMentors.id!!,
-                studentId = userId,
-                statusCode = 100
-            )
-            mentorStudentLookupMapper.insertMentorStudentLookup(mentorStudentLookUpRow)
-            val assignedMentors = mentorMapper.selectAssignedMentor(userId)
-            return StudentDataRelation(
-                id = userId,
-                firstName = userRow.firstName,
-                lastName = userRow.lastName,
-                roleCode = userRow.roleCode,
-                statusCode = userRow.statusCode,
-                flag = userRow.flag,
-                bio = userRow.bio,
-                location = contactRow.location,
-                email = contactRow.email,
-                telephone = contactRow.telephone,
-                forumUsername = contactRow.forumUsername,
-                slackUsername = contactRow.slackUsername,
-                assignedMentors = assignedMentors,
-                courseTrack = courseTrackValueRow.value
-            )
-        }else{
-            return StudentDataRelation(
-                id = userId,
-                firstName = userRow.firstName,
-                lastName = userRow.lastName,
-                roleCode = userRow.roleCode,
-                statusCode = userRow.statusCode,
-                flag = userRow.flag,
-                bio = userRow.bio,
-                location = contactRow.location,
-                email = contactRow.email,
-                telephone = contactRow.telephone,
-                forumUsername = contactRow.forumUsername,
-                slackUsername = contactRow.slackUsername,
-                assignedMentors = mutableListOf(),
-                courseTrack = courseTrackValueRow.value
-            )
+            // assign mentor if studentPostPayload.assignedMentors != null
+            // otherwise make assignedMentors and empty list
+            if (studentPostPayload.assignedMentors != null) {
+                val mentorStudentLookUpRow = MentorStudentLookupRow(
+                    mentorId = studentPostPayload.assignedMentors.id!!,
+                    studentId = userId,
+                    statusCode = 100
+                )
+                mentorStudentLookupMapper.insertMentorStudentLookup(mentorStudentLookUpRow)
+                val assignedMentors = mentorMapper.selectAssignedMentor(userId)
+                return StudentDataRelation(
+                    id = userId,
+                    firstName = userRow.firstName,
+                    lastName = userRow.lastName,
+                    roleCode = userRow.roleCode,
+                    statusCode = userRow.statusCode,
+                    flag = userRow.flag,
+                    bio = userRow.bio,
+                    location = contactRow.location,
+                    email = contactRow.email,
+                    telephone = contactRow.telephone,
+                    forumUsername = contactRow.forumUsername,
+                    slackUsername = contactRow.slackUsername,
+                    assignedMentors = assignedMentors,
+                    courseTrack = courseTrackValueRow.value
+                )
+            }else{
+                return StudentDataRelation(
+                    id = userId,
+                    firstName = userRow.firstName,
+                    lastName = userRow.lastName,
+                    roleCode = userRow.roleCode,
+                    statusCode = userRow.statusCode,
+                    flag = userRow.flag,
+                    bio = userRow.bio,
+                    location = contactRow.location,
+                    email = contactRow.email,
+                    telephone = contactRow.telephone,
+                    forumUsername = contactRow.forumUsername,
+                    slackUsername = contactRow.slackUsername,
+                    assignedMentors = mutableListOf(),
+                    courseTrack = courseTrackValueRow.value
+                )
+            }
+        } else {
+            throw Exception("Invalid courseTrack submitted")
         }
-
     }
     /**
      * Assign a mentor to a student
