@@ -8,7 +8,8 @@
     export let flag;
 
     async function submitUpdates() {
-        let compiledLog = log + " UPDATE: " + updatedLog
+        const compiledLog = log + " UPDATE: " + updatedLog
+        const url = API_BASE_URL + `/api/${userId}/supportLogs/${supportLogId}`
         const headers = {
             "Content-type": "application/json",
             "Access-Control-Allow-Origin": "*"
@@ -19,7 +20,7 @@
             "flag": flag,
             "log": compiledLog
         })
-        const response = await fetch(`http://localhost:8080/api/${userId}/supportLogs/${supportLogId}`,{
+        const response = await fetch(url,{
             headers,
             body,
             method: "PUT",

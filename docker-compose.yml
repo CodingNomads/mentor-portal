@@ -10,6 +10,8 @@ services:
     hostname: localhost
     ports:
       - ${FRONTEND_PORTS}:${FRONTEND_PORTS}
+    environment:
+      - API_BASE_URL
     networks:
       - front-end
 
@@ -29,6 +31,9 @@ services:
       - MYSQL_DATABASE_NAME
       - MYSQL_DATABASE_USER
       - MYSQL_DATABASE_PASSWORD
+      - AUDIENCE
+      - ISSUER_URL
+      - VERIFICATION_OBJECT
     hostname: localhost
     restart: unless-stopped
     networks:

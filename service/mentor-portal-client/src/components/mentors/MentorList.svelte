@@ -1,27 +1,25 @@
 <script>
     import { onMount, onDestroy } from "svelte"; 
     import NavBar from "../../components/NavBar.svelte";
-    import UpdateFlag from "../formInputs/UpdateFlag.svelte";
 
     export let mentorList = [];
-    export let filteredMentors = [];
-    let falseFlag = false    
+    export let filteredMentors = [];   
 
     let searchMentors = (e) => {
         const searchString = e.target.value
         filteredMentors = mentorList.filter(mentor => {
            return mentor.firstName.includes(searchString) || mentor.lastName.includes(searchString)
         });
-        console.log(filteredMentors)
     };
 
     onMount(async () => {
-        const response = await fetch("http://localhost:8080/api/mentors", {
+        const url = API_BASE_URL + "/api/mentors"
+        const response = await fetch(url, {
             mode: 'cors',
             credentials: "same-origin"
         })
         mentorList = await response.json()
-        console.log(mentorList)
+        // console.log(mentorList)
     })
 
     onDestroy(mentorList, filteredMentors)

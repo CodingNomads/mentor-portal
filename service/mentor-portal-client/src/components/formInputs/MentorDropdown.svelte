@@ -6,7 +6,8 @@
     export let selectedMentor;
 
     onMount(async function getMentors() {
-        const response = await fetch("http://localhost:8080/api/mentors", {
+        const url = API_BASE_URL + "/api/mentors"
+        const response = await fetch(url, {
             mode: 'cors',
             credentials: "same-origin"
         })

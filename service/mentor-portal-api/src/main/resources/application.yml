@@ -1,6 +1,6 @@
 auth0:
-  audience: mentor-portal-dev
-  issuer: 'https://dev-0xs8ho26.us.auth0.com/'
+  audience: ${AUDIENCE}
+  issuer: ${ISSUER_URL}
   jwks: https://dev-0xs8ho26.us.auth0.com/.well-known/jwks.json
 
 spring:

@@ -4,8 +4,8 @@
     export let studentId;
     export let updatedBio;
 
-    let mentorUrl = `http://localhost:8080/api/mentors/${mentorId}`;
-    let studentUrl = `http://localhost:8080/api/students/${studentId}`;
+    let mentorUrl = API_BASE_URL + `/api/mentors/${mentorId}`;
+    let studentUrl = API_BASE_URL + `/api/students/${studentId}`;
 
     async function submitUpdate() {
         console.log(typeof(mentorId))

@@ -20,6 +20,7 @@
 
     // post request function
     async function submitMentor() {
+        const url = API_BASE_URL + "/api/mentors"
         const headers = {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
@@ -39,7 +40,7 @@
             proficiencies
         })
         console.log(body)
-        const response = await fetch('http://localhost:8080/api/mentors', {
+        const response = await fetch(url, {
             headers,
             body,
             method: 'POST',

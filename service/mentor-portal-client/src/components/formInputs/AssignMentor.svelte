@@ -7,8 +7,7 @@
     export let student;
 
     async function assign(){
-        // let mentorId = mentor.id
-        // let studentId = student.id
+        const url = API_BASE_URL + "/api/assignMentor"
         const headers = {
             "Content-type": "application/json",
             "Access-Control-Allow-Origin": "*"
@@ -17,7 +16,7 @@
             "mentorId": mentor.id,
             "studentId": student.id
         })
-        const response = await fetch(`http://localhost:8080/api/assignMentor`, {
+        const response = await fetch(url, {
             headers,
             body,
             method: "POST",

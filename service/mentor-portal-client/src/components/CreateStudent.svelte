@@ -21,6 +21,7 @@
 
     // post request function
     async function submitStudent() {
+        const url = API_BASE_URL + "/api/students"
         const headers = {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
@@ -38,10 +39,10 @@
             bio,
             // startDate,
             // endDate,
-            mentor
+            assignedMentors
         })
         console.log(body)
-        const response = await fetch('http://localhost:8080/api/students', {
+        const response = await fetch(url, {
             headers,
             body,
             method: 'POST',

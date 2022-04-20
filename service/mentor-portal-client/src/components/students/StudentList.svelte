@@ -16,16 +16,16 @@
         filteredStudents = studentList.filter(student => {
            return student.firstName.includes(searchString) || student.lastName.includes(searchString)
         });
-        console.log(filteredStudents)
     };
 
     onMount(async () => {
-        const response = await fetch("http://localhost:8080/api/students", {
+        const url = API_BASE_URL + "/api/students"
+        const response = await fetch(url, {
             mode: 'cors',
             credentials: "same-origin"
         })
         studentList = await response.json()
-        console.log(studentList)
+        // console.log(studentList)
     })
 
     onDestroy(studentList, filteredStudents)

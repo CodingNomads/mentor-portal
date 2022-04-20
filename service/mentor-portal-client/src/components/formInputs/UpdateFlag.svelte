@@ -3,8 +3,8 @@
     export let mentorId;
     export let flag;
     
-    const mentorEndpoint = `http://localhost:8080/api/mentors/${mentorId}`;
-    const studentEndpoint = `http://localhost:8080/api/students/${studentId}`
+    const mentorEndpoint = API_BASE_URL + `/api/mentors/${mentorId}`;
+    const studentEndpoint = API_BASE_URL + `/api/students/${studentId}`;
 
     async function updateFlag() {
         // submit user flag update to DB
