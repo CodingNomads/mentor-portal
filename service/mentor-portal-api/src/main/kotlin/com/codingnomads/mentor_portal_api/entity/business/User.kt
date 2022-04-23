@@ -1,6 +1,7 @@
 package com.codingnomads.mentor_portal_api.entity.business
 
 import com.codingnomads.mentor_portal_api.entity.data.UserRow
+import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class User(
     val id: Int? = null,

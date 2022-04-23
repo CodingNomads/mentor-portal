@@ -1,8 +1,12 @@
 package com.codingnomads.mentor_portal_api.handler
 
 import com.codingnomads.mentor_portal_api.entity.business.User
+import com.codingnomads.mentor_portal_api.entity.business.UserLoginPayload
+import com.codingnomads.mentor_portal_api.entity.business.UserSecurityDTO
 import com.codingnomads.mentor_portal_api.entity.data.UserRow
+import com.codingnomads.mentor_portal_api.mapper.SecurityMapper
 import com.codingnomads.mentor_portal_api.mapper.UserMapper
+import com.codingnomads.mentor_portal_api.security.JwtHandler
 import org.springframework.stereotype.Component
 
 /**

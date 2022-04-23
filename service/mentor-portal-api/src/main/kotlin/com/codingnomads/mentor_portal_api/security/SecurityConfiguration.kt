@@ -11,20 +11,24 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-class SecurityConfiguration : WebSecurityConfigurerAdapter() {
+class SecurityConfiguration : WebSecurityConfigurerAdapter(
+
+) {
     @Autowired
     lateinit var filter: JwtAuthorizationFilter
+    lateinit var authEntryPoint: AuthEntryPoint
 
     override fun configure(http: HttpSecurity?) {
         http?.let {
             it.cors().and()
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET).permitAll()
-                .and()
-                .addFilterBefore(filter, BasicAuthenticationFilter::class.java)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests().antMatchers("/api/**").permitAll()
+                .antMatchers("/status").permitAll()
+                .anyRequest().authenticated();
+
+            http.addFilterBefore(filter, BasicAuthenticationFilter::class.java)
         }
     }
 }

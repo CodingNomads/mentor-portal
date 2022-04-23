@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 @Component
-class JwtAuthorizationFilter(val verifier: Verifier) : OncePerRequestFilter() {
+class JwtAuthorizationFilter(private val jwtHandler: JwtHandler) : OncePerRequestFilter() {
     companion object {
         private fun String.extractToken() = if (startsWith("Bearer "))
             split(" ").last()
@@ -22,9 +22,15 @@ class JwtAuthorizationFilter(val verifier: Verifier) : OncePerRequestFilter() {
         filterChain: FilterChain
     ) {
 
+        val token: String? = request.getHeader(Headers.AUTHORIZATION)?.extractToken()
+        if (token != null) {
+
+        }
+
+
         request.getHeader(Headers.AUTHORIZATION)?.let { header ->
             header.extractToken()?.let { jwt ->
-                verifier.verify(jwt).orNull().let { token ->
+                jwtHandler.verify(jwt).let { token ->
                     SecurityContextHolder.getContext().authentication = token
                 }
             }
