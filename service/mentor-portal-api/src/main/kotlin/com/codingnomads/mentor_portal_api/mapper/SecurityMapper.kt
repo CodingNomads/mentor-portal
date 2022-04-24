@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Select
+import org.springframework.context.annotation.Bean
 
 @Mapper
 interface SecurityMapper {
@@ -44,7 +45,6 @@ interface SecurityMapper {
                 JOIN security on user_id = contact.user_id
                 JOIN user on user.id = contact.user_id
                 WHERE email = #{value}
-                
             """
     }
 }
