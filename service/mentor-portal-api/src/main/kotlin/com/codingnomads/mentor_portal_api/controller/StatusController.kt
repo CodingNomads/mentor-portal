@@ -17,6 +17,7 @@ class StatusController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(status)
     }
 
+    @PreAuthorize("hasAuthority('admin:read')")
     @GetMapping("status-admin")
     fun getStatusAuthorized(): ResponseEntity<Status> {
         val status = Status("Ok")
