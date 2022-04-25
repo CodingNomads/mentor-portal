@@ -20,17 +20,17 @@ VALUES ('student 1', 'smith', 20, 100, 1, '-8', 'Bio for student1 with their goa
        ('student', 'smith', 20, 100, 1, "-5", 'Bio for student with their goals');
 
 INSERT INTO `security` (user_id, username, password_hash, is_admin)
-VALUES (1, 'username1', 'placeholder until real hash', 0),
-       (2, 'username2', 'placeholder until real hash', 1),
-       (3, 'username3', 'placeholder until real hash', 0),
-       (4, 'username4', 'placeholder until real hash', 0),
-       (5, 'username5', 'placeholder until real hash', 0),
-       (6, 'username6', 'placeholder until real hash', 1),
-       (7, 'username7', 'placeholder until real hash', 0);
+VALUES (1, 'username1', '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 0),
+       (2, 'username2', '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 1),
+       (3, 'username3', '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 0),
+       (4, 'username4', '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 0),
+       (5, 'username5', '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 0),
+       (6, 'username6', '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 1),
+       (7, 'username7', '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 0);
 
 INSERT INTO `contact` (user_id, email, telephone, location, forum_username, slack_username)
 VALUES (1, 'email1@email.com', '8009001234', 'London', 'forum_username1', 'slack me'),
-       (2, 'email2@email.com', '8009001234', 'Tokyo', 'forum_username2', 'slack me'),
+       (2, 'admin@email.com', '8009001234', 'Tokyo', 'forum_username2', 'slack me'),
        (3, 'email3@email.com', '8009001234', 'Calgary', 'forum_username3', 'slack me'),
        (4, 'email4@email.com', '8009001234', 'Oregon', 'forum_username4', 'slack me'),
        (5, 'email5@email.com', '8009001234', 'Vienna', 'forum_username5', 'slack me'),
