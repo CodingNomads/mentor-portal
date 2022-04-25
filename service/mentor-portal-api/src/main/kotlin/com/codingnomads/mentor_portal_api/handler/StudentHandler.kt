@@ -125,14 +125,16 @@ class StudentHandler(
      */
     fun createStudent(studentPostPayload: StudentPostPayload): StudentDataRelation{
         // validate courseTrack sent in studentPostPayload
-        val courseTrackLowerCase = studentPostPayload.courseTrack.map { it.lowercase() }
-        val courseTrackVerification = CourseOption.values().filter { it.title == courseTrackLowerCase[0] }
+        val courseTrackLowerCase = studentPostPayload.courseTrack.lowercase()
+        val courseTrackVerification = CourseOption.values().filter { it.title == courseTrackLowerCase }
         // validate the mentorshipOption sent in the student payload
-        val mentorshipOptionLowercase = studentPostPayload.mentorshipOption.map { it.lowercase() }
-        val mentorshipOptionVerification = MentorshipOption.values().filter { it.title == mentorshipOptionLowercase[0] }
+        val mentorshipOptionLowercase = studentPostPayload.mentorshipOption.lowercase()
+        val mentorshipOptionVerification = MentorshipOption.values().filter { it.title == mentorshipOptionLowercase }
         println(studentPostPayload)
         println(courseTrackLowerCase)
         println(courseTrackVerification)
+        println(mentorshipOptionLowercase)
+        println(mentorshipOptionVerification)
         // if courseTrack is valid
         if (courseTrackVerification.isNotEmpty() && mentorshipOptionVerification.isNotEmpty()){
             // user table fields
@@ -174,7 +176,7 @@ class StudentHandler(
             val courseTrackValueRow = ConfigValueRow(
                 optionId = courseTrackOptionRow.id,
                 userId = userId,
-                value = studentPostPayload.courseTrack[0]
+                value = studentPostPayload.courseTrack
             )
             userConfigValueMapper.insertConfigValue(courseTrackValueRow)
             // mentorshipOption

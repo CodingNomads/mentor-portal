@@ -13,10 +13,10 @@
             "Access-Control-Allow-Origin": "*"
         }
         if(label === "updatedCourseTrack"){
-            const body = {
+            const body = JSON.stringify({
                 "userId": userId,
                 "courseTrack": value,
-            }
+            })
             console.log(body)
             const response = await fetch(url, {
                 headers,
@@ -34,10 +34,10 @@
             }
         };
         if(label === "updatedMentorshipOption"){
-            const body = {
+            const body = JSON.stringify({
                 "userId": userId,
                 "mentorshipOption": value,
-            }
+            })
             const response = await fetch(url, {
                 headers,
                 body,

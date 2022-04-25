@@ -1,10 +1,10 @@
 package com.codingnomads.mentor_portal_api.entity.enum
 
 enum class MentorshipOption(val title: String) {
-    monthToMonth("Month-to-Month"),
-    threeMonthProgram("3-Month Program"),
-    javaCareer("Java Career"),
-    pythonWebDevCareer("Python Web Dev Career"),
-    pythonDsmlCareer("Python DSML Career"),
+    monthToMonth("month-to-month"),
+    threeMonthProgram("3-month program"),
+    javaCareer("java career"),
+    pythonWebDevCareer("python web wev career"),
+    pythonDsmlCareer("python dsml career"),
     other("Other")
 }

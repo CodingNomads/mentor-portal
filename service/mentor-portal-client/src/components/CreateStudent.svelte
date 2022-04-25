@@ -4,6 +4,7 @@
     import MentorDropdown from './formInputs/MentorDropdown.svelte';
     import InputText from './formInputs/InputText.svelte';
 import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
+import CourseDropdown from './formInputs/CourseDropdown.svelte';
 
     // post request body/payload
     let firstName = "";
@@ -29,20 +30,20 @@ import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
             'Access-Control-Allow-Origin': '*'
         }
         const body = JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            forumUsername,
-            slackUsername,
-            telephone,
-            location,
-            timezoneOffset,
-            courseTrack,
-            mentorshipOption,
-            bio,
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "forumUsername": forumUsername,
+            "slackUsername": slackUsername,
+            "telephone": telephone,
+            "location": location,
+            "timezoneOffset": timezoneOffset,
+            "courseTrack": courseTrack,
+            "mentorshipOption": mentorshipOption,
+            "bio": bio,
             // startDate,
             // endDate,
-            assignedMentors
+            "assignedMentors": assignedMentors
         })
         console.log(body)
         const response = await fetch(url, {
@@ -58,7 +59,7 @@ import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
         // notify user whether creation was successful
         console.log(postResponse)
         if (response.ok) {
-            alert(`Successfully created student.\n\n${postResponse}`)
+            alert(`Successfully created student.`)
             window.location.reload()
         }
         else {
@@ -84,7 +85,7 @@ import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
                 <InputText label="Location" bind:value={location} placeholder="Not California" />
                 <InputText label="Timezone Offset" bind:value={timezoneOffset} placeholder="-5"/>
                 <InputText label="Bio" bind:value={bio} placeholder="A hobbit that likes stews" />
-                <CourseCheckbox label="Course Track" bind:checked={courseTrack} />
+                <CourseDropdown label="Course Track" bind:value={courseTrack} />
                 <MentorshipDropdown label="Mentorship Option" bind:value={mentorshipOption} />
                 <!-- <DateSelect label="Start Date" bind:value={startDate} /> -->
                 <!-- <DateSelect label="End Date" bind:value={endDate} /> -->
