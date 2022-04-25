@@ -60,12 +60,15 @@ INSERT INTO `user_config_value` (user_id, option_id, value)
 VALUES (2, 1, "10"),
        (4, 1, "10"),
        (6, 1, "10"),
-       (2, 2, "python"),
-       (4, 2, "python"),
-       (4, 2, "java"),
-       (1, 3, "Python Web Dev Career"),
-       (3, 3, "Java Career"),
-       (5, 3, "Month-to-Month"),
-       (7, 3, "Month-to-Month"),
-       (6, 2, "python");
+       (2, 2, "Python Programming"),
+       (4, 2, "Python Programming"),
+       (4, 2, "Java Programming"),
+       (1, 3, "Python Programming"),
+       (1, 4, "Python DSML Career"),
+       (3, 3, "Java Programming"),
+       (3, 4, "Java Career"),
+       (5, 3, "Javascript"),
+       (5, 4, "Month-to-Month"),
+       (7, 3, "Javascript"),
+       (6, 2, "Python Programming");
 

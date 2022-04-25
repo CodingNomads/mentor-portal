@@ -27,5 +27,6 @@ data class StudentPostPayload(
      * config
      */
     val courseTrack: List<String>,
+    val mentorshipOption: String,
     val assignedMentors: MentorData? = null
 )

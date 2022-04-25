@@ -3,11 +3,15 @@
 </script>
 
 {#if mentor.assignedStudents.length > 0}
+
+<ol>
 {#each mentor.assignedStudents as student (student.id)}
-<div class="column is-left">
-    <a class="button is-link is-small is-light" href="/students/{student.id}">{student.firstName} {student.lastName} ({student.forumUsername})</a>
+<div class="column">
+     <li><a class="is-link is-small" href="/students/{student.id}">{student.firstName} {student.lastName} ({student.forumUsername})</a></li>
 </div>
-{/each} 
+{/each}
+</ol> 
+
 {:else}  
 <div class="box">
     This mentor currently has no students

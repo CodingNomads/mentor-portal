@@ -93,7 +93,6 @@ interface UserMapper {
             timezone_offset
             )
             """
-
         const val INSERT_USER_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{bio}, #{flag}, #{timezoneOffset})"
         const val UPDATE_USER_FLAG_STATEMENT =
             """

@@ -3,6 +3,7 @@
     import DateSelect from './formInputs/DateSelect.svelte';
     import MentorDropdown from './formInputs/MentorDropdown.svelte';
     import InputText from './formInputs/InputText.svelte';
+import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
 
     // post request body/payload
     let firstName = "";
@@ -14,10 +15,11 @@
     let slackUsername = "";
     let telephone = "";
     let courseTrack = "";
+    let mentorshipOption = "";
     let bio = "";
     // let startDate = "";
     // let endDate = "";
-    let mentor = "";
+    let assignedMentors = "";
 
     // post request function
     async function submitStudent() {
@@ -36,6 +38,7 @@
             location,
             timezoneOffset,
             courseTrack,
+            mentorshipOption,
             bio,
             // startDate,
             // endDate,
@@ -82,9 +85,10 @@
                 <InputText label="Timezone Offset" bind:value={timezoneOffset} placeholder="-5"/>
                 <InputText label="Bio" bind:value={bio} placeholder="A hobbit that likes stews" />
                 <CourseCheckbox label="Course Track" bind:checked={courseTrack} />
+                <MentorshipDropdown label="Mentorship Option" bind:value={mentorshipOption} />
                 <!-- <DateSelect label="Start Date" bind:value={startDate} /> -->
                 <!-- <DateSelect label="End Date" bind:value={endDate} /> -->
-                <MentorDropdown label="Assign Mentor" bind:value={mentor} />
+                <MentorDropdown label="Assign Mentor" bind:value={assignedMentors} />
                 
                 <button class="button" type="submit">Submit</button>
             </form>

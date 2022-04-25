@@ -14,5 +14,6 @@ data class StudentDataRelation(
     val forumUsername: String,
     val slackUsername: String,
     val assignedMentors: List<MentorData>,
-    val courseTrack: String? = null
+    val courseTrack: String? = null,
+    val mentorshipOption: String? = null
 )

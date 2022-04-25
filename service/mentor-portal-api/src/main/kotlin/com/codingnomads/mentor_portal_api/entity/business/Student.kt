@@ -15,5 +15,6 @@ data class Student(
     val slackUsername: String,
     val assignedMentors: List<MentorData>? = null,
     val supportLog: List<SupportLog>? = null,
-    val courseTrack: String? = null
+    val courseTrack: String? = null,
+    val mentorshipOption: String? = null
 )
