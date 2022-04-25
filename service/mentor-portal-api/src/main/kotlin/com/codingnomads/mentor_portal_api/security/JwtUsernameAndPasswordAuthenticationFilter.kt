@@ -1,16 +1,14 @@
 package com.codingnomads.mentor_portal_api.security
 
-import com.codingnomads.mentor_portal_api.entity.business.UserSecurityDTO
+import com.codingnomads.mentor_portal_api.entity.business.UserLoginPayload
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.util.*
 import javax.servlet.FilterChain
@@ -23,15 +21,15 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
 
         val objectMapper = jacksonObjectMapper()
 
-        val userSecurityDTO: UserSecurityDTO
+        val userLoginPayload: UserLoginPayload
 
         if (request != null) {
-            userSecurityDTO = objectMapper.readValue(request.inputStream)
+            userLoginPayload = objectMapper.readValue(request.inputStream)
             val authentication = UsernamePasswordAuthenticationToken(
                 // principle
-                userSecurityDTO.username,
+                userLoginPayload.username,
                 //password
-                userSecurityDTO.password
+                userLoginPayload.password
             )
 
             return authenticationManager.authenticate(authentication)
@@ -40,7 +38,6 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
         }
 
     }
-
 
     override fun successfulAuthentication(
         request: HttpServletRequest?,
@@ -60,6 +57,4 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
             response?.addHeader("Authorization", "Bearer $compactJwt")
         }
     }
-
-
 }

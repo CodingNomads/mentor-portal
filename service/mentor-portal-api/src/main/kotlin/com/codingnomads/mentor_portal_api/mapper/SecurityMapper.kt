@@ -1,12 +1,11 @@
 package com.codingnomads.mentor_portal_api.mapper
 
-import com.codingnomads.mentor_portal_api.entity.business.UserSecurityDTO
+import com.codingnomads.mentor_portal_api.entity.business.UserSecurityRow
 import com.codingnomads.mentor_portal_api.entity.data.SecurityRow
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Select
-import org.springframework.context.annotation.Bean
 
 @Mapper
 interface SecurityMapper {
@@ -18,7 +17,7 @@ interface SecurityMapper {
     fun insertSecurity(securityRow: SecurityRow)
 
     @Select(SELECT_USER_SECURITY_DETAILS)
-    fun getUserSecurityDetails(email: String): UserSecurityDTO
+    fun getUserSecurityDetails(email: String): UserSecurityRow
 
     companion object{
         const val INSERT_SECURITY_STATEMENT =
@@ -42,9 +41,10 @@ interface SecurityMapper {
                 security.is_admin,
                 user.status_code
                 FROM contact
-                JOIN security on user_id = contact.user_id
+                JOIN security on security.user_id = contact.user_id
                 JOIN user on user.id = contact.user_id
-                WHERE email = #{value}
+                WHERE contact.email = #{value}
+                LIMIT 1
             """
     }
 }

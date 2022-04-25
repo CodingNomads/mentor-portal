@@ -1,3 +1,9 @@
+app:
+  jwt:
+    secret: "APP_SECRET"
+    token-prefix: "Bearer "
+    tokenExpirationAfterDays: 14
+
 auth0:
   audience: mentor-portal-dev
   issuer: 'https://dev-0xs8ho26.us.auth0.com/'
