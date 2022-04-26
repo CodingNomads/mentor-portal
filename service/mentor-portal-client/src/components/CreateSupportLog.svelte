@@ -29,7 +29,8 @@
             "logDate": logDate
         })
         console.log(body)
-        const response = await fetch("http://localhost:8080/api/supportLog", {
+        const url = API_BASE_URL + `/api/supportLog`
+        const response = await fetch(url, {
             headers,
             body,
             method: "POST",

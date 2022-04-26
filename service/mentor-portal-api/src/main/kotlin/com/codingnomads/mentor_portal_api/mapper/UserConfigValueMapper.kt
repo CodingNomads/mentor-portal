@@ -1,13 +1,11 @@
 package com.codingnomads.mentor_portal_api.mapper
 
-import com.codingnomads.mentor_portal_api.entity.business.CourseTrackData
-import com.codingnomads.mentor_portal_api.entity.business.MaxStudentData
-import com.codingnomads.mentor_portal_api.entity.business.ProficienciesData
-import com.codingnomads.mentor_portal_api.entity.business.UserConfigData
+import com.codingnomads.mentor_portal_api.entity.business.*
 import com.codingnomads.mentor_portal_api.entity.data.ConfigValueRow
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Update
 
 @Mapper
 interface UserConfigValueMapper {
@@ -41,8 +39,29 @@ interface UserConfigValueMapper {
     @Select(SELECT_COURSE_TRACK_STATEMENT)
     fun selectStudentCourseTrack(studentId: Int): CourseTrackData
 
+    /**
+     * Select a students mentorshipOption
+     */
+    @Select(SELECT_MENTORSHIP_OPTION_STATEMENT)
+    fun selectStudentMentorShipOption(studentId: Int): MentorshipOptionData
+
+    /**
+     * create student config values: courseTrack and mentorshipOption
+     */
     @Insert(INSERT_CONFIG_VALUE_STATEMENT + INSERT_CONFIG_VALUE_VALUES)
     fun insertConfigValue(configValueRow: ConfigValueRow)
+
+    /**
+     * Update student config value: courseTrack
+     */
+    @Update(UPDATE_COURSETRACK_STATEMENT)
+    fun updateCourseTrackValue(userId: Int, courseTrack: String): Int
+
+    /**
+     * Update student config value: mentorshipOption
+     */
+    @Update(UPDATE_MENTORSHIP_OPTION_STATEMENT)
+    fun updateMentorshipOptionValue(userId: Int, mentorshipOption: String): Int
 
     companion object {
         const val SELECT_ALL_STUDENT_VALUES_STATEMENT =
@@ -100,6 +119,17 @@ interface UserConfigValueMapper {
                 JOIN user_config_option on user_config_value.option_id = user_config_option.id
                 WHERE user.id = #{studentId} and user_config_value.option_id = 3
             """
+        const val SELECT_MENTORSHIP_OPTION_STATEMENT =
+            """
+                SELECT DISTINCT
+                user_config_value.option_id,
+                user_config_value.user_id,
+                user_config_value.value
+                FROM user_config_value
+                JOIN user on user_config_value.user_id = user.id
+                JOIN user_config_option on user_config_value.option_id = user_config_option.id
+                WHERE user.id = #{studentId} and user_config_value.option_id = 4
+            """
         const val INSERT_CONFIG_VALUE_STATEMENT =
             """
                 INSERT INTO user_config_value
@@ -109,7 +139,6 @@ interface UserConfigValueMapper {
                     value
                 )
             """
-
         const val INSERT_CONFIG_VALUE_VALUES =
             """
                 VALUES
@@ -118,6 +147,18 @@ interface UserConfigValueMapper {
                     #{userId},
                     #{value}
                 )
+            """
+        const val UPDATE_COURSETRACK_STATEMENT =
+            """
+               UPDATE user_config_value
+               SET user_config_value.value = #{courseTrack}
+               WHERE user_config_value.user_id = #{userId} and user_config_value.option_id = 3
+            """
+        const val UPDATE_MENTORSHIP_OPTION_STATEMENT =
+            """
+                UPDATE user_config_value
+                SET user_config_value.value = #{mentorshipOption}
+                WHERE user_config_value.user_id = #{userId} and user_config_value.option_id = 4
             """
     }
 }

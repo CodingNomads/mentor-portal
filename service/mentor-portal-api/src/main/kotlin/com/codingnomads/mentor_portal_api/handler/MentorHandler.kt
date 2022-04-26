@@ -2,6 +2,7 @@ package com.codingnomads.mentor_portal_api.handler
 
 import com.codingnomads.mentor_portal_api.entity.business.*
 import com.codingnomads.mentor_portal_api.entity.data.*
+import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
 
@@ -169,30 +170,38 @@ class MentorHandler(
      * Create mentor
      */
     fun createMentor(mentorPostPayload: MentorPostPayload): MentorData {
-        val userRow = UserRow(
-            firstName = mentorPostPayload.firstName,
-            lastName = mentorPostPayload.lastName,
-            roleCode = 10,
-            statusCode = 100,
-            flag = false,
-            bio = mentorPostPayload.bio,
-            timezoneOffset = mentorPostPayload.timezoneOffset
-        )
+        // validate proficiencies sent in mentorPostPayload
+        val proficienciesLowerCase = mentorPostPayload.proficiencies.map { it.lowercase() }
+        val proficienciesVerification = CourseOption.values().filter { it.title in proficienciesLowerCase }
+        println(mentorPostPayload)
+        println(proficienciesLowerCase)
+        println(proficienciesVerification)
+        // if all submitted proficiencies are valid
+        if (proficienciesVerification.size == mentorPostPayload.proficiencies.size){
+            val userRow = UserRow(
+                firstName = mentorPostPayload.firstName,
+                lastName = mentorPostPayload.lastName,
+                roleCode = 10,
+                statusCode = 100,
+                flag = false,
+                bio = mentorPostPayload.bio,
+                timezoneOffset = mentorPostPayload.timezoneOffset
+            )
 
-        userMapper.insertUser(userRow)
+            userMapper.insertUser(userRow)
 
-        val userId = userRow.id!!;
+            val userId = userRow.id!!;
 
-        val contactRow = ContactRow(
-            userId = userId,
-            email = mentorPostPayload.email,
-            telephone = mentorPostPayload.telephone,
-            location = mentorPostPayload.location,
-            forumUsername = mentorPostPayload.forumUsername,
-            slackUsername = mentorPostPayload.slackUsername
-        )
+            val contactRow = ContactRow(
+                userId = userId,
+                email = mentorPostPayload.email,
+                telephone = mentorPostPayload.telephone,
+                location = mentorPostPayload.location,
+                forumUsername = mentorPostPayload.forumUsername,
+                slackUsername = mentorPostPayload.slackUsername
+            )
 
-        contactMapper.insertContact(contactRow)
+            contactMapper.insertContact(contactRow)
 
 //        val securityRow = SecurityRow(
 //            userId = userId,
@@ -203,40 +212,43 @@ class MentorHandler(
 //
 //        securityMapper.insertSecurity(securityRow)
 
-        val maxStudentsOptionRow = userConfigOptionMapper.selectOptionByName("maxStudents")
-        val maxStudentsValueRow = ConfigValueRow(
-            optionId = maxStudentsOptionRow.id,
-            userId = userId,
-            value = mentorPostPayload.maxStudents.toString()
-        )
-
-        userConfigValueMapper.insertConfigValue(maxStudentsValueRow)
-
-        val proficienciesOptionRow = userConfigOptionMapper.selectOptionByName("proficiencies")
-        println(proficienciesOptionRow)
-        println(mentorPostPayload)
-        for (proficiency in mentorPostPayload.proficiencies){
-            val proficienciesValueRow = ConfigValueRow(
-                optionId = proficienciesOptionRow.id,
+            val maxStudentsOptionRow = userConfigOptionMapper.selectOptionByName("maxStudents")
+            val maxStudentsValueRow = ConfigValueRow(
+                optionId = maxStudentsOptionRow.id,
                 userId = userId,
-                value = proficiency
+                value = mentorPostPayload.maxStudents.toString()
             )
-            userConfigValueMapper.insertConfigValue(proficienciesValueRow)
-        }
 
-        return MentorData(
-            userId,
-            userRow.firstName,
-            userRow.lastName,
-            userRow.roleCode,
-            userRow.statusCode,
-            userRow.flag,
-            userRow.bio,
-            contactRow.location,
-            contactRow.email,
-            contactRow.telephone,
-            contactRow.forumUsername,
-            contactRow.slackUsername,
-        )
+            userConfigValueMapper.insertConfigValue(maxStudentsValueRow)
+
+            val proficienciesOptionRow = userConfigOptionMapper.selectOptionByName("proficiencies")
+            println(proficienciesOptionRow)
+            println(mentorPostPayload)
+            for (proficiency in mentorPostPayload.proficiencies){
+                val proficienciesValueRow = ConfigValueRow(
+                    optionId = proficienciesOptionRow.id,
+                    userId = userId,
+                    value = proficiency
+                )
+                userConfigValueMapper.insertConfigValue(proficienciesValueRow)
+            }
+
+            return MentorData(
+                userId,
+                userRow.firstName,
+                userRow.lastName,
+                userRow.roleCode,
+                userRow.statusCode,
+                userRow.flag,
+                userRow.bio,
+                contactRow.location,
+                contactRow.email,
+                contactRow.telephone,
+                contactRow.forumUsername,
+                contactRow.slackUsername,
+            )
+        }else{
+            throw Error("Invalid proficiencies submitted")
+        }
     }
 }

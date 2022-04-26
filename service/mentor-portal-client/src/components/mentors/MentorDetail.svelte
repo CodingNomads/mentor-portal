@@ -16,9 +16,7 @@
     export let mentorId;
 
     onMount(async() => {
-        const url = `http://localhost:8080/api/mentors/${mentorId}`
-        console.log(mentorId)
-        console.log(url)
+        const url = API_BASE_URL + `/api/mentors/${mentorId}`
         const headers = {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'

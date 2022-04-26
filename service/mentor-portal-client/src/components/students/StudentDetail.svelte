@@ -15,9 +15,7 @@
     export let student;
 
     onMount(async() => {
-        const url = `http://localhost:8080/api/students/${studentId}`
-        console.log(studentId)
-        console.log(url)
+        const url = API_BASE_URL + `/api/students/${studentId}`
         const headers = {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
