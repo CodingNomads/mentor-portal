@@ -51,7 +51,13 @@
 
     onMount(async () => {
         const url = API_BASE_URL + "/api/students"
+        const headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        }
         const response = await fetch(url, {
+            headers,
+            method: "GET",
             mode: 'cors',
             credentials: "same-origin"
         })

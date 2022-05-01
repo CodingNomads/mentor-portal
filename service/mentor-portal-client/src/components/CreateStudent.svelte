@@ -3,8 +3,8 @@
     import DateSelect from './formInputs/DateSelect.svelte';
     import MentorDropdown from './formInputs/MentorDropdown.svelte';
     import InputText from './formInputs/InputText.svelte';
-import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
-import CourseDropdown from './formInputs/CourseDropdown.svelte';
+    import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
+    import CourseDropdown from './formInputs/CourseDropdown.svelte';
 
     // post request body/payload
     let firstName = "";

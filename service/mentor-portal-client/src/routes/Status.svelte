@@ -1,11 +1,12 @@
 <script>
     import NavBar from "../components/NavBar.svelte";
     import { onMount } from "svelte";
+    import { executeAuthorizedApiCall } from "../js/apiCalls";
     export let apiStatus = "";
-    // import { env } from 'process';
 
     onMount(async () => {
         const url = API_BASE_URL + "/status"
+        executeAuthorizedApiCall(url)
         console.log(url)
         const response = await fetch(url, {
             mode: 'cors',

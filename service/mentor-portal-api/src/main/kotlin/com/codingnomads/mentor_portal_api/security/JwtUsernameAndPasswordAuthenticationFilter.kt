@@ -53,7 +53,7 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
                 .signWith(SignatureAlgorithm.HS256, "APP_SECRET")
                 .compact()
-
+            response?.addHeader("Access-Control-Expose-Headers", "Authorization")
             response?.addHeader("Authorization", "Bearer $compactJwt")
         }
     }

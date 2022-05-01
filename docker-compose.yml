@@ -12,6 +12,7 @@ services:
       - ${FRONTEND_PORTS}:${FRONTEND_PORTS}
     environment:
       - API_BASE_URL
+      - CLIENT_BASE_URL
     networks:
       - front-end
 
@@ -34,6 +35,7 @@ services:
       - AUDIENCE
       - ISSUER_URL
       - VERIFICATION_OBJECT
+      - CLIENT_BASE_URL
     hostname: localhost
     restart: unless-stopped
     networks:
