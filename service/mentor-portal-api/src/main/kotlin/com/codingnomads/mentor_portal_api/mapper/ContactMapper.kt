@@ -20,13 +20,12 @@ interface ContactMapper {
                 INSERT INTO contact
                 (
                 user_id,
-                email,
                 telephone,
                 location,
                 forum_username,
                 slack_username
                 )
             """
-        const val INSERT_CONTACT_VALUES = "VALUES (#{userId}, #{email}, #{telephone}, #{location}, #{forumUsername}, #{slackUsername})"
+        const val INSERT_CONTACT_VALUES = "VALUES (#{userId}, #{telephone}, #{location}, #{forumUsername}, #{slackUsername})"
     }
 }

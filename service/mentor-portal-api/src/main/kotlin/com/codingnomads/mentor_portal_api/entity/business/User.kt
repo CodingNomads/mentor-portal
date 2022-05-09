@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 
 data class User(
     val id: Int? = null,
+    val email: String,
     val firstName: String,
     val lastName: String,
     val roleCode: Int,
@@ -16,6 +17,7 @@ data class User(
     companion object {
         fun fromEntity(userRow: UserRow) = User(
             id = userRow.id,
+            email= userRow.email,
             firstName = userRow.firstName,
             lastName = userRow.lastName,
             roleCode = userRow.roleCode,

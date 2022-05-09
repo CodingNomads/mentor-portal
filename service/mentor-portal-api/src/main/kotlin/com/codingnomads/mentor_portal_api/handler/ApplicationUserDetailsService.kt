@@ -3,15 +3,13 @@ package com.codingnomads.mentor_portal_api.handler
 import com.codingnomads.mentor_portal_api.entity.ApplicationUser
 import com.codingnomads.mentor_portal_api.mapper.SecurityMapper
 import com.codingnomads.mentor_portal_api.security.ApplicationUserRole
-import com.google.common.collect.Sets
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
-class UserSecurityHandler(@Autowired private val securityMapper: SecurityMapper) :UserDetailsService {
+class ApplicationUserDetailsService(@Autowired private val securityMapper: SecurityMapper) :UserDetailsService {
     override fun loadUserByUsername(username: String?): ApplicationUser {
         if (username == null) {
             throw UsernameNotFoundException("User Not Found")

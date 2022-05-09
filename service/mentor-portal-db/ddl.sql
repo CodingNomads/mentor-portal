@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
     `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'PK',
+    `email` varchar(255) NOT NULL COMMENT 'User Email',
     `first_name` varchar(255),
     `last_name` varchar(255),
     `role_code` int(10) UNSIGNED NOT NULL COMMENT 'The user role',
@@ -44,7 +45,6 @@ DROP TABLE IF EXISTS `security`;
 CREATE TABLE `security` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `user_id` int(10) UNSIGNED NOT NULL COMMENT 'Foreign Key',
-    `username` varchar(255) NOT NULL,
     `password_hash` varchar(255) NOT NULL,
     `is_admin` tinyint NOT NULL,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -60,7 +60,6 @@ DROP TABLE IF EXISTS `contact`;
 CREATE TABLE `contact` (
     `id` int NOT NULL AUTO_INCREMENT COMMENT 'PK',
     `user_id` int(10) UNSIGNED NOT NULL,
-    `email` varchar(255),
     `telephone` varchar(255),
     `location` varchar(255),
     `forum_username` varchar(255),
