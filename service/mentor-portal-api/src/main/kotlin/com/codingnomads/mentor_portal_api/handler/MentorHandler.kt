@@ -179,6 +179,7 @@ class MentorHandler(
         // if all submitted proficiencies are valid
         if (proficienciesVerification.size == mentorPostPayload.proficiencies.size){
             val userRow = UserRow(
+                email = mentorPostPayload.email,
                 firstName = mentorPostPayload.firstName,
                 lastName = mentorPostPayload.lastName,
                 roleCode = 10,
@@ -194,7 +195,6 @@ class MentorHandler(
 
             val contactRow = ContactRow(
                 userId = userId,
-                email = mentorPostPayload.email,
                 telephone = mentorPostPayload.telephone,
                 location = mentorPostPayload.location,
                 forumUsername = mentorPostPayload.forumUsername,
@@ -234,18 +234,18 @@ class MentorHandler(
             }
 
             return MentorData(
-                userId,
-                userRow.firstName,
-                userRow.lastName,
-                userRow.roleCode,
-                userRow.statusCode,
-                userRow.flag,
-                userRow.bio,
-                contactRow.location,
-                contactRow.email,
-                contactRow.telephone,
-                contactRow.forumUsername,
-                contactRow.slackUsername,
+                id = userId,
+                email = userRow.email,
+                firstName = userRow.firstName,
+                lastName = userRow.lastName,
+                roleCode = userRow.roleCode,
+                statusCode = userRow.statusCode,
+                flag = userRow.flag,
+                bio = userRow.bio,
+                location = contactRow.location,
+                telephone = contactRow.telephone,
+                forumUsername = contactRow.forumUsername,
+                slackUsername = contactRow.slackUsername,
             )
         }else{
             throw Error("Invalid proficiencies submitted")

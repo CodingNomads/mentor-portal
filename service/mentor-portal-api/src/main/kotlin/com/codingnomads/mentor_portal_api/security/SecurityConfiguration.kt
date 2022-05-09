@@ -1,8 +1,8 @@
 package com.codingnomads.mentor_portal_api.security
 
-import com.codingnomads.mentor_portal_api.handler.UserSecurityHandler
-import com.codingnomads.mentor_portal_api.mapper.SecurityMapper
+import com.codingnomads.mentor_portal_api.handler.ApplicationUserDetailsService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @EnableWebSecurity
@@ -21,9 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder
 @Configuration
 class SecurityConfiguration(
     @Autowired private val passwordEncoder: PasswordEncoder,
-    @Autowired private val userSecurityHandler: UserSecurityHandler) : WebSecurityConfigurerAdapter(
+    @Autowired private val applicationUserDetailsService: ApplicationUserDetailsService) : WebSecurityConfigurerAdapter(
 
 ) {
+
+
     override fun configure(http: HttpSecurity?) {
         http?.let {
             it
@@ -48,7 +48,7 @@ class SecurityConfiguration(
     fun daoAuthenticationProvider(): DaoAuthenticationProvider {
         val daoAuthenticationProvider = DaoAuthenticationProvider()
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder)
-        daoAuthenticationProvider.setUserDetailsService(userSecurityHandler)
+        daoAuthenticationProvider.setUserDetailsService(applicationUserDetailsService)
 
         return daoAuthenticationProvider
     }

@@ -21,19 +21,20 @@ services:
       context: ./service/mentor-portal-api
       dockerfile: Dockerfile
       args:
-        DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5080
+        DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     ports:
         - ${API_PORTS_ONE}:${API_PORTS_ONE}
         - ${API_PORTS_TWO}:${API_PORTS_TWO}
+    env_file:
+      - .env
     environment:
       - DATABASE_ROOT
       - EXPOSED_DB_PORT
       - MYSQL_DATABASE_NAME
       - MYSQL_DATABASE_USER
       - MYSQL_DATABASE_PASSWORD
-      - AUDIENCE
-      - ISSUER_URL
-      - VERIFICATION_OBJECT
+      - APP_SECRET
+      - TOKEN_EXPIRATION_IN_MINUTES
     hostname: localhost
     restart: unless-stopped
     networks:

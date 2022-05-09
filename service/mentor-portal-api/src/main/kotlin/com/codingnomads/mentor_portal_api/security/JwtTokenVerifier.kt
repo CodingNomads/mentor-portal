@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -15,6 +16,16 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class JwtTokenVerifier(): OncePerRequestFilter() {
+    companion object {
+        const val AUTH_HEADER_BEARER_PREFIX = "Bearer "
+        const val APP_SECRET_ENV_NAME = "APP_SECRET"
+        const val EMPTY_STRING = ""
+        const val MAP_KEY_AUTHORITIES = "authorities"
+        const val MAP_KEY_AUTHORITY = "authority"
+
+        const val ERROR_TOKEN_IS_INVALID = "Bearer Token is invalid."
+    }
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -22,22 +33,23 @@ class JwtTokenVerifier(): OncePerRequestFilter() {
     ) {
         val authHeader = request.getHeader(Headers.AUTHORIZATION)
 
-        if (authHeader.isNullOrEmpty() || !authHeader.startsWith("Bearer ")) {
+        if (authHeader.isNullOrEmpty() || !authHeader.startsWith(AUTH_HEADER_BEARER_PREFIX)) {
             filterChain.doFilter(request, response)
             return
         }
 
         try {
-            val token = authHeader.replace("Bearer ", "")
-            val claims = Jwts.parser().setSigningKey("APP_SECRET").parseClaimsJws(token)
-
+            val token = authHeader.replace(AUTH_HEADER_BEARER_PREFIX, EMPTY_STRING)
+            val claims = Jwts.parser().setSigningKey(System.getenv(APP_SECRET_ENV_NAME)).parseClaimsJws(token)
             val body = claims.body
             val username = body.subject
-            val authorities: List<Map<String, String>> = body["authorities"] as List<Map<String, String>>
+            println(username)
+
+            val authorities: List<Map<String, String>> = body[MAP_KEY_AUTHORITIES] as List<Map<String, String>>
 
             val grantedAuthorities = Sets.newHashSet<GrantedAuthority>()
             for (authority in authorities) {
-                grantedAuthorities.add(SimpleGrantedAuthority(authority["authority"]))
+                grantedAuthorities.add(SimpleGrantedAuthority(authority[MAP_KEY_AUTHORITY]))
             }
 
             val authentication = UsernamePasswordAuthenticationToken(
@@ -49,7 +61,7 @@ class JwtTokenVerifier(): OncePerRequestFilter() {
             SecurityContextHolder.getContext().authentication = authentication
 
         } catch (e: JwtException) {
-            throw IllegalStateException("Bearer Token is invalid.")
+            throw IllegalStateException(e.message)
         }
 
         filterChain.doFilter(request, response)
