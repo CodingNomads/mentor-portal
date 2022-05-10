@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -27,6 +28,19 @@ class SecurityConfiguration(
     @Autowired private val userSecurityHandler: UserSecurityHandler) : WebSecurityConfigurerAdapter(
 
 ) {
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val configuration = CorsConfiguration()
+        configuration.allowedOriginPatterns = listOf(System.getenv("CLIENT_BASE_URL"))
+        configuration.allowedMethods = listOf("*")
+        configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
+        val source = UrlBasedCorsConfigurationSource()
+        source.registerCorsConfiguration("/**", configuration)
+        return source
+    }
+
     override fun configure(http: HttpSecurity?) {
         http?.let {
             it
@@ -38,18 +52,6 @@ class SecurityConfiguration(
         }
     }
 
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedOriginPatterns = listOf("http://localhost:5000")
-        configuration.allowedMethods = listOf("*")
-        configuration.allowedHeaders = listOf("*")
-        configuration.allowCredentials = true
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
-    }
-
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth?.authenticationProvider(daoAuthenticationProvider())
     }
@@ -59,7 +61,6 @@ class SecurityConfiguration(
         val daoAuthenticationProvider = DaoAuthenticationProvider()
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder)
         daoAuthenticationProvider.setUserDetailsService(userSecurityHandler)
-
         return daoAuthenticationProvider
     }
 }

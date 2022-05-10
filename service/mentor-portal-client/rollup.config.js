@@ -41,7 +41,8 @@ export default {
 	plugins: [
 		replace({
 			preventAssignment: true,
-			API_BASE_URL: JSON.stringify(env.API_BASE_URL)
+			API_BASE_URL: JSON.stringify(env.API_BASE_URL),
+			CLIENT_BASE_URL: JSON.stringify(env.CLIENT_BASE_URL)
 		}),
 		svelte({
 			compilerOptions: {

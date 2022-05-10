@@ -1,6 +1,7 @@
 package com.codingnomads.mentor_portal_api.security
 
 import com.codingnomads.mentor_portal_api.entity.business.UserLoginPayload
+import com.codingnomads.mentor_portal_api.handler.UserSecurityHandler
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.jsonwebtoken.Jwts
@@ -8,6 +9,7 @@ import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import java.time.LocalDate
 import java.util.*
@@ -31,6 +33,7 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
                 //password
                 userLoginPayload.password
             )
+            SecurityContextHolder.getContext().authentication = authentication
 
             return authenticationManager.authenticate(authentication)
         } else {
@@ -43,8 +46,12 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
         request: HttpServletRequest?,
         response: HttpServletResponse?,
         chain: FilterChain?,
-        authResult: Authentication?
+        authResult: Authentication?,
+//        userSecurityHandler: UserSecurityHandler
     ) {
+        val userEmail = SecurityContextHolder.getContext().authentication.name
+//        val userId = UserSecurityHandler.loadUserByUsername(userEmail).getUserId()
+
         if (authResult != null) {
             val compactJwt = Jwts.builder()
                 .setSubject(authResult.name)
@@ -55,6 +62,8 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
                 .compact()
             response?.addHeader("Access-Control-Expose-Headers", "Authorization")
             response?.addHeader("Authorization", "Bearer $compactJwt")
+//            response?.addHeader("Access-Control-Expose-Headers", "userId")
+//            response?.addHeader("userId", "$userId")
         }
     }
 }

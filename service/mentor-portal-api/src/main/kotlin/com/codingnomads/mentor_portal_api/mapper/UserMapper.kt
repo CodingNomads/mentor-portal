@@ -26,6 +26,12 @@ interface UserMapper {
     fun selectUserById(id: Int): UserRow
 
     /**
+     * Select User from database by email
+     */
+    @Select(SELECT_USER_BY_EMAIL_STATEMENT)
+    fun selectUserByEmail(email: String): User
+
+    /**
      * Inserts a new user.
      *
      * @param userRow the user payload to be inserted
@@ -79,6 +85,15 @@ interface UserMapper {
             """
 
         const val FROM_USER_ID = "FROM user where id = #{value}"
+
+        const val SELECT_USER_BY_EMAIL_STATEMENT =
+            """
+                SELECT DISTINCT
+                user.id
+                FROM user
+                JOIN contact on contact.user_id = user.id
+                WHERE contact.email = #{email}
+            """
 
         const val INSERT_USER_STATEMENT =
             """

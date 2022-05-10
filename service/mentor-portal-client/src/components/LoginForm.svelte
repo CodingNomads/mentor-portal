@@ -1,10 +1,13 @@
 <script>
     import InputText from './formInputs/InputText.svelte';
-    import { lock, envelope } from 'svelte-awesome/icons'
-    import { user, isAuthenticated } from '../js/store.js';
+    import { lock, envelope } from 'svelte-awesome/icons';
+    import { userAuth } from '../js/store.js';
 
     let email;
     let password;
+    let userWallet;
+
+    userAuth.subscribe(value => userWallet = value)
 
     async function submitLogin(){
         const url = API_BASE_URL + "/login"
@@ -16,7 +19,7 @@
             "username": email,
             "password": password
         })
-        let response = await fetch(url, {
+        const response = await fetch(url, {
             headers,
             body,
             method: "POST",
@@ -25,14 +28,14 @@
         })  
         if(response.ok){
             // redirect to user detail page
-            // const authToken = postResponse.headers.get("Authorization")
-            // const responseHeaders = postResponse.headers
-            console.log(response)
-            let authToken = response.headers.get("Authorization")
-            console.log(authToken)
-            // console.log(`AuthToken: ${authToken}`)         
+            const authToken = response.headers.get("Authorization")
+            const userId = response.headers.get("userId")
+            userWallet =[{"email": `${email}`, "authToken": `${authToken}`}]
+            localStorage.setItem("authToken", authToken)
+            console.log(userId)
+            window.location.replace(BASE_CLIENT_URL + `/mentors/${userId}`)
         }
-        else if(response.error){
+        else if(!response.ok){
             alert("Invalid email or password. Please try again.")
         }
     };

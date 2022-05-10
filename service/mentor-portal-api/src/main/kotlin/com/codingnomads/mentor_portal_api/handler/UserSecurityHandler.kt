@@ -6,6 +6,7 @@ import com.codingnomads.mentor_portal_api.security.ApplicationUserRole
 import com.google.common.collect.Sets
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
@@ -26,6 +27,7 @@ class UserSecurityHandler(@Autowired private val securityMapper: SecurityMapper)
 
         return ApplicationUser(
             grantedAuthorities = grantedAuthorities.toMutableList(),
+            userId = userSecurityDTO.userId,
             password = userSecurityDTO.passwordHash,
             username = userSecurityDTO.email,
             isAccountNonExpired = true,

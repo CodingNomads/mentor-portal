@@ -1,6 +1,4 @@
 <script>
-    import StudentList from "../students/StudentList.svelte";
-
     import MentorDropdown from "./MentorDropdown.svelte";
     
     export let mentor;

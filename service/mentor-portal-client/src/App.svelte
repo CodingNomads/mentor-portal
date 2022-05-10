@@ -1,6 +1,5 @@
 <script>
-	import { Router, Link, Route } from 'svelte-routing';
-	import { isAuthenticated, user } from "./js/store";
+	import { Router, Route } from 'svelte-routing';
 
 	import Login from './routes/Login.svelte';
 	import Students from './routes/Students.svelte'
@@ -25,11 +24,6 @@
 		</Route>
 
 		<Route path="/">
-			<!-- {#if $isAuthenticated}
-            	<a class="" href="/#" on:click="{logout}">LogOut</a>
-          	{:else}
-            	<a class="" href="/#" on:click="{login}">Log In</a>
-          	{/if} -->
 			<Main />
 		</Route>
 

@@ -21,6 +21,7 @@ fun main(args: Array<String>) {
 }
 
 // Global cors configuration
+// Cors Configuration was moved to Security
 //@Configuration
 //class MyConfiguration {
 //    @Bean
