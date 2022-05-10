@@ -9,8 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.util.*
 import javax.servlet.FilterChain
@@ -40,7 +38,6 @@ class JwtUsernameAndPasswordAuthenticationFilter(
                 //password
                 userLoginPayload.password
             )
-
             return authenticationManager.authenticate(authentication)
         } else {
             throw UnknownError("Failed to authenticate")
@@ -52,7 +49,7 @@ class JwtUsernameAndPasswordAuthenticationFilter(
         request: HttpServletRequest?,
         response: HttpServletResponse?,
         chain: FilterChain?,
-        authResult: Authentication?
+        authResult: Authentication?,
     ) {
         val expiration = Date.from(ZonedDateTime.now().plusMinutes(System.getenv(TOKEN_EXPIRATION_ENV_NAME).toLong()).toInstant())
 
@@ -64,8 +61,8 @@ class JwtUsernameAndPasswordAuthenticationFilter(
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, System.getenv(APP_SECRET_ENV_NAME))
                 .compact()
-
-            response?.addHeader(Headers.AUTHORIZATION, "Bearer $compactJwt")
+            response?.addHeader("Access-Control-Expose-Headers", "Authorization")
+            response?.addHeader("Authorization", "Bearer $compactJwt")
         }
     }
 }
