@@ -1,7 +1,9 @@
 <script>
     import InputText from './formInputs/InputText.svelte';
     import { lock, envelope } from 'svelte-awesome/icons';
+    import { authorizedApiGetCall } from '../js/apiCalls';
     import { userAuth } from '../js/store.js';
+
 
     let email;
     let password;
@@ -29,11 +31,13 @@
         if(response.ok){
             // redirect to user detail page
             const authToken = response.headers.get("Authorization")
-            const userId = response.headers.get("userId")
-            userWallet =[{"email": `${email}`, "authToken": `${authToken}`}]
             localStorage.setItem("authToken", authToken)
-            console.log(userId)
-            window.location.replace(BASE_CLIENT_URL + `/mentors/${userId}`)
+            localStorage.setItem("userEmail", email)
+            // get request for userId
+            const getUrl = API_BASE_URL + `/api/user/${email}`
+            const responseObject = await authorizedApiGetCall(authToken, getUrl)
+            const userId = responseObject.id
+            window.location.replace(CLIENT_BASE_URL + `/mentors/${userId}`)
         }
         else if(!response.ok){
             alert("Invalid email or password. Please try again.")

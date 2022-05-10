@@ -1,7 +1,6 @@
 package com.codingnomads.mentor_portal_api.security
 
 import com.codingnomads.mentor_portal_api.entity.business.UserLoginPayload
-import com.codingnomads.mentor_portal_api.handler.UserSecurityHandler
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import io.jsonwebtoken.Jwts
@@ -47,11 +46,7 @@ class JwtUsernameAndPasswordAuthenticationFilter(authenticationManager: Authenti
         response: HttpServletResponse?,
         chain: FilterChain?,
         authResult: Authentication?,
-//        userSecurityHandler: UserSecurityHandler
     ) {
-        val userEmail = SecurityContextHolder.getContext().authentication.name
-//        val userId = UserSecurityHandler.loadUserByUsername(userEmail).getUserId()
-
         if (authResult != null) {
             val compactJwt = Jwts.builder()
                 .setSubject(authResult.name)

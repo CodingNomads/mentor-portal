@@ -1,6 +1,5 @@
 // function to verify authorization for GET requests with valid token
 export async function authorizedApiGetCall(authToken, url){
-    console.log(authToken)
     const headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -19,7 +18,6 @@ export async function authorizedApiGetCall(authToken, url){
     // if valid authentication
     else {
         const responseObject = await response.json()
-        console.log(responseObject)
         return responseObject
     }
 };

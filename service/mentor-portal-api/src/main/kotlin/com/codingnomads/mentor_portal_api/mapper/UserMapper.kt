@@ -2,6 +2,7 @@ package com.codingnomads.mentor_portal_api.mapper
 
 import com.codingnomads.mentor_portal_api.entity.data.UserRow
 import com.codingnomads.mentor_portal_api.entity.business.User
+import com.codingnomads.mentor_portal_api.entity.business.UserId
 import org.apache.ibatis.annotations.*
 
 /**
@@ -29,7 +30,7 @@ interface UserMapper {
      * Select User from database by email
      */
     @Select(SELECT_USER_BY_EMAIL_STATEMENT)
-    fun selectUserByEmail(email: String): User
+    fun selectUserByEmail(userEmail: String): UserId
 
     /**
      * Inserts a new user.
@@ -92,7 +93,7 @@ interface UserMapper {
                 user.id
                 FROM user
                 JOIN contact on contact.user_id = user.id
-                WHERE contact.email = #{email}
+                WHERE contact.email = #{userEmail}
             """
 
         const val INSERT_USER_STATEMENT =
