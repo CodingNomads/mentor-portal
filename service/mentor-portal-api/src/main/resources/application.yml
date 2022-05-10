@@ -1,8 +1,8 @@
 app:
   jwt:
-    secret: "APP_SECRET"
+    secret: ${APP_SECRET}
     token-prefix: "Bearer "
-    tokenExpirationAfterDays: 14
+    tokenExpirationInMinutes: ${TOKEN_EXPIRATION_IN_MINUTES}
 
 spring:
   datasource:

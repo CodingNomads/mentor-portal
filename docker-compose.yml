@@ -32,10 +32,9 @@ services:
       - MYSQL_DATABASE_NAME
       - MYSQL_DATABASE_USER
       - MYSQL_DATABASE_PASSWORD
-      - AUDIENCE
-      - ISSUER_URL
-      - VERIFICATION_OBJECT
       - CLIENT_BASE_URL
+      - APP_SECRET
+      - TOKEN_EXPIRATION_IN_MINUTES
     hostname: localhost
     restart: unless-stopped
     networks:
