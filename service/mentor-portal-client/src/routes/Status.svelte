@@ -1,18 +1,30 @@
 <script>
     import NavBar from "../components/NavBar.svelte";
     import { onMount } from "svelte";
-    export let apiStatus = "";
-    // import { env } from 'process';
+    import { authorizedApiGetCall } from "../js/apiCalls";
+    // import { userAuth } from "../js/store.js";
+    // import { get } from "svelte/store";
+    
+    export let apiStatus;
+    let authToken = localStorage.authToken
+
+    // userAuth.subscribe(value => userWallet = value)
+    // const token = localStorage.getItem("admin@email.com")
 
     onMount(async () => {
+        // console.log(token)
+        console.log(authToken)
         const url = API_BASE_URL + "/status"
-        console.log(url)
-        const response = await fetch(url, {
-            mode: 'cors',
-            credentials: "same-origin"
-        })
-        apiStatus = await response.json()
-        console.log(apiStatus)
+        const responseObject = await authorizedApiGetCall(authToken, url)
+    
+        if(responseObject){
+            apiStatus = responseObject.status
+            console.log(responseObject)
+        } 
+        // if invalid authentication
+        else if(responseObject.status === 403){
+            window.location.replace(CLIENT_BASE_URL + "/login")
+        }
     })
 </script>
 
@@ -23,7 +35,11 @@
             <div class="column m-3 is-5-tablet is-4-desktop is-5-widescreen">
                 <div class="card-body">
                     <h1 class="card-title"><strong>API STATUS</strong></h1>
-                    <p>{apiStatus.status}</p>
+                    {#if authToken && apiStatus === "Ok"}
+                        <p>{apiStatus}</p>
+                    {:else}
+                        <p class="card-text">Viewing this may require permissions you do not have. Either that or something went wrong. Please talk to Scott or Jon.</p>
+                    {/if}
                     <hr>
                 </div>
             </div>

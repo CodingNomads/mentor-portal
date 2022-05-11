@@ -12,6 +12,7 @@ services:
       - ${FRONTEND_PORTS}:${FRONTEND_PORTS}
     environment:
       - API_BASE_URL
+      - CLIENT_BASE_URL
     networks:
       - front-end
 
@@ -33,6 +34,7 @@ services:
       - MYSQL_DATABASE_NAME
       - MYSQL_DATABASE_USER
       - MYSQL_DATABASE_PASSWORD
+      - CLIENT_BASE_URL
       - APP_SECRET
       - TOKEN_EXPIRATION_IN_MINUTES
     hostname: localhost

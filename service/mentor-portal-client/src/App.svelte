@@ -1,49 +1,16 @@
 <script>
-	import { Router, Link, Route } from 'svelte-routing';
-	import { isAuthenticated, user } from "./js/store";
+	import { Router, Route } from 'svelte-routing';
 
 	import Login from './routes/Login.svelte';
 	import Students from './routes/Students.svelte'
 	import Mentors from './routes/Mentors.svelte'
-	import auth from "./js/auth-service"
-
-	export let url = "";
-
-	// onMount(async () => {
-	// 	auth0Client = await auth.createClient();
-
-	// 	isAuthenticated.set(await auth0Client.isAuthenticated());
-	// 	user.set(await auth0Client.getUser());
-	// });
-
-	// function login() {
-	// 	auth.loginWithPopup(auth0Client);
-	// }
-
-	// function logout() {
-	// 	auth.logout(auth0Client);
-	// }
-
 	import Main from './routes/Main.svelte';
 	import Admin from './routes/Admin.svelte';
 	import Status from './routes/Status.svelte';
 	import Student from './routes/Student.svelte';
 	import Mentor from './routes/Mentor.svelte';
-
-	// import auth from "./js/auth-service"
-
-	// let auth0Client;
-	// onMount(async () => {
-	// 	auth0Client = await auth.createClient();
-	// 	isAuthenticated.set(await auth0Client.isAuthenticated());
-	// 	user.set(await auth0Client.getUser());
-	// });
-	// function login() {
-	// 	auth.loginWithPopup(auth0Client);
-	// }
-	// function logout() {
-	// 	auth.logout(auth0Client);
-	// }
+	
+	export let url = "";
 </script>
 
 <Router url ="{url}">
@@ -57,11 +24,6 @@
 		</Route>
 
 		<Route path="/">
-			<!-- {#if $isAuthenticated}
-            	<a class="" href="/#" on:click="{logout}">LogOut</a>
-          	{:else}
-            	<a class="" href="/#" on:click="{login}">Log In</a>
-          	{/if} -->
 			<Main />
 		</Route>
 

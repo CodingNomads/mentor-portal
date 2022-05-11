@@ -3,6 +3,7 @@ package com.codingnomads.mentor_portal_api.controller
 import com.codingnomads.mentor_portal_api.entity.business.User
 import com.codingnomads.mentor_portal_api.handler.UserHandler
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -22,6 +23,13 @@ class UserController (@Autowired private val userHandler: UserHandler) {
      */
     @GetMapping("/users/{userId}")
     fun getUserById(@PathVariable userId: Int): User = userHandler.getUserById(userId)
+
+    /**
+     * Get userId by email
+     */
+    @PreAuthorize("hasAuthority('admin:read')")
+    @GetMapping("/user/{userEmail}")
+    fun getUserByEmail(@PathVariable userEmail: String) = userHandler.getUserByEmail(userEmail)
 
     /**
      * Creates a new user

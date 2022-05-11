@@ -20,7 +20,6 @@ class JwtUsernameAndPasswordAuthenticationFilter(
     companion object {
         const val APP_SECRET_ENV_NAME = "APP_SECRET"
         const val TOKEN_EXPIRATION_ENV_NAME = "TOKEN_EXPIRATION_IN_MINUTES"
-        const val EMPTY_STRING = ""
         const val MAP_KEY_AUTHORITIES = "authorities"
     }
 

@@ -1,6 +1,10 @@
-import { writable} from "svelte/store";
+import { get, writable } from "svelte/store";
 
-export const isAuthenticated = writable(false);
-export const user = writable({});
-export const popupOpen = writable(false);
-export const error = writable();
+export let userAuth = writable({
+    "email": "testuser@email.com",
+    "authToken": " Bearer {token}"
+})
+
+// const value = get(userAuth)
+
+userAuth.subscribe(value => localStorage.setItem("userAuth", value))
