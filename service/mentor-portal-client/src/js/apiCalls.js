@@ -16,7 +16,7 @@ export async function authorizedApiGetCall(authToken, url){
         window.location.replace(CLIENT_BASE_URL + "/login")
     } 
     // if valid authentication
-    else {
+    else if (response.status === 200) {
         const responseObject = await response.json()
         return responseObject
     }

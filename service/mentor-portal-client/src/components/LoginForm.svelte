@@ -2,14 +2,9 @@
     import InputText from './formInputs/InputText.svelte';
     import { lock, envelope } from 'svelte-awesome/icons';
     import { authorizedApiGetCall } from '../js/apiCalls';
-    import { userAuth } from '../js/store.js';
-
 
     let email;
     let password;
-    let userWallet;
-
-    userAuth.subscribe(value => userWallet = value)
 
     async function submitLogin(){
         const url = API_BASE_URL + "/login"
@@ -28,12 +23,12 @@
             mode: "cors",
             credentials: "same-origin"
         })  
-        if(response.ok){
-            // redirect to user detail page
+        if(response.status === 200){
+            // store email and token
             const authToken = response.headers.get("Authorization")
             localStorage.setItem("authToken", authToken)
             localStorage.setItem("userEmail", email)
-            // get request for userId
+            // get request for userId required to redirect to detail page
             const getUrl = API_BASE_URL + `/api/user/${email}`
             const responseObject = await authorizedApiGetCall(authToken, getUrl)
             const userId = responseObject.id

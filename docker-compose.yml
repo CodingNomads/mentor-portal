@@ -26,6 +26,8 @@ services:
     ports:
         - ${API_PORTS_ONE}:${API_PORTS_ONE}
         - ${API_PORTS_TWO}:${API_PORTS_TWO}
+    env_file:
+      - .env
     environment:
       - DATABASE_ROOT
       - EXPOSED_DB_PORT
