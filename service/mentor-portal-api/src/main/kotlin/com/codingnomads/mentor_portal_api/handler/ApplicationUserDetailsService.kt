@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
-class UserSecurityHandler(@Autowired private val securityMapper: SecurityMapper) :UserDetailsService {
+class ApplicationUserDetailsService(@Autowired private val securityMapper: SecurityMapper) :UserDetailsService {
     override fun loadUserByUsername(username: String?): ApplicationUser {
         if (username == null) {
             throw UsernameNotFoundException("User Not Found")
@@ -24,7 +24,6 @@ class UserSecurityHandler(@Autowired private val securityMapper: SecurityMapper)
 
         return ApplicationUser(
             grantedAuthorities = grantedAuthorities.toMutableList(),
-            userId = userSecurityDTO.userId,
             password = userSecurityDTO.passwordHash,
             username = userSecurityDTO.email,
             isAccountNonExpired = true,

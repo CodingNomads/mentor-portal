@@ -139,6 +139,7 @@ class StudentHandler(
         if (courseTrackVerification.isNotEmpty() && mentorshipOptionVerification.isNotEmpty()){
             // user table fields
             val userRow = UserRow(
+                email = studentPostPayload.email,
                 firstName = studentPostPayload.firstName,
                 lastName = studentPostPayload.lastName,
                 roleCode = 20,
@@ -153,7 +154,6 @@ class StudentHandler(
             // contact table fields
             val contactRow = ContactRow(
                 userId = userId,
-                email = studentPostPayload.email,
                 telephone = studentPostPayload.telephone,
                 location = studentPostPayload.location,
                 forumUsername = studentPostPayload.forumUsername,
@@ -200,6 +200,7 @@ class StudentHandler(
                 val assignedMentors = mentorMapper.selectAssignedMentor(userId)
                 return StudentDataRelation(
                     id = userId,
+                    email = userRow.email,
                     firstName = userRow.firstName,
                     lastName = userRow.lastName,
                     roleCode = userRow.roleCode,
@@ -207,7 +208,6 @@ class StudentHandler(
                     flag = userRow.flag,
                     bio = userRow.bio,
                     location = contactRow.location,
-                    email = contactRow.email,
                     telephone = contactRow.telephone,
                     forumUsername = contactRow.forumUsername,
                     slackUsername = contactRow.slackUsername,
@@ -218,6 +218,7 @@ class StudentHandler(
             }else{
                 return StudentDataRelation(
                     id = userId,
+                    email = userRow.email,
                     firstName = userRow.firstName,
                     lastName = userRow.lastName,
                     roleCode = userRow.roleCode,
@@ -225,7 +226,6 @@ class StudentHandler(
                     flag = userRow.flag,
                     bio = userRow.bio,
                     location = contactRow.location,
-                    email = contactRow.email,
                     telephone = contactRow.telephone,
                     forumUsername = contactRow.forumUsername,
                     slackUsername = contactRow.slackUsername,

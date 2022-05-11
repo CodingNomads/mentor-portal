@@ -62,6 +62,7 @@ interface UserMapper {
             """
                 SELECT
                 user.id,
+                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -76,6 +77,7 @@ interface UserMapper {
             """
             SELECT 
             id,
+            email,
             first_name, 
             last_name, 
             role_code, 
@@ -100,6 +102,7 @@ interface UserMapper {
             """
             INSERT INTO user 
             (
+            email,
             first_name, 
             last_name, 
             status_code, 
@@ -109,7 +112,7 @@ interface UserMapper {
             timezone_offset
             )
             """
-        const val INSERT_USER_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{bio}, #{flag}, #{timezoneOffset})"
+        const val INSERT_USER_VALUES = "VALUES (#{email}, #{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{bio}, #{flag}, #{timezoneOffset})"
         const val UPDATE_USER_FLAG_STATEMENT =
             """
                UPDATE user

@@ -41,6 +41,7 @@ interface StudentMapper {
             """
                 SELECT DISTINCT 
                 user.id,
+                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -48,7 +49,6 @@ interface StudentMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -61,6 +61,7 @@ interface StudentMapper {
             """
                 SELECT DISTINCT 
                 user.id,
+                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -68,7 +69,6 @@ interface StudentMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username 
@@ -80,6 +80,7 @@ interface StudentMapper {
             """
                 SELECT DISTINCT
                 user.id,
+                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -87,7 +88,6 @@ interface StudentMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -100,6 +100,7 @@ interface StudentMapper {
             """
                 SELECT DISTINCT
                 user.id,
+                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -107,7 +108,6 @@ interface StudentMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
