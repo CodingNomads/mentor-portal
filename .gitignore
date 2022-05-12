@@ -37,5 +37,6 @@ build/
 */public/build/
 
 .DS_Store
+
 .env
 node_modules

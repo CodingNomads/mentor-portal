@@ -4,6 +4,7 @@ import com.codingnomads.mentor_portal_api.entity.business.User
 
 data class UserRow (
     val id: Int? = null,
+    val email: String,
     val firstName: String,
     val lastName: String,
     val roleCode: Int,
@@ -15,6 +16,7 @@ data class UserRow (
     companion object {
         fun fromEntity(user: User) = UserRow(
             id = user.id,
+            email = user.email,
             firstName = user.firstName,
             lastName = user.lastName,
             roleCode = user.roleCode,

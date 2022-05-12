@@ -36,6 +36,7 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
+                user.email
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -43,7 +44,6 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -55,6 +55,7 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
+                user.email
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -62,7 +63,6 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -75,6 +75,7 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
+                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -82,7 +83,6 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -96,6 +96,7 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
+                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -103,7 +104,6 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
-                contact.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -117,6 +117,7 @@ interface MentorMapper {
             """
             INSERT INTO user 
             (
+            email
             first_name, 
             last_name, 
             status_code, 
@@ -126,6 +127,6 @@ interface MentorMapper {
             bio,
             )
             """
-        const val INSERT_MENTOR_VALUES = "VALUES (#{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{timezoneOffset}, #{flag}, #{bio})"
+        const val INSERT_MENTOR_VALUES = "VALUES (#{email}, #{firstName}, #{lastName}, #{statusCode}, #{roleCode}, #{timezoneOffset}, #{flag}, #{bio})"
     }
 }

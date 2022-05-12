@@ -22,7 +22,7 @@ services:
       context: ./service/mentor-portal-api
       dockerfile: Dockerfile
       args:
-        DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5080
+        DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     ports:
         - ${API_PORTS_ONE}:${API_PORTS_ONE}
         - ${API_PORTS_TWO}:${API_PORTS_TWO}
