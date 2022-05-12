@@ -3,6 +3,7 @@
     import { lock, envelope } from 'svelte-awesome/icons';
     import { authorizedApiGetCall } from '../js/apiCalls';
 
+
     let email;
     let password;
 
@@ -28,6 +29,7 @@
             const authToken = response.headers.get("Authorization")
             localStorage.setItem("authToken", authToken)
             localStorage.setItem("userEmail", email)
+            // authToken.set(localStorage.getItem("authToken"))
             // get request for userId required to redirect to detail page
             const getUrl = API_BASE_URL + `/api/user/${email}`
             const responseObject = await authorizedApiGetCall(authToken, getUrl)

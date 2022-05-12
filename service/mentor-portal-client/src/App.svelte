@@ -11,45 +11,46 @@
 	import Mentor from './routes/Mentor.svelte';
 	
 	export let url = "";
+
+	let isAuthenticated = localStorage.getItem("authToken");
 </script>
 
 <Router url ="{url}">
 
-
-
 	<div>
-		<Route path="/login">
+		{#if isAuthenticated}
+			<Route path="/">
+				<Main />
+			</Route>
 
-			<Login />
-		</Route>
+			<Route path="/admin">
+				<Admin />
+			</Route>
 
-		<Route path="/">
-			<Main />
-		</Route>
+			<Route path="/status">
+				<Status /> 
+			</Route>
 
-		<Route path="/admin">
-			<Admin />
-		</Route>
+			<Route path="/mentors">
+				<Mentors />
+			</Route>
 
-		<Route path="/status">
-			<Status /> 
-		</Route>
+			<Route path="/mentors/:mentorId" component="{Mentor}" let:params>
+				<Mentor mentorId="{params.mentorId}"/>
+			</Route>
 
-		<Route path="/mentors">
-			<Mentors />
-		</Route>
+			<Route path="/students">
+				<Students />
+			</Route>
 
-		<Route path="/mentors/:mentorId" component="{Mentor}" let:params>
-			<Mentor mentorId="{params.mentorId}"/>
-		</Route>
-
-		<Route path="/students">
-			<Students />
-		</Route>
-
-		<Route path="/students/:studentId" component="{Student}" let:params>
-			<Student studentId="{params.studentId}" />
-		</Route>
+			<Route path="/students/:studentId" component="{Student}" let:params>
+				<Student studentId="{params.studentId}" />
+			</Route>
+		{:else if !isAuthenticated}
+			<Route path="/login">
+				<Login />
+			</Route>
+		{/if}
 	</div>
 
 </Router>

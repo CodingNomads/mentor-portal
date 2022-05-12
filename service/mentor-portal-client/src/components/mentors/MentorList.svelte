@@ -55,7 +55,7 @@
                     <div class="column is-2 is-offset-one-fifth">
                         <!-- mentor name -->
                         <div class="row">
-                            <a href="/mentors/{mentor.id}" class="button is-info is-small"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
+                            <a href="/mentors/{mentor.id}" class="button is-info is-medium"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
                         </div>
                         <!-- quick view of proficiencies -->
                         <div class="row">
@@ -94,7 +94,7 @@
                     <div class="column is-2 is-offset-one-fifth">
                         <!-- mentor name -->
                         <div class="row">
-                            <a href="/mentors/{mentor.id}" class="button is-info is-small"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
+                            <a href="/mentors/{mentor.id}" class="button is-info is-medium"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
                         </div>
                         <!-- quick view of proficiencies -->
                         <div class="row">
