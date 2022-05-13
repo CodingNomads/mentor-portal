@@ -65,7 +65,6 @@ export async function authorizedApiPutCall(authToken, body, url){
         window.location.replace(CLIENT_BASE_URL + "/login")
     }
     else if(response.status === 200){
-        const responseObject = await response.json()
-        return responseObject
+        return response
     }
 }

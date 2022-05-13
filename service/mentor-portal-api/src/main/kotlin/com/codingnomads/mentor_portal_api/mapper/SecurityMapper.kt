@@ -45,7 +45,7 @@ interface SecurityMapper {
                 user.status_code
                 FROM user
                 JOIN security on security.user_id = user.id
-                WHERE user.email = #{value}
+                WHERE user.email = #{email}
                 AND user.status_code = 100
                 LIMIT 1
             """
@@ -54,7 +54,7 @@ interface SecurityMapper {
             """
                 UPDATE security
                 SET
-                security.passwordHash = #{encodedPassword}
+                security.password_hash = #{encodedPassword}
                 WHERE security.user_id = #{userId}
             """
     }

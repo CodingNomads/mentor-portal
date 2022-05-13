@@ -43,7 +43,6 @@ class JwtTokenVerifier(): OncePerRequestFilter() {
             val claims = Jwts.parser().setSigningKey(System.getenv(APP_SECRET_ENV_NAME)).parseClaimsJws(token)
             val body = claims.body
             val username = body.subject
-            println(username)
 
             val authorities: List<Map<String, String>> = body[MAP_KEY_AUTHORITIES] as List<Map<String, String>>
 

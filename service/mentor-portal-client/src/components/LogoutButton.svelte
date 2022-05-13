@@ -1,6 +1,4 @@
 <script>
-    import { authToken } from "../js/store.js";
-
     async function logout(){
         // clear token to restrict access to webapp
         localStorage.clear();

@@ -12,9 +12,13 @@ import org.springframework.stereotype.Component
 @Component
 class SecurityHandler(@Autowired private val securityMapper: SecurityMapper,
                       @Autowired private val passwordEncoder: PasswordEncoder) {
-    fun resetPasswordByEmail(resetPasswordPayload: ResetPasswordPayload, jwtToken: String) {
+    fun resetPasswordByEmail(jwtToken: String, resetPasswordPayload: ResetPasswordPayload) {
+        val AUTH_HEADER_BEARER_PREFIX = "Bearer "
+        val EMPTY_STRING = ""
+
         try {
-            val claims = Jwts.parser().setSigningKey(System.getenv(JwtTokenVerifier.APP_SECRET_ENV_NAME)).parseClaimsJws(jwtToken)
+            val token = jwtToken.replace(AUTH_HEADER_BEARER_PREFIX, EMPTY_STRING)
+            val claims = Jwts.parser().setSigningKey(System.getenv(JwtTokenVerifier.APP_SECRET_ENV_NAME)).parseClaimsJws(token)
             val body = claims.body
             val email = body.subject
 
@@ -22,6 +26,7 @@ class SecurityHandler(@Autowired private val securityMapper: SecurityMapper,
                 throw Exception("Invalid Email")
             }
         } catch (e: JwtException) {
+            println(e)
             throw IllegalStateException(e.message)
         }
 
