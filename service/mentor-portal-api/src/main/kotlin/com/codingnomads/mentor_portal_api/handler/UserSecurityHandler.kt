@@ -24,7 +24,6 @@ class UserSecurityHandler(@Autowired private val securityMapper: SecurityMapper)
 
         return ApplicationUser(
             grantedAuthorities = grantedAuthorities.toMutableList(),
-            userId = userSecurityDTO.userId,
             password = userSecurityDTO.passwordHash,
             username = userSecurityDTO.email,
             isAccountNonExpired = true,
