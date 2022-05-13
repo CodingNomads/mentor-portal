@@ -1,6 +1,10 @@
 <script>
-  import { Link } from 'svelte-routing';
+  import LogoutButton from "./LogoutButton.svelte";
+
+  let loginUrl = CLIENT_BASE_URL + "/login"
+  let isAuthenticated = localStorage.getItem("authToken")
   let navbarToggle = false;
+
   const toggleNavbar = () => {
 		navbarToggle = !navbarToggle
 	}
@@ -25,6 +29,10 @@
         <a class="navbar-item" href="http://localhost:5000/admin">Admin</a>
         <a class="navbar-item" href="http://localhost:5000/students">Students</a>
         <a class="navbar-item" href="http://localhost:5000/mentors">Mentors</a>
+        <!-- logout button if authenticated -->
+        {#if isAuthenticated}
+          <a class="navbar-item" href="{loginUrl}"><LogoutButton /></a>
+        {/if}
       </div>
     </div>
   </nav>

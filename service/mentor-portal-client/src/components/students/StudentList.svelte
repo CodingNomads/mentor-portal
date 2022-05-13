@@ -1,7 +1,5 @@
 <script>
     import { onMount, onDestroy } from "svelte";
-    import { userCircle } from "svelte-awesome/icons";
-    import Icon from "svelte-awesome";
     import NavBar from "../../components/NavBar.svelte";
     import AssignMentor from "../formInputs/AssignMentor.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
@@ -74,7 +72,7 @@
     <!-- title and search box -->
     <div class="row">
         <div class="columns">
-            <div class="column is-2">
+            <div class="column is-one-fifth">
                 <h1 class="title is-1"><strong>Students</strong></h1>
             </div>
             <div class="column is-4">
@@ -87,52 +85,44 @@
     {#if filteredStudents.length > 0}
         {#each filteredStudents as student (student.id)}
             <div class="row">
-                <!-- icon column -->
                 <div class="columns">
-                    <div class="column is-offset-1 is-2">
-                        <div class="row">
-                            <Icon data={userCircle} scale={5} />
-                        </div>
-                    </div>
                     <!-- name, courseTrack, mentorshipOption, and flag column -->
-                    <div class="column is-3">
+                    <div class="column is-3 is-offset-one-fifth">
                         <div class="row">
-                            <a href="/students/{student.id}" class="button is-info is-small"><strong>{student.firstName} {student.lastName}</strong></a>
+                            <a href="/students/{student.id}" class="button is-info is-medium"><strong>{student.firstName} {student.lastName}</strong></a>
                         </div>
-                        <br>
                         <!-- courseTrack and mentorshipOption -->
                         <div class="row">
                             <div class="tags has-addons" id={student.id}>
                                 <div class="row">
                                     <span class="tag">courseTrack</span>
                                     <span class="tag is-dark is-small" on:mouseover={updateCourseTrack(student.id, student.courseTrack)} on:focus={updateCourseTrack(student.id, student.courseTrack)}>{student.courseTrack}</span>
-                                </div>
                                 {#if triggerId === student.id && triggerContent === student.courseTrack}
                                     <div class="row" on:mouseleave={resetUpdateCourseTrack}>
                                         <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
                                     </div>
                                 {/if}
-                                {#if student.mentorshipOption}
+                                </div>
                                 <div class="row">
+                                {#if student.mentorshipOption}
                                     <span class="tag">mentorshipOption</span>
                                     <span class="tag is-small is-dark" on:mouseover={updateMentorshipOption(student.id, student.mentorshipOption)} on:focus={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span>
-                                </div>
                                     {#if triggerId == student.id && triggerContent === student.mentorshipOption}
                                         <div class="row" on:mouseleave={resetUpdateMentorshipOption}>
                                             <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
                                         </div>
                                     {/if}
                                 {/if}
+                                </div>
                             </div>
                         </div>
                         {#if student.flag === true }
-                        <br>
                         <br>
                         <span class="tag is-danger">Flagged</span>
                         {/if}
                     </div>
                     {#if student.assignedMentors.length > 0}
-                    <div class="column is-offset-1">
+                    <div class="column is-offset-2">
                         <div class="row">
                             <p>
                                 <strong>assignedMentors: </strong>
@@ -143,7 +133,7 @@
                         </div>
                     </div>
                     {:else}
-                    <div class="column is-offset-1 is-one-quarter">
+                    <div class="column is-offset-2 is-one-quarter">
                         <AssignMentor bind:student={student} />
                     </div>
                     {/if}
@@ -158,53 +148,43 @@
         {#each studentList as student (student.id)}
             <div class="row">
                 <div class="columns">
-                    <!-- icon column -->
-                    <div class="column is-offset-1 is-2">
-                        <div class="row ">
-                            <div class="row">
-                                <Icon data={userCircle} scale={5} />
-                            </div>
-                        </div>
-                    </div>
                     <!-- name, courseTrack, mentorshipOption, and flag column -->
-                    <div class="column is-3">
+                    <div class="column is-3 is-offset-one-fifth">
                         <div class="row">
-                            <a href="/students/{student.id}" class="button is-info is-small"><strong>{student.firstName} {student.lastName}</strong></a>
-                        </div>     
-                        <br>                   
+                            <a href="/students/{student.id}" class="button is-info is-medium"><strong>{student.firstName} {student.lastName}</strong></a>
+                        </div>                       
                         <!-- courseTrack and mentorshipOption -->
                         <div class="row">
                             <div class="tags has-addons" id={student.id}>
                                 <div class="row">
                                     <span class="tag">courseTrack</span>
                                     <span class="tag is-dark is-small" on:mouseover={updateCourseTrack(student.id, student.courseTrack)} on:focus={updateCourseTrack(student.id, student.courseTrack)}>{student.courseTrack}</span>
-                                </div>
                                 {#if triggerId === student.id && triggerContent === student.courseTrack}
                                     <div class="row" on:mouseleave={resetUpdateCourseTrack}>
                                         <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
                                     </div>
                                 {/if}
-                                {#if student.mentorshipOption}
+                                </div>
                                 <div class="row">
+                                {#if student.mentorshipOption}
                                     <span class="tag">mentorshipOption</span>
                                     <span class="tag is-small is-dark" on:mouseover={updateMentorshipOption(student.id, student.mentorshipOption)} on:focus={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span>
-                                </div>
                                     {#if triggerId === student.id && triggerContent === student.mentorshipOption}
                                         <div class="row" on:mouseleave={resetUpdateMentorshipOption}>
                                             <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
                                         </div>
                                     {/if}
                                 {/if}
+                                </div>
                             </div>
                         </div>
                         {#if student.flag === true }
-                        <br>
                         <br>
                         <span class="tag is-danger">Flagged</span>
                         {/if}
                     </div>
                     {#if student.assignedMentors.length > 0}
-                    <div class="column is-offset-1">
+                    <div class="column is-offset-2">
                         <div class="row">
                             <p>
                                 <strong>assignedMentors: </strong>
@@ -215,7 +195,7 @@
                         </div>
                     </div>
                     {:else}
-                    <div class="column is-offset-1 is-one-quarter">
+                    <div class="column is-offset-2 is-one-quarter">
                         <AssignMentor bind:student={student} />
                     </div>
                     {/if}

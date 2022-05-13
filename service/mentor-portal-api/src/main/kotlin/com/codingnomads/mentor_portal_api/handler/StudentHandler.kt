@@ -29,8 +29,11 @@ class StudentHandler(
         // lists
         val studentList: MutableList<StudentDataRelation> = mutableListOf()
         val studentDataList = studentMapper.selectStudents()                            // student-user and contact info
+        println(studentDataList)
         val mentorshipDataList = mentorStudentLookupMapper.selectMentorships()          // for mentor-student pairs
+        println(mentorshipDataList)
         val mentorsList = mentorMapper.selectAllMentorsWithStudents()                   // for List<MentorData> that have students
+        println(mentorsList)
         val studentsConfigValuesList = userConfigValueMapper.selectAllStudentValues()   // for mapping their courseTrack
         println(studentsConfigValuesList)
         // maps

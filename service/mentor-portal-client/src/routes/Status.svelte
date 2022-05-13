@@ -2,18 +2,11 @@
     import NavBar from "../components/NavBar.svelte";
     import { onMount } from "svelte";
     import { authorizedApiGetCall } from "../js/apiCalls";
-    // import { userAuth } from "../js/store.js";
-    // import { get } from "svelte/store";
     
     export let apiStatus;
     let authToken = localStorage.authToken
 
-    // userAuth.subscribe(value => userWallet = value)
-    // const token = localStorage.getItem("admin@email.com")
-
     onMount(async () => {
-        // console.log(token)
-        console.log(authToken)
         const url = API_BASE_URL + "/status"
         const responseObject = await authorizedApiGetCall(authToken, url)
     

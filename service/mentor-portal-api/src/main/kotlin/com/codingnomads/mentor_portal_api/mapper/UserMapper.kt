@@ -94,8 +94,7 @@ interface UserMapper {
                 SELECT DISTINCT
                 user.id
                 FROM user
-                JOIN contact on contact.user_id = user.id
-                WHERE contact.email = #{userEmail}
+                WHERE user.email = #{userEmail}
             """
 
         const val INSERT_USER_STATEMENT =

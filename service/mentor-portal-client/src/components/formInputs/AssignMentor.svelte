@@ -36,7 +36,7 @@
 <form class="form" on:submit|preventDefault={assign}>
     <div class="columns">
         <div class="column is-7">
-            <MentorDropdown label="Assign: " bind:selectedMentor={mentor} />
+            <MentorDropdown label="Assign: " bind:value={mentor} />
         </div>
         <div class="column is-offset-1">
             <button class="button is-small" type="submit" disabled={!mentor}>Submit</button>
