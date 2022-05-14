@@ -11,11 +11,11 @@ VALUES (100, 'active'),
        (999, 'deleted');
 
 INSERT INTO `user` (first_name, last_name, role_code, status_code, flag, timezone_offset, bio, email)
-VALUES ('student 1', 'smith', 20, 100, 1, '-8', 'Bio for student1 with their goals', 'email1@email.com'),
-       ('mentor 1', 'doe', 10, 100, 0, '-4', 'Bio for mentor1 with their history', 'admin@email.com'),
-       ('student 2', 'smith', 20, 100, 0, '-8', 'Bio for student2 with their goals', 'email3@email.com'),
-       ('mentor 2', 'doe', 10, 100, 1, '-4', 'Bio for mentor2 with their history', 'email4@email.com'),
-       ('inactive student', 'smith', 20, 200, 1, '-4', 'Bio for inactive student', 'email5@email.com'),
+VALUES ('student1', 'smith', 20, 100, 1, '-8', 'Bio for student1 with their goals', 'email1@email.com'),
+       ('mentor1', 'doe', 10, 100, 0, '-4', 'Bio for mentor1 with their history', 'admin@email.com'),
+       ('student2', 'smith', 20, 100, 0, '-8', 'Bio for student2 with their goals', 'email3@email.com'),
+       ('mentor2', 'doe', 10, 100, 1, '-4', 'Bio for mentor2 with their history', 'email4@email.com'),
+       ('inactiveStudent', 'smith', 20, 200, 1, '-4', 'Bio for inactive student', 'email5@email.com'),
        ('admin', 'admin', 10, 100, 0, '-8', 'Bio for admin with their history', 'email6@email.com'),
        ('student', 'smith', 20, 100, 1, "-5", 'Bio for student with their goals', 'email7@email.com');
 

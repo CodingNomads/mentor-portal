@@ -25,7 +25,7 @@
                 alert("Failed to update your password")
             }
         } else {
-            alert("You may have miss-entered your email or password. Try again.")
+            alert("You've either miss-entered your email or password, or are not authorized to change this password.")
         }
     };
 </script>
