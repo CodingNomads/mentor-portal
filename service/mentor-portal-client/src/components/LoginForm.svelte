@@ -35,6 +35,7 @@
             const isAdmin = responseObject.isAdmin
             localStorage.setItem("isAdmin", isAdmin)
             console.log(userId)
+            console.log(isAdmin)
             window.location.replace(CLIENT_BASE_URL + `/mentors/${userId}`)
         }
         else if(!response.ok){

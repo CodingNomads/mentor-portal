@@ -5,7 +5,7 @@
   const isAuthenticated = localStorage.getItem("authToken")
   const isAdmin = localStorage.getItem("isAdmin")
   let navbarToggle = false;
-
+  console.log(`admin status: ${isAdmin}`)
   const toggleNavbar = () => {
 		navbarToggle = !navbarToggle
 	}
@@ -28,7 +28,7 @@
       <!-- right links -->
       <div class="navbar-end">
         <!-- create student/mentor restricted to admin -->
-        {#if isAdmin === true}
+        {#if isAdmin === "true"}
         <a class="navbar-item" href="http://localhost:5000/admin">Admin</a>
         {/if}
         <a class="navbar-item" href="http://localhost:5000/students">Students</a>

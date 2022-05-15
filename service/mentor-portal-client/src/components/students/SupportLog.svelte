@@ -68,7 +68,7 @@
                             <div class="is-offset-1 column is-three-fifths">
                                 {#if editTrigger === false}
                                 <p>{entry.log}</p>
-                                    {#if isAdmin === true}
+                                    {#if isAdmin === "true"}
                                     <br>
                                     <br>
                                     <button class="button is-small" on:click={editLog}>Edit</button>
