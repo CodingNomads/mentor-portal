@@ -2,7 +2,7 @@ package com.codingnomads.mentor_portal_api.mapper
 
 import com.codingnomads.mentor_portal_api.entity.data.UserRow
 import com.codingnomads.mentor_portal_api.entity.business.User
-import com.codingnomads.mentor_portal_api.entity.business.UserId
+import com.codingnomads.mentor_portal_api.entity.business.ClientAccess
 import org.apache.ibatis.annotations.*
 
 /**
@@ -30,7 +30,7 @@ interface UserMapper {
      * Select User from database by email
      */
     @Select(SELECT_USER_BY_EMAIL_STATEMENT)
-    fun selectUserByEmail(userEmail: String): UserId
+    fun selectUserByEmail(userEmail: String): ClientAccess
 
     /**
      * Inserts a new user.
@@ -92,8 +92,10 @@ interface UserMapper {
         const val SELECT_USER_BY_EMAIL_STATEMENT =
             """
                 SELECT DISTINCT
-                user.id
+                user.id,
+                security.is_admin
                 FROM user
+                JOIN security on user_id = user.id
                 WHERE user.email = #{userEmail}
             """
 

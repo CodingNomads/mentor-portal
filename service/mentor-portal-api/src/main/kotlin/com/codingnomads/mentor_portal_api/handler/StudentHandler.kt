@@ -29,24 +29,17 @@ class StudentHandler(
         // lists
         val studentList: MutableList<StudentDataRelation> = mutableListOf()
         val studentDataList = studentMapper.selectStudents()                            // student-user and contact info
-        println(studentDataList)
         val mentorshipDataList = mentorStudentLookupMapper.selectMentorships()          // for mentor-student pairs
-        println(mentorshipDataList)
         val mentorsList = mentorMapper.selectAllMentorsWithStudents()                   // for List<MentorData> that have students
-        println(mentorsList)
         val studentsConfigValuesList = userConfigValueMapper.selectAllStudentValues()   // for mapping their courseTrack
-        println(studentsConfigValuesList)
         // maps
         val mentorsWithStudentsByIdMap: Map<Int, MentorData> = mentorsList.associateBy { it.id!! }
         val mentorshipPairMap: Map<Int, MentorshipData> = mentorshipDataList.associateBy { it.studentId }
-//        val studentConfigValuesMap: Map<Int, UserConfigData> = studentsConfigValuesList.associateBy { it.userId }
-//        println(studentConfigValuesMap)
 
         for (student in studentDataList){
             val filteredStudentConfigValues = studentsConfigValuesList.filter { it.userId == student.id }
             val studentCourseTrack = filteredStudentConfigValues.filter { it.optionId == 3 }
             val studentMentorshipOption = filteredStudentConfigValues.filter { it.optionId == 4 }
-            println(filteredStudentConfigValues)
             val filteredMentorshipPair = mentorshipDataList.filter { it.studentId == student.id }
             val filteredMentors = filteredMentorshipPair.filter { true }.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
             // if students have a mentor they also have a mentorshipOption
@@ -163,15 +156,6 @@ class StudentHandler(
                 slackUsername = studentPostPayload.slackUsername
             )
             contactMapper.insertContact(contactRow)
-
-//        // security table fields
-//        val securityRow = SecurityRow(
-//            userId = userId,
-//            username = studentPostPayload.username,
-//            passwordHash = studentPostPayload.passwordHash,
-//            isAdmin = false
-//        )
-//        securityMapper.insertSecurity(securityRow)
 
             // config data
             // courseTrack

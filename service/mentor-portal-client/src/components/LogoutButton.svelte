@@ -2,7 +2,6 @@
     async function logout(){
         // clear token to restrict access to webapp
         localStorage.clear();
-        // authToken.set(localStorage.getItem("authToken"));
         console.log("Logged out.")
         window.location.replace(CLIENT_BASE_URL + "/login")
     }

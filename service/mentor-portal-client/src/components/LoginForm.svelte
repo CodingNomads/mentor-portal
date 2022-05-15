@@ -32,6 +32,9 @@
             const getUrl = API_BASE_URL + `/api/user/${email}`
             const responseObject = await authorizedApiGetCall(authToken, getUrl)
             const userId = responseObject.id
+            const isAdmin = responseObject.isAdmin
+            localStorage.setItem("isAdmin", isAdmin)
+            console.log(userId)
             window.location.replace(CLIENT_BASE_URL + `/mentors/${userId}`)
         }
         else if(!response.ok){
