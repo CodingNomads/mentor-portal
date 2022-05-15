@@ -1,11 +1,16 @@
 <script>
     import { onMount, onDestroy } from "svelte";
+    import { authorizedApiGetCall } from "../../js/apiCalls";
     import NavBar from "../../components/NavBar.svelte";
     import AssignMentor from "../formInputs/AssignMentor.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
 
     export let studentList = [];
     export let filteredStudents = [];
+
+    // authorization
+    const authToken = localStorage.getItem("authToken")
+    const isAdmin = localStorage.getItem("isAdmin")
 
     // edit variables
     let triggerContent;
@@ -49,18 +54,7 @@
 
     onMount(async () => {
         const url = API_BASE_URL + "/api/students"
-        const headers = {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        }
-        const response = await fetch(url, {
-            headers,
-            method: "GET",
-            mode: 'cors',
-            credentials: "same-origin"
-        })
-        studentList = await response.json()
-        // console.log(studentList)
+        studentList = await authorizedApiGetCall(authToken, url)
     })
 
     onDestroy(studentList, filteredStudents, triggerId)
@@ -76,7 +70,7 @@
                 <h1 class="title is-1"><strong>Students</strong></h1>
             </div>
             <div class="column is-5">
-                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchStudents} placeholder="spacebar to populate students" />
+                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchStudents} placeholder="spacebar + backspace to populate" />
             </div>
         </div>
     </div>
@@ -89,7 +83,7 @@
                     <!-- name, courseTrack, mentorshipOption, and flag column -->
                     <div class="column is-3 is-offset-one-fifth">
                         <div class="row">
-                            <a href="/students/{student.id}" class="button is-info is-medium"><strong>{student.firstName} {student.lastName}</strong></a>
+                            <a href="/students/{student.id}" class="button is-link is-medium"><strong>{student.firstName} {student.lastName}</strong></a>
                         </div>
                         <!-- courseTrack and mentorshipOption -->
                         <div class="row">
@@ -133,9 +127,11 @@
                         </div>
                     </div>
                     {:else}
-                    <div class="column is-offset-2 is-one-quarter">
-                        <AssignMentor bind:student={student} />
-                    </div>
+                        {#if isAdmin}
+                        <div class="column is-offset-2 is-one-quarter">
+                            <AssignMentor bind:student={student} />
+                        </div>
+                        {/if}
                     {/if}
                 </div>
             </div>

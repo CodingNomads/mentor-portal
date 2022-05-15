@@ -1,8 +1,9 @@
 <script>
   import LogoutButton from "./LogoutButton.svelte";
 
-  let loginUrl = CLIENT_BASE_URL + "/login"
-  let isAuthenticated = localStorage.getItem("authToken")
+  const loginUrl = CLIENT_BASE_URL + "/login"
+  const isAuthenticated = localStorage.getItem("authToken")
+  const isAdmin = localStorage.getItem("isAdmin")
   let navbarToggle = false;
 
   const toggleNavbar = () => {
@@ -26,7 +27,10 @@
     <div class="navbar-menu" class:is-active={navbarToggle} id="nav-links">
       <!-- right links -->
       <div class="navbar-end">
+        <!-- create student/mentor restricted to admin -->
+        {#if isAdmin === true}
         <a class="navbar-item" href="http://localhost:5000/admin">Admin</a>
+        {/if}
         <a class="navbar-item" href="http://localhost:5000/students">Students</a>
         <a class="navbar-item" href="http://localhost:5000/mentors">Mentors</a>
         <!-- logout button if authenticated -->

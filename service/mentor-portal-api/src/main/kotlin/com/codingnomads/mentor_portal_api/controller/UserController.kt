@@ -27,7 +27,6 @@ class UserController (@Autowired private val userHandler: UserHandler) {
     /**
      * Get userId by email
      */
-    @PreAuthorize("hasAuthority('admin:read')")
     @GetMapping("/user/{userEmail}")
     fun getUserByEmail(@PathVariable userEmail: String) = userHandler.getUserByEmail(userEmail)
 

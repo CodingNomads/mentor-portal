@@ -1,9 +1,13 @@
 <script>
     import { onMount, onDestroy } from "svelte"; 
     import NavBar from "../../components/NavBar.svelte";
+    import { authorizedApiGetCall } from "../../js/apiCalls";
 
     export let mentorList = [];
     export let filteredMentors = [];   
+
+    // authorization
+    const authToken = localStorage.getItem("authToken")
 
     let searchMentors = (e) => {
         let searchString = e.target.value
@@ -17,18 +21,7 @@
 
     onMount(async () => {
         const url = API_BASE_URL + "/api/mentors"
-        const headers = {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        }
-        const response = await fetch(url, {
-            headers,
-            method: "GET",
-            mode: 'cors',
-            credentials: "same-origin"
-        })
-        mentorList = await response.json()
-        // console.log(mentorList)
+        mentorList = await authorizedApiGetCall(authToken, url)
     })
 
     onDestroy(mentorList, filteredMentors)
@@ -45,7 +38,7 @@
                 <h1 class="title is-1"><strong>Mentors</strong></h1>
             </div>
             <div class="column is-5">
-                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchMentors} placeholder="spacebar to populate mentors" />
+                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchMentors} placeholder="spacebar + backspace to populate" />
             </div>
         </div>
     </div>          
@@ -58,7 +51,7 @@
                     <div class="column is-2 is-offset-one-fifth">
                         <!-- mentor name -->
                         <div class="row">
-                            <a href="/mentors/{mentor.id}" class="button is-info is-medium"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
+                            <a href="/mentors/{mentor.id}" class="button is-link is-medium"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
                         </div>
                         <!-- quick view of proficiencies -->
                         <div class="row">
