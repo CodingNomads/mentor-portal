@@ -4,6 +4,7 @@
     import NavBar from "../../components/NavBar.svelte";
     import AssignMentor from "../formInputs/AssignMentor.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
+import { navigate } from "svelte-routing";
 
     export let studentList = [];
     export let filteredStudents = [];
@@ -55,7 +56,8 @@
     onMount(async () => {
         const url = API_BASE_URL + "/api/students"
         studentList = await authorizedApiGetCall(authToken, url)
-    })
+        }
+    )
 
     onDestroy(studentList, filteredStudents, triggerId)
 </script>
@@ -127,7 +129,7 @@
                         </div>
                     </div>
                     {:else}
-                        {#if isAdmin}
+                        {#if isAdmin === "true"}
                         <div class="column is-offset-2 is-one-quarter">
                             <AssignMentor bind:student={student} />
                         </div>

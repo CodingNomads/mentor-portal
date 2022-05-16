@@ -1,5 +1,5 @@
 <script>
-	import { Router, Route } from 'svelte-routing';
+	import { Router, Route, navigate } from 'svelte-routing';
 
 	import Login from './routes/Login.svelte';
 	import Students from './routes/Students.svelte'
@@ -12,45 +12,47 @@
 	
 	export let url = "";
 
-	let isAuthenticated = localStorage.getItem("authToken");
+	const isAuthenticated = localStorage.getItem("authToken");
+
+	if(!isAuthenticated){
+		navigate(CLIENT_BASE_URL + "/login", {replace: true})
+	};
 </script>
 
 <Router url ="{url}">
 
 	<div>
-		{#if isAuthenticated}
-			<Route path="/">
-				<Main />
-			</Route>
+		<Route path="/login">
+			<Login />
+		</Route>
 
-			<Route path="/admin">
-				<Admin />
-			</Route>
+		<Route path="/">
+			<Main />
+		</Route>
 
-			<Route path="/status">
-				<Status /> 
-			</Route>
+		<Route path="/admin">
+			<Admin />
+		</Route>
 
-			<Route path="/mentors">
-				<Mentors />
-			</Route>
+		<Route path="/status">
+			<Status /> 
+		</Route>
 
-			<Route path="/mentors/:mentorId" component="{Mentor}" let:params>
-				<Mentor mentorId="{params.mentorId}"/>
-			</Route>
+		<Route path="/mentors">
+			<Mentors />
+		</Route>
 
-			<Route path="/students">
-				<Students />
-			</Route>
+		<Route path="/mentors/:mentorId" component="{Mentor}" let:params>
+			<Mentor mentorId="{params.mentorId}"/>
+		</Route>
 
-			<Route path="/students/:studentId" component="{Student}" let:params>
-				<Student studentId="{params.studentId}" />
-			</Route>
-		{:else if !isAuthenticated}
-			<Route path="/login">
-				<Login />
-			</Route>
-		{/if}
+		<Route path="/students">
+			<Students />
+		</Route>
+
+		<Route path="/students/:studentId" component="{Student}" let:params>
+			<Student studentId="{params.studentId}" />
+		</Route>
 	</div>
 
 </Router>
