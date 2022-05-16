@@ -5,7 +5,7 @@
   const isAuthenticated = localStorage.getItem("authToken")
   const isAdmin = localStorage.getItem("isAdmin")
   let navbarToggle = false;
-  console.log(`admin status: ${isAdmin}`)
+  
   const toggleNavbar = () => {
 		navbarToggle = !navbarToggle
 	}
