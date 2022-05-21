@@ -251,6 +251,12 @@ class StudentHandler(
      * Assign a mentor to a student
      */
     fun assignMentor(assignMentorPayload: AssignMentorPayload): StudentDataRelation{
+        // check active status of student
+        val studentDataCheck = studentMapper.selectStudentById(assignMentorPayload.studentId)
+        if (studentDataCheck.statusCode === 200){
+            userMapper.updateStatusCode(assignMentorPayload.studentId, statusCode = 100)
+        }
+
         // create mentorStudentLookup row to insert
         val mentorStudentLookupRow = MentorStudentLookupRow(
             mentorId = assignMentorPayload.mentorId,
@@ -272,7 +278,7 @@ class StudentHandler(
         val mentorData = mentorMapper.selectAssignedMentor(assignMentorPayload.studentId)
         val courseTrack = userConfigValueMapper.selectStudentCourseTrack(assignMentorPayload.studentId)
         val mentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(assignMentorPayload.studentId)
-        println(mentorshipOption)
+
         return StudentDataRelation(
             id = assignMentorPayload.studentId,
             firstName = someStudentData.firstName,

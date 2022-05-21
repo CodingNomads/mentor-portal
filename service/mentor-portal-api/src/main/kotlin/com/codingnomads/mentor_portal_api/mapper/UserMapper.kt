@@ -52,7 +52,11 @@ interface UserMapper {
      */
     @Update(UPDATE_USER_BIO_STATEMENT)
     fun updateBio(userId: Int, bio:String): Int
-
+    /**
+     * Update user status_code
+     */
+    @Update(UPDATE_USER_STATUS_CODE)
+    fun updateStatusCode(userId: Int, statusCode: Int)
     /**
      * A companion object to hold sql statement strings
      */
@@ -124,6 +128,12 @@ interface UserMapper {
             """
                 UPDATE user
                 SET user.bio = #{bio}
+                WHERE user.id = #{userId}
+            """
+        const val UPDATE_USER_STATUS_CODE =
+            """
+                UPDATE user
+                SET user.status_code = #{statusCode}
                 WHERE user.id = #{userId}
             """
     }
