@@ -68,7 +68,6 @@ VALUES (2, 1, "10"),
        (3, 3, "Java Programming"),
        (3, 4, "Java Career"),
        (5, 3, "Javascript"),
-       (5, 4, "Month-to-Month"),
        (7, 3, "Javascript"),
        (6, 2, "Python Programming");
 
