@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+
+  client:
+    container_name: client
+    build:
+      context: ./service/mentor-portal-client
+      dockerfile: Dockerfile
+    hostname: localhost
+    ports:
+      - ${FRONTEND_PORTS}:${FRONTEND_PORTS}
+    environment:
+      - API_BASE_URL
+      - CLIENT_BASE_URL
+    networks:
+      - front-end
+
+  server:
+    container_name: server
+    build:
+      context: ./service/mentor-portal-api
+      dockerfile: Dockerfile
+      args:
+        DEBUG_ARGS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    ports:
+        - ${API_PORTS_ONE}:${API_PORTS_ONE}
+        - ${API_PORTS_TWO}:${API_PORTS_TWO}
+    env_file:
+      - .env
+    environment:
+      - DATABASE_ROOT
+      - EXPOSED_DB_PORT
+      - MYSQL_DATABASE_NAME
+      - MYSQL_DATABASE_USER
+      - MYSQL_DATABASE_PASSWORD
+      - CLIENT_BASE_URL
+      - APP_SECRET
+      - TOKEN_EXPIRATION_IN_MINUTES
+    hostname: localhost
+    restart: unless-stopped
+    networks:
+      - mentor-portal-data
+      - front-end
+
+networks:
+  mentor-portal-data:
+    name: mentor-portal-data
+  front-end:
+    name: front-end

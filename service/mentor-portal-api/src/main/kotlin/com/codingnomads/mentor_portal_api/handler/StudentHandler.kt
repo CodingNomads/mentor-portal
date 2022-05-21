@@ -43,7 +43,8 @@ class StudentHandler(
             val filteredMentorshipPair = mentorshipDataList.filter { it.studentId == student.id }
             val filteredMentors = filteredMentorshipPair.filter { true }.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
             // if students have a mentor they also have a mentorshipOption
-            if (mentorshipPairMap[student.id] != null){
+            if (mentorshipPairMap[student.id] != null && studentMentorshipOption.isNotEmpty()){
+                println(studentMentorshipOption)
                 val someStudent = StudentDataRelation(
                     id = student.id!!,
                     firstName = student.firstName,
@@ -92,28 +93,49 @@ class StudentHandler(
     fun getStudentById(studentId: Int): Student {
         val studentData = studentMapper.selectStudentById(studentId)
         val supportLog = supportLogMapper.selectSupportLogs(studentId)
-        val mentorData = mentorMapper.selectAssignedMentor(studentId)
         val studentCourseTrack = userConfigValueMapper.selectStudentCourseTrack(studentId)
+        val mentorData = mentorMapper.selectAssignedMentor(studentId)
         val studentMentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(studentId)
 
-        return Student(
-            id = studentData.id,
-            firstName = studentData.firstName,
-            lastName = studentData.lastName,
-            roleCode = studentData.roleCode,
-            statusCode = studentData.statusCode,
-            flag = studentData.flag,
-            bio = studentData.bio,
-            location = studentData.location,
-            email = studentData.email,
-            telephone = studentData.telephone,
-            forumUsername = studentData.forumUsername,
-            slackUsername = studentData.slackUsername,
-            assignedMentors = mentorData,
-            supportLog = supportLog,
-            courseTrack = studentCourseTrack.courseTrack,
-            mentorshipOption = studentMentorshipOption.mentorshipOption
-        )
+        if (mentorData === null || studentMentorshipOption === null){
+            return Student(
+                id = studentData.id,
+                firstName = studentData.firstName,
+                lastName = studentData.lastName,
+                roleCode = studentData.roleCode,
+                statusCode = studentData.statusCode,
+                flag = studentData.flag,
+                bio = studentData.bio,
+                location = studentData.location,
+                email = studentData.email,
+                telephone = studentData.telephone,
+                forumUsername = studentData.forumUsername,
+                slackUsername = studentData.slackUsername,
+                assignedMentors = emptyList(),
+                supportLog = supportLog,
+                courseTrack = studentCourseTrack.courseTrack,
+                mentorshipOption = ""
+            )
+        } else {
+            return Student(
+                id = studentData.id,
+                firstName = studentData.firstName,
+                lastName = studentData.lastName,
+                roleCode = studentData.roleCode,
+                statusCode = studentData.statusCode,
+                flag = studentData.flag,
+                bio = studentData.bio,
+                location = studentData.location,
+                email = studentData.email,
+                telephone = studentData.telephone,
+                forumUsername = studentData.forumUsername,
+                slackUsername = studentData.slackUsername,
+                assignedMentors = mentorData,
+                supportLog = supportLog,
+                courseTrack = studentCourseTrack.courseTrack,
+                mentorshipOption = studentMentorshipOption.mentorshipOption
+            )
+        }
     }
 
     /**
@@ -235,13 +257,22 @@ class StudentHandler(
             studentId = assignMentorPayload.studentId,
             statusCode = 100
         )
-        // insert mentor pairing
         mentorStudentLookupMapper.insertMentorStudentLookup(mentorStudentLookupRow)
+
+        // create mentorshipOption for student
+        val configValueRow = ConfigValueRow(
+            optionId = 4,
+            userId = assignMentorPayload.studentId,
+            value = assignMentorPayload.mentorshipOption
+        )
+        userConfigValueMapper.insertConfigValue(configValueRow)
+
         // get student data to return
         val someStudentData = studentMapper.selectStudentById(assignMentorPayload.studentId)
         val mentorData = mentorMapper.selectAssignedMentor(assignMentorPayload.studentId)
         val courseTrack = userConfigValueMapper.selectStudentCourseTrack(assignMentorPayload.studentId)
         val mentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(assignMentorPayload.studentId)
+        println(mentorshipOption)
         return StudentDataRelation(
             id = assignMentorPayload.studentId,
             firstName = someStudentData.firstName,

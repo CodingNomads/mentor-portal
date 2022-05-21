@@ -4,6 +4,10 @@
     import UpdateBio from "../formInputs/UpdateBio.svelte";
 
     export let mentor;
+
+    const authToken = localStorage.getItem("authToken")
+    const userEmail = localStorage.getItem("userEmail")
+
     let editTrigger = false;
 
     const editBio = () => {
@@ -18,14 +22,17 @@
     <div class="row">
         <div class="column is-6 is-centered">
             {#if editTrigger === false}
-            {mentor.bio}
-            <br>
-            <br>
-            <button class="button is-small" on:click={editBio}>Edit</button>
+                {mentor.bio}
+                <br>
+                <br>
+                <!-- restrict bio edit to the logged in user and their bio -->
+                {#if userEmail === mentor.email}
+                    <button class="button is-small" on:click={editBio}>Edit</button>
+                {/if}
             {:else}   
-            <UpdateBio mentorId={mentor.id} bio={mentor.bio} />
-            <br>
-            <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                <UpdateBio mentorId={mentor.id} bio={mentor.bio} />
+                <br>
+                <button class="button is-small" on:click={cancelEdit}>Cancel</button>
             {/if}
         </div>
     </div>
