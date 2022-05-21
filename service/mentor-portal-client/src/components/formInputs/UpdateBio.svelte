@@ -1,33 +1,25 @@
 <script>
+    import { authorizedApiPutCall } from "../../js/apiCalls.js";
+
     export let bio;
     export let mentorId;
     export let studentId;
     export let updatedBio;
 
+    const authToken = localStorage.getItem("authToken")
+
     let mentorUrl = API_BASE_URL + `/api/mentors/${mentorId}`;
     let studentUrl = API_BASE_URL + `/api/students/${studentId}`;
 
     async function submitUpdate() {
-        console.log(typeof(mentorId))
-        console.log(typeof(studentId))
-        const headers = {
-            'Content-type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
         // if student being updated
         if (typeof(studentId) === 'number' && typeof(mentorId) === 'undefined') {
             const body = JSON.stringify({
                 'userId': studentId,
                 'bio': updatedBio
             })
-            const response = await fetch(studentUrl, {
-                headers,
-                body,
-                method: 'PUT',
-                mode: 'cors',
-                credentials: 'same-origin'
-            })
-            if (response.ok) {
+            const response = await authorizedApiPutCall(authToken, body, studentUrl)
+            if (response.status === 200) {
                 alert(`Successfully updated bio.`)
                 window.location.reload()
             } else {
@@ -40,14 +32,8 @@
                 'userId': mentorId,
                 'bio': updatedBio
             })
-            const response = await fetch(mentorUrl, {
-                headers,
-                body,
-                method: 'PUT',
-                mode: 'cors',
-                credentials: 'same-origin'
-            })
-            if (response.ok) {
+            const response = await authorizedApiPutCall(authToken, body, mentorUrl)
+            if (response.status === 200) {
                 alert(`Successfully updated bio`)
                 window.location.reload()
             } else {

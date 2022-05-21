@@ -6,6 +6,9 @@
 
     // initialize variables
     export let mentor;
+    const authToken = localStorage.getItem("authToken")
+    const userEmail = localStorage.getItem("userEmail")
+    const isAdmin = localStorage.getItem("isAdmin")
     let addLog = false;
     let editTrigger = false;
 
@@ -31,9 +34,11 @@
 <div class="container">
     <!-- add new log button -->
     <div class="row">
-        <button class="button is-medium" on:click={newLog}>
-            <Icon data={plusCircle} scale={3} />
-        </button>
+        {#if isAdmin === "true" || userEmail === mentor.email}
+            <button class="button is-medium" on:click={newLog}>
+                <Icon data={plusCircle} scale={3} />
+            </button>
+        {/if}
     </div>
 
     <br>
@@ -65,9 +70,11 @@
                             <div class="is-offset-1 column is-three-fifths">
                                 {#if editTrigger === false}
                                 <p>{entry.log}</p>
-                                <br>
-                                <br>
-                                <button class="button is-small" on:click={editLog}>Edit</button>
+                                    {#if isAdmin === "true"}
+                                        <br>
+                                        <br>
+                                        <button class="button is-small" on:click={editLog}>Edit</button>
+                                    {/if}
                                 <!-- triggered edit form -->
                                 {:else}
                                 <UpdateLog log={entry.log} userId={mentor.id} supportLogId={entry.id} />

@@ -5,5 +5,6 @@ enum class ApplicationUserPermission(val permission: String) {
     STUDENT_WRITE("student:write"),
     MENTOR_READ("mentor:read"),
     MENTOR_WRITE("mentor:write"),
-    ADMIN_READ("admin:read")
+    ADMIN_READ("admin:read"),
+    ADMIN_WRITE("admin:write")
 }

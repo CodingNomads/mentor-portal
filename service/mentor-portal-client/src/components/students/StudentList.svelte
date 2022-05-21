@@ -4,7 +4,6 @@
     import NavBar from "../../components/NavBar.svelte";
     import AssignMentor from "../formInputs/AssignMentor.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
-import { navigate } from "svelte-routing";
 
     export let studentList = [];
     export let filteredStudents = [];
@@ -16,8 +15,8 @@ import { navigate } from "svelte-routing";
     // edit variables
     let triggerContent;
     let triggerId;
-    let courseTrackLabel = "updatedCourseTrack";
-    let mentorShipOptionLabel = "updatedMentorshipOption";
+    let courseTrackLabel = "Update Course";
+    let mentorShipOptionLabel = "Update Mentorship";
 
     const searchStudents = (e) => {
         let searchString = e.target.value
@@ -59,7 +58,7 @@ import { navigate } from "svelte-routing";
         }
     )
 
-    onDestroy(studentList, filteredStudents, triggerId)
+    onDestroy(studentList, filteredStudents, triggerId, triggerContent)
 </script>
 
 <div class="container">
@@ -80,63 +79,70 @@ import { navigate } from "svelte-routing";
     <!-- filtered student list -->
     {#if filteredStudents.length > 0}
         {#each filteredStudents as student (student.id)}
-            <div class="row">
-                <div class="columns">
-                    <!-- name, courseTrack, mentorshipOption, and flag column -->
-                    <div class="column is-3 is-offset-one-fifth">
-                        <div class="row">
-                            <a href="/students/{student.id}" class="button is-link is-medium"><strong>{student.firstName} {student.lastName}</strong></a>
-                        </div>
-                        <!-- courseTrack and mentorshipOption -->
-                        <div class="row">
-                            <div class="tags has-addons" id={student.id}>
-                                <div class="row">
-                                    <span class="tag">courseTrack</span>
-                                    <span class="tag is-dark is-small" on:mouseover={updateCourseTrack(student.id, student.courseTrack)} on:focus={updateCourseTrack(student.id, student.courseTrack)}>{student.courseTrack}</span>
-                                {#if triggerId === student.id && triggerContent === student.courseTrack}
-                                    <div class="row" on:mouseleave={resetUpdateCourseTrack}>
-                                        <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
-                                    </div>
-                                {/if}
-                                </div>
-                                <div class="row">
-                                {#if student.mentorshipOption}
-                                    <span class="tag">mentorshipOption</span>
-                                    <span class="tag is-small is-dark" on:mouseover={updateMentorshipOption(student.id, student.mentorshipOption)} on:focus={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span>
-                                    {#if triggerId == student.id && triggerContent === student.mentorshipOption}
-                                        <div class="row" on:mouseleave={resetUpdateMentorshipOption}>
-                                            <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
-                                        </div>
-                                    {/if}
-                                {/if}
-                                </div>
-                            </div>
-                        </div>
-                        {#if student.flag === true }
-                        <br>
-                        <span class="tag is-danger">Flagged</span>
-                        {/if}
+            <div class="columns">
+                <!-- COLUMN #1: name and flag -->
+                <div class="column is-3 is-offset-one-fifth">
+                    <div class="row">
+                        <a href="/students/{student.id}" class="button is-link is-medium"><strong>{student.firstName} {student.lastName}</strong></a>
                     </div>
-                    {#if student.assignedMentors.length > 0}
-                    <div class="column is-offset-2">
-                        <div class="row">
-                            {#each student.assignedMentors as mentor}
-                            <div class="tags has-addons">
-                                <span class="tag">assignedMentor</span>
-                                <a class="tag is-link" href="/mentors/{mentor.id}">{mentor.firstName} {mentor.lastName}</a>
-                            </div>
-                            {/each}
-                        </div>
-                    </div>
-                    {:else}
-                        {#if isAdmin === "true"}
-                        <div class="column is-offset-2 is-one-quarter">
-                            <AssignMentor bind:student={student} />
-                        </div>
-                        {/if}
+                    {#if student.flag === true }
+                    <br>
+                    <span class="tag is-danger">Flagged</span>
                     {/if}
                 </div>
+
+                <!-- COLUMN #2: courseTrack, mentorshipOption, assignedMentors -->
+                <div class="column is-offset-1 is-3">
+                    <!-- courseTrack row -->
+                    <div class="row">
+                        <div class="tags has-addons" id={student.id}>
+                            <span class="tag">courseTrack</span>
+                            <span class="tag is-dark is-small" on:mouseover={updateCourseTrack(student.id, student.courseTrack)} on:focus={updateCourseTrack(student.id, student.courseTrack)}>{student.courseTrack}</span>
+                            {#if triggerId === student.id && triggerContent === student.courseTrack && isAdmin === "true"}
+                                <div class="row" on:mouseleave={resetUpdateCourseTrack}>
+                                    <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
+
+                    <!-- mentorship row -->
+                    <!-- if students are enrolled in mentorship programs -->
+                    {#if student.mentorshipOption}
+                        <div class="row">
+                            <span class="tag">mentorshipOption</span>
+                            <span class="tag is-small is-dark" on:mouseover={updateMentorshipOption(student.id, student.mentorshipOption)} on:focus={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span>
+                            {#if triggerId == student.id && triggerContent === student.mentorshipOption && isAdmin === "true"}
+                                <div class="row" on:mouseleave={resetUpdateMentorshipOption}>
+                                    <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
+                                </div>
+                            {/if}
+                        </div>
+                    {/if}
+
+                    <!-- if students have mentors -->
+                    {#if student.assignedMentors.length > 0}
+                        <br>
+                        <div class="row">
+                            <div class="tags has-addons">
+                                <span class="tag">assignedMentor</span>
+                                {#each student.assignedMentors as mentor}
+                                    <a class="tag is-link" href="/mentors/{mentor.id}">{mentor.firstName} {mentor.lastName} </a>
+                                {/each}
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+
+                <!-- COLUMN #3: assigningMentor -->
+                <!-- if students DO NOT have mentors -->
+                {#if isAdmin === "true" && student.assignedMentors.length === 0}
+                    <div class="column is-3">
+                        <AssignMentor bind:student={student} />
+                    </div>
+                {/if}
             </div>
+            <!-- COLUMN #4: spacer between students -->
             <div class="column is-two-thirds is-offset-2">
                 <hr>
             </div>

@@ -69,9 +69,9 @@
                                 {#if editTrigger === false}
                                 <p>{entry.log}</p>
                                     {#if isAdmin === "true"}
-                                    <br>
-                                    <br>
-                                    <button class="button is-small" on:click={editLog}>Edit</button>
+                                        <br>
+                                        <br>
+                                        <button class="button is-small" on:click={editLog}>Edit</button>
                                     {/if}
                                 <!-- triggered edit form -->
                                 {:else}

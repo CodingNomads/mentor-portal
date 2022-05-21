@@ -16,7 +16,7 @@ enum class ApplicationUserRole() {
 
     ADMIN () {
         override fun getGrantedAuthorities(): Set<GrantedAuthority> {
-            return Sets.newHashSet(STUDENT_READ, STUDENT_WRITE, MENTOR_READ, MENTOR_WRITE, ADMIN_READ).map {value -> SimpleGrantedAuthority(value.permission)}.toSet()
+            return Sets.newHashSet(STUDENT_READ, STUDENT_WRITE, MENTOR_READ, MENTOR_WRITE, ADMIN_READ, ADMIN_WRITE).map {value -> SimpleGrantedAuthority(value.permission)}.toSet()
         }
 
     };

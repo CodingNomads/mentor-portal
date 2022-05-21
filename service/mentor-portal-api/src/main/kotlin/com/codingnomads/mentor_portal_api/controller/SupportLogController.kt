@@ -5,6 +5,7 @@ import com.codingnomads.mentor_portal_api.entity.business.SupportLogFlagPayload
 import com.codingnomads.mentor_portal_api.entity.business.SupportLogPayload
 import com.codingnomads.mentor_portal_api.handler.SupportLogHandler
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -26,6 +27,7 @@ class SupportLogController(@Autowired private val supportLogHandler: SupportLogH
     /**
      * PUT endpoint for updating flag of single support log
      */
+    @PreAuthorize("hasAuthority('admin:write')")
     @PutMapping("/{userId}/supportLogs/{supportLogId}")
     fun updateSupportLogFlag(@RequestBody payload: SupportLogFlagPayload,
                              @PathVariable userId: Int,
