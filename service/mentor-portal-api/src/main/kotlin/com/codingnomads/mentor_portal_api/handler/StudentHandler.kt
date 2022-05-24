@@ -32,22 +32,19 @@ class StudentHandler(
         val mentorshipDataList = mentorStudentLookupMapper.selectMentorships()          // for mentor-student pairs
         val mentorsList = mentorMapper.selectAllMentorsWithStudents()                   // for List<MentorData> that have students
         val studentsConfigValuesList = userConfigValueMapper.selectAllStudentValues()   // for mapping their courseTrack
-        println(studentsConfigValuesList)
         // maps
         val mentorsWithStudentsByIdMap: Map<Int, MentorData> = mentorsList.associateBy { it.id!! }
         val mentorshipPairMap: Map<Int, MentorshipData> = mentorshipDataList.associateBy { it.studentId }
-//        val studentConfigValuesMap: Map<Int, UserConfigData> = studentsConfigValuesList.associateBy { it.userId }
-//        println(studentConfigValuesMap)
 
         for (student in studentDataList){
             val filteredStudentConfigValues = studentsConfigValuesList.filter { it.userId == student.id }
             val studentCourseTrack = filteredStudentConfigValues.filter { it.optionId == 3 }
             val studentMentorshipOption = filteredStudentConfigValues.filter { it.optionId == 4 }
-            println(filteredStudentConfigValues)
             val filteredMentorshipPair = mentorshipDataList.filter { it.studentId == student.id }
             val filteredMentors = filteredMentorshipPair.filter { true }.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
             // if students have a mentor they also have a mentorshipOption
-            if (mentorshipPairMap[student.id] != null){
+            if (mentorshipPairMap[student.id] != null && studentMentorshipOption.isNotEmpty()){
+                println(studentMentorshipOption)
                 val someStudent = StudentDataRelation(
                     id = student.id!!,
                     firstName = student.firstName,
@@ -96,28 +93,49 @@ class StudentHandler(
     fun getStudentById(studentId: Int): Student {
         val studentData = studentMapper.selectStudentById(studentId)
         val supportLog = supportLogMapper.selectSupportLogs(studentId)
-        val mentorData = mentorMapper.selectAssignedMentor(studentId)
         val studentCourseTrack = userConfigValueMapper.selectStudentCourseTrack(studentId)
+        val mentorData = mentorMapper.selectAssignedMentor(studentId)
         val studentMentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(studentId)
 
-        return Student(
-            id = studentData.id,
-            firstName = studentData.firstName,
-            lastName = studentData.lastName,
-            roleCode = studentData.roleCode,
-            statusCode = studentData.statusCode,
-            flag = studentData.flag,
-            bio = studentData.bio,
-            location = studentData.location,
-            email = studentData.email,
-            telephone = studentData.telephone,
-            forumUsername = studentData.forumUsername,
-            slackUsername = studentData.slackUsername,
-            assignedMentors = mentorData,
-            supportLog = supportLog,
-            courseTrack = studentCourseTrack.courseTrack,
-            mentorshipOption = studentMentorshipOption.mentorshipOption
-        )
+        if (mentorData === null || studentMentorshipOption === null){
+            return Student(
+                id = studentData.id,
+                firstName = studentData.firstName,
+                lastName = studentData.lastName,
+                roleCode = studentData.roleCode,
+                statusCode = studentData.statusCode,
+                flag = studentData.flag,
+                bio = studentData.bio,
+                location = studentData.location,
+                email = studentData.email,
+                telephone = studentData.telephone,
+                forumUsername = studentData.forumUsername,
+                slackUsername = studentData.slackUsername,
+                assignedMentors = emptyList(),
+                supportLog = supportLog,
+                courseTrack = studentCourseTrack.courseTrack,
+                mentorshipOption = ""
+            )
+        } else {
+            return Student(
+                id = studentData.id,
+                firstName = studentData.firstName,
+                lastName = studentData.lastName,
+                roleCode = studentData.roleCode,
+                statusCode = studentData.statusCode,
+                flag = studentData.flag,
+                bio = studentData.bio,
+                location = studentData.location,
+                email = studentData.email,
+                telephone = studentData.telephone,
+                forumUsername = studentData.forumUsername,
+                slackUsername = studentData.slackUsername,
+                assignedMentors = mentorData,
+                supportLog = supportLog,
+                courseTrack = studentCourseTrack.courseTrack,
+                mentorshipOption = studentMentorshipOption.mentorshipOption
+            )
+        }
     }
 
     /**
@@ -160,15 +178,6 @@ class StudentHandler(
                 slackUsername = studentPostPayload.slackUsername
             )
             contactMapper.insertContact(contactRow)
-
-//        // security table fields
-//        val securityRow = SecurityRow(
-//            userId = userId,
-//            username = studentPostPayload.username,
-//            passwordHash = studentPostPayload.passwordHash,
-//            isAdmin = false
-//        )
-//        securityMapper.insertSecurity(securityRow)
 
             // config data
             // courseTrack
@@ -242,19 +251,34 @@ class StudentHandler(
      * Assign a mentor to a student
      */
     fun assignMentor(assignMentorPayload: AssignMentorPayload): StudentDataRelation{
+        // check active status of student
+        val studentDataCheck = studentMapper.selectStudentById(assignMentorPayload.studentId)
+        if (studentDataCheck.statusCode === 200){
+            userMapper.updateStatusCode(assignMentorPayload.studentId, statusCode = 100)
+        }
+
         // create mentorStudentLookup row to insert
         val mentorStudentLookupRow = MentorStudentLookupRow(
             mentorId = assignMentorPayload.mentorId,
             studentId = assignMentorPayload.studentId,
             statusCode = 100
         )
-        // insert mentor pairing
         mentorStudentLookupMapper.insertMentorStudentLookup(mentorStudentLookupRow)
+
+        // create mentorshipOption for student
+        val configValueRow = ConfigValueRow(
+            optionId = 4,
+            userId = assignMentorPayload.studentId,
+            value = assignMentorPayload.mentorshipOption
+        )
+        userConfigValueMapper.insertConfigValue(configValueRow)
+
         // get student data to return
         val someStudentData = studentMapper.selectStudentById(assignMentorPayload.studentId)
         val mentorData = mentorMapper.selectAssignedMentor(assignMentorPayload.studentId)
         val courseTrack = userConfigValueMapper.selectStudentCourseTrack(assignMentorPayload.studentId)
         val mentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(assignMentorPayload.studentId)
+
         return StudentDataRelation(
             id = assignMentorPayload.studentId,
             firstName = someStudentData.firstName,

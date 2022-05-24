@@ -1,6 +1,9 @@
 <script>
+    import { authorizedApiPutCall } from "../../js/apiCalls.js";
+
     import FlagDropdown from "../formInputs/FlagDropdown.svelte";
 
+    const authToken = localStorage.getItem("authToken")
     export let userId;
     export let supportLogId;
     export let log;
@@ -10,24 +13,15 @@
     async function submitUpdates() {
         const compiledLog = log + " UPDATE: " + updatedLog
         const url = API_BASE_URL + `/api/${userId}/supportLogs/${supportLogId}`
-        const headers = {
-            "Content-type": "application/json",
-            "Access-Control-Allow-Origin": "*"
-        }
         const body = JSON.stringify({
             "studentId": userId,
             "supportLogId": supportLogId,
             "flag": flag,
             "log": compiledLog
         })
-        const response = await fetch(url,{
-            headers,
-            body,
-            method: "PUT",
-            mode: "cors",
-            credentials: "same-origin"
-        })
-        if (response.ok) {
+        const response = await authorizedApiPutCall(authToken, body, url)
+     
+        if (response.status === 200) {
             alert(`Successfully updated support log.`)
             window.location.reload()
         } else{

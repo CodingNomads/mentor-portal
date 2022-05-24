@@ -42,32 +42,6 @@ services:
     networks:
       - mentor-portal-data
       - front-end
-    depends_on:
-      - database
-
-  database:
-    container_name: database
-    image: 'mysql:${MYSQL_VERSION}'
-    restart: always
-    networks:
-      - mentor-portal-data
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
-    ports:
-      - ${MYSQL_DATABASE_PORTS}
-    expose:
-      # Opens desired port on the container
-      - ${EXPOSED_DB_PORT}
-    volumes:
-      - ./service/mentor-portal-db:/docker-entrypoint-initdb.d
-      - mysql-data:/var/lib/mysql
-    cap_add:
-      - SYS_NICE  # CAP_SYS_NICE
-
-volumes:
-  mysql-data:
-    name: mysql-data
 
 networks:
   mentor-portal-data:

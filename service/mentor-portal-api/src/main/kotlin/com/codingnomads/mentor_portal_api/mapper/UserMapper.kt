@@ -2,6 +2,7 @@ package com.codingnomads.mentor_portal_api.mapper
 
 import com.codingnomads.mentor_portal_api.entity.data.UserRow
 import com.codingnomads.mentor_portal_api.entity.business.User
+import com.codingnomads.mentor_portal_api.entity.business.ClientAccess
 import org.apache.ibatis.annotations.*
 
 /**
@@ -26,6 +27,12 @@ interface UserMapper {
     fun selectUserById(id: Int): UserRow
 
     /**
+     * Select User from database by email
+     */
+    @Select(SELECT_USER_BY_EMAIL_STATEMENT)
+    fun selectUserByEmail(userEmail: String): ClientAccess
+
+    /**
      * Inserts a new user.
      *
      * @param userRow the user payload to be inserted
@@ -45,7 +52,11 @@ interface UserMapper {
      */
     @Update(UPDATE_USER_BIO_STATEMENT)
     fun updateBio(userId: Int, bio:String): Int
-
+    /**
+     * Update user status_code
+     */
+    @Update(UPDATE_USER_STATUS_CODE)
+    fun updateStatusCode(userId: Int, statusCode: Int)
     /**
      * A companion object to hold sql statement strings
      */
@@ -82,6 +93,16 @@ interface UserMapper {
 
         const val FROM_USER_ID = "FROM user where id = #{value}"
 
+        const val SELECT_USER_BY_EMAIL_STATEMENT =
+            """
+                SELECT DISTINCT
+                user.id,
+                security.is_admin
+                FROM user
+                JOIN security on user_id = user.id
+                WHERE user.email = #{userEmail}
+            """
+
         const val INSERT_USER_STATEMENT =
             """
             INSERT INTO user 
@@ -107,6 +128,12 @@ interface UserMapper {
             """
                 UPDATE user
                 SET user.bio = #{bio}
+                WHERE user.id = #{userId}
+            """
+        const val UPDATE_USER_STATUS_CODE =
+            """
+                UPDATE user
+                SET user.status_code = #{statusCode}
                 WHERE user.id = #{userId}
             """
     }

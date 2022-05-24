@@ -1,67 +1,32 @@
 <script>
-	import { Router, Link, Route } from 'svelte-routing';
-	import { isAuthenticated, user } from "./js/store";
+	import { Router, Route, navigate } from 'svelte-routing';
 
 	import Login from './routes/Login.svelte';
 	import Students from './routes/Students.svelte'
 	import Mentors from './routes/Mentors.svelte'
-	import auth from "./js/auth-service"
-
-	export let url = "";
-
-	// onMount(async () => {
-	// 	auth0Client = await auth.createClient();
-
-	// 	isAuthenticated.set(await auth0Client.isAuthenticated());
-	// 	user.set(await auth0Client.getUser());
-	// });
-
-	// function login() {
-	// 	auth.loginWithPopup(auth0Client);
-	// }
-
-	// function logout() {
-	// 	auth.logout(auth0Client);
-	// }
-
 	import Main from './routes/Main.svelte';
 	import Admin from './routes/Admin.svelte';
 	import Status from './routes/Status.svelte';
 	import Student from './routes/Student.svelte';
 	import Mentor from './routes/Mentor.svelte';
+	
+	export let url = "";
 
-	// import auth from "./js/auth-service"
+	const isAuthenticated = localStorage.getItem("authToken");
 
-	// let auth0Client;
-	// onMount(async () => {
-	// 	auth0Client = await auth.createClient();
-	// 	isAuthenticated.set(await auth0Client.isAuthenticated());
-	// 	user.set(await auth0Client.getUser());
-	// });
-	// function login() {
-	// 	auth.loginWithPopup(auth0Client);
-	// }
-	// function logout() {
-	// 	auth.logout(auth0Client);
-	// }
+	if(!isAuthenticated){
+		navigate(CLIENT_BASE_URL + "/login", {replace: true})
+	};
 </script>
 
 <Router url ="{url}">
 
-
-
 	<div>
 		<Route path="/login">
-
 			<Login />
 		</Route>
 
 		<Route path="/">
-			<!-- {#if $isAuthenticated}
-            	<a class="" href="/#" on:click="{logout}">LogOut</a>
-          	{:else}
-            	<a class="" href="/#" on:click="{login}">Log In</a>
-          	{/if} -->
 			<Main />
 		</Route>
 

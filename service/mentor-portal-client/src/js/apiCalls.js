@@ -1,57 +1,81 @@
-let mentorId;
-let mentor;
-export let mentorList;
-let studentId;
-let student;
-let studentList;
-
-export function getMentors() {
-    async () => {
-        const response = await fetch("http://localhost:8080/api/mentors", {
-        mode: 'cors',
+// GET REQUEST with valid token
+export async function authorizedApiGetCall(authToken, url){
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Authorization": authToken
+    }
+    const response = await fetch(url, {
+        headers,
+        method: "GET",
+        mode: "cors",
         credentials: "same-origin"
     })
-    return mentorList = await response.json()
-    };
+    // // if invalid authentication
+    if(response.status === 500){
+        alert("The API may have broke, or you may have an expired token. Try to logout and log in.")
+    }
+    else if(response.status === 403){
+        alert("You may not have valid permissions, or you might need to logout and get a new Token.")
+        window.location.replace(CLIENT_BASE_URL + "/login")
+    }
+    // if valid authentication
+    else if (response.status === 200) {
+        const responseObject = await response.json()
+        return responseObject
+    }
 };
 
-export async function getStudents() {
-    const response = await fetch("http://localhost:8080/api/students", {
-            mode: 'cors',
-            credentials: "same-origin"
+// POST REQUEST with valid token and body
+export async function authorizedApiPostCall(authToken, body, url){
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Authorization": authToken
+    }
+    const response = await fetch(url, {
+        headers,
+        body,
+        method: "POST",
+        mode: "cors",
+        credentials: "same-origin"
     })
-    studentList = await response.json()
-    console.log(studentList)
-};
+    // if invalid authentication
+    if(response.status === 500){
+        alert("The API may have broke, or you may have an expired token. Try to logout and log in.")
+    }
+    else if(response.status === 403){
+        alert("You may not have valid permissions, or you might need to logout and get a new Token.")
+    }
+    else if(response.status === 200){
+        const responseObject = await response.json()
+        return responseObject
+    }
+}
 
-export async function getMentor(mentorId) {
-    const url = `http://localhost:8080/api/mentors/${mentorId}`
-        console.log(mentorId)
-        console.log(url)
-        const headers = {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
-        const response = await fetch(url, {
-            headers,
-            mode: 'cors',
-            credentials: "same-origin"
-    });
-    mentor = await response.json();
-};
-
-export async function getStudent(studentId) {
-    const url = `http://localhost:8080/api/students/${studentId}`
-        console.log(studentId)
-        console.log(url)
-        const headers = {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
-        const response = await fetch(url, {
-            headers,
-            mode: 'cors',
-            credentials: "same-origin"
-    });
-    student = await response.json();
-};
+// PUT REQUEST with valid token and body
+export async function authorizedApiPutCall(authToken, body, url){
+    const headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Authorization": authToken
+    }
+    const response = await fetch(url, {
+        headers,
+        body,
+        method: "PUT",
+        mode: "cors",
+        credentials: "same-origin"
+    })
+    // if invalid authentication
+    if(response.status === 500){
+        alert("The API may have broke, or you may have an expired token. Try to logout and log in.")
+    }
+    else if(response.status === 403){
+        alert("You may not have valid permissions, or you might need to logout and get a new Token.")
+        window.location.replace(CLIENT_BASE_URL + "/login")
+    }
+    else if(response.status === 200){
+        return response
+    }
+}

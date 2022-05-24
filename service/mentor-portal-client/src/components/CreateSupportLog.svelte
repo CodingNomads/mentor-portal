@@ -56,7 +56,7 @@
         <div class="columns">
             <div class="column is-one-fifth">
                 <DateSelect label="Date" bind:value={logDate} /> 
-                <MentorDropdown label="Mentor" bind:selectedMentor={selectedMentor} />
+                <MentorDropdown label="Mentor" bind:value={selectedMentor} />
                 <SupportTypeDropdown label="Type" bind:value={type} /> 
                 <FlagDropdown label="Flag" bind:value={supportLogFlag} />
                 <InputText class="input is-small" placeholder="20" label="Duration (minutes)" bind:value={duration} />

@@ -27,6 +27,11 @@ class UserHandler(private val userMapper: UserMapper) {
     }
 
     /**
+     * Get userId by userEmail
+     */
+    fun getUserByEmail(userEmail: String) = userMapper.selectUserByEmail(userEmail)
+
+    /**
      * Creates a new user
      *
      * @param user The user to be created.

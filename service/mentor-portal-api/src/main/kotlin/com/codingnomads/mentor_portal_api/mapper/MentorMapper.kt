@@ -36,7 +36,6 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
-                user.email
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -44,6 +43,7 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
+                user.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -55,7 +55,6 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
-                user.email
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -63,6 +62,7 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
+                user.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -75,7 +75,6 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
-                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -83,6 +82,7 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
+                user.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username
@@ -96,7 +96,6 @@ interface MentorMapper {
             """
                 SELECT DISTINCT
                 user.id,
-                user.email,
                 user.first_name,
                 user.last_name,
                 user.role_code,
@@ -104,6 +103,7 @@ interface MentorMapper {
                 user.flag,
                 user.bio,
                 contact.location,
+                user.email,
                 contact.telephone,
                 contact.forum_username,
                 contact.slack_username

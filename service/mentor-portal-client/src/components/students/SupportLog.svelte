@@ -4,6 +4,9 @@
     import CreateSupportLog from "../CreateSupportLog.svelte";
     import UpdateLog from "../formInputs/UpdateLog.svelte";
 
+    // admin check
+    const isAdmin = localStorage.getItem("isAdmin")
+
     // initialize variables
     export let student;
     let addLog = false;
@@ -48,7 +51,7 @@
     
     <!-- display past logs -->
     {#if student.supportLog.length > 0}
-        {#each student.supportLog.reverse() as entry (entry.id)}
+        {#each student.supportLog as entry (entry.id)}
             <!-- catch flagged logs -->
             {#if entry.flag === true}
                 <div class="notification is-danger">
@@ -65,9 +68,11 @@
                             <div class="is-offset-1 column is-three-fifths">
                                 {#if editTrigger === false}
                                 <p>{entry.log}</p>
-                                <br>
-                                <br>
-                                <button class="button is-small" on:click={editLog}>Edit</button>
+                                    {#if isAdmin === "true"}
+                                        <br>
+                                        <br>
+                                        <button class="button is-small" on:click={editLog}>Edit</button>
+                                    {/if}
                                 <!-- triggered edit form -->
                                 {:else}
                                     <UpdateLog log={entry.log} userId={student.id} supportLogId={entry.id} />
