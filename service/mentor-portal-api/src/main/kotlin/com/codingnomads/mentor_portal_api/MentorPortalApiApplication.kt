@@ -29,7 +29,7 @@ fun main(args: Array<String>) {
 //        return object: WebMvcConfigurer {
 //            override fun addCorsMappings(registry: CorsRegistry) {
 //                registry.addMapping("/**")
-//                    .allowedOrigins("http://localhost:5000")
+//                    .allowedOrigins(System.getenv("CLIENT_BASE_URL"))
 //                    .allowedMethods("*")
 //            }
 //        }

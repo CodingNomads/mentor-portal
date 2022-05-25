@@ -7,7 +7,6 @@ services:
     build:
       context: ./service/mentor-portal-client
       dockerfile: Dockerfile
-    hostname: localhost
     ports:
       - ${FRONTEND_PORTS}:${FRONTEND_PORTS}
     environment:
@@ -37,14 +36,10 @@ services:
       - CLIENT_BASE_URL
       - APP_SECRET
       - TOKEN_EXPIRATION_IN_MINUTES
-    hostname: localhost
     restart: unless-stopped
     networks:
-      - mentor-portal-data
       - front-end
 
 networks:
-  mentor-portal-data:
-    name: mentor-portal-data
   front-end:
     name: front-end
