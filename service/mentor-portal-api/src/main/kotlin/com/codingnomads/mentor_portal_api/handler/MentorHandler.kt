@@ -2,8 +2,9 @@ package com.codingnomads.mentor_portal_api.handler
 
 import com.codingnomads.mentor_portal_api.entity.business.*
 import com.codingnomads.mentor_portal_api.entity.data.*
-import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
 import com.codingnomads.mentor_portal_api.mapper.*
+import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
+import com.codingnomads.mentor_portal_api.security.PasswordConfig
 import org.springframework.stereotype.Component
 
 /**
@@ -203,14 +204,16 @@ class MentorHandler(
 
             contactMapper.insertContact(contactRow)
 
-//        val securityRow = SecurityRow(
-//            userId = userId,
-//            username = mentorPostPayload.username,
-//            passwordHash = mentorPostPayload.passwordHash,
-//            isAdmin = mentorPostPayload.isAdmin
-//        )
-//
-//        securityMapper.insertSecurity(securityRow)
+            // hash password then insert securtiyRow
+            val passwordHash = PasswordConfig().passwordEncoder().encode(System.getenv("DEFAULT_MENTOR_PASSWORD"))
+
+            val securityRow = SecurityRow(
+                userId = userId,
+                passwordHash = passwordHash,
+                isAdmin = false
+            )
+
+            securityMapper.insertSecurity(securityRow)
 
             val maxStudentsOptionRow = userConfigOptionMapper.selectOptionByName("maxStudents")
             val maxStudentsValueRow = ConfigValueRow(

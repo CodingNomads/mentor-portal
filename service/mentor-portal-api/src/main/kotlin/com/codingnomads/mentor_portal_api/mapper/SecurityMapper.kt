@@ -33,7 +33,7 @@ interface SecurityMapper {
                 is_admin
                 )
             """
-        const val INSERT_SECURITY_VALUES = "VALUES (#{userId}, #{username}, #{passwordHash}, #{isAdmin})"
+        const val INSERT_SECURITY_VALUES = "VALUES (#{userId}, #{passwordHash}, #{isAdmin})"
 
         const val SELECT_USER_SECURITY_DETAILS_BY_EMAIL =
             """
