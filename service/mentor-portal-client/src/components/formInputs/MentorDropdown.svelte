@@ -18,9 +18,9 @@
 
 <div class="field">
     <label for={label} class="label">{capitolize(label)}</label>
-    <select bind:value>
+    <select bind:value required>
         {#each mentorList as mentor (mentor.id)}
-            <option class="dropdown item" type="text" value={mentor}>{mentor.firstName + " " + mentor.lastName}</option>
+            <option class="dropdown item" type="text" value={mentor.id}>{mentor.firstName + " " + mentor.lastName}</option>
         {/each}
     </select>
 </div>

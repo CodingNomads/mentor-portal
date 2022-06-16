@@ -186,7 +186,7 @@ class MentorHandler(
                 roleCode = 10,
                 statusCode = 100,
                 flag = false,
-                bio = mentorPostPayload.bio,
+                bio = mentorPostPayload.bio!!,
                 timezoneOffset = mentorPostPayload.timezoneOffset
             )
 
@@ -198,8 +198,8 @@ class MentorHandler(
                 userId = userId,
                 telephone = mentorPostPayload.telephone,
                 location = mentorPostPayload.location,
-                forumUsername = mentorPostPayload.forumUsername,
-                slackUsername = mentorPostPayload.slackUsername
+                forumUsername = mentorPostPayload.forumUsername!!,
+                slackUsername = mentorPostPayload.slackUsername!!
             )
 
             contactMapper.insertContact(contactRow)
@@ -215,11 +215,14 @@ class MentorHandler(
 
             securityMapper.insertSecurity(securityRow)
 
+            println(mentorPostPayload)
+            val maxStudentsValue = if (mentorPostPayload.maxStudents == null) 1.toString() else mentorPostPayload.maxStudents.toString()
+            println(maxStudentsValue)
             val maxStudentsOptionRow = userConfigOptionMapper.selectOptionByName("maxStudents")
             val maxStudentsValueRow = ConfigValueRow(
                 optionId = maxStudentsOptionRow.id,
                 userId = userId,
-                value = mentorPostPayload.maxStudents.toString()
+                value = maxStudentsValue
             )
 
             userConfigValueMapper.insertConfigValue(maxStudentsValueRow)

@@ -41,8 +41,7 @@
         const postResponse = JSON.stringify(json)
 
         if (response.ok) {
-            alert(`Support log submitted: \n\n${postResponse}`)
-            // updateFlag()
+            alert(`Support log submitted.`)
             window.location.reload()
         }
         else {  

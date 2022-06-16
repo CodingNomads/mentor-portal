@@ -1,8 +1,10 @@
 <script>
-    // import { onMount } from 'svelte';
-    // import FormTemplate from './FormTemplate.svelte';
+    import { authorizedApiPostCall } from '../js/apiCalls';
+
     import CourseCheckbox from './formInputs/CourseCheckbox.svelte';
     import InputText from './formInputs/InputText.svelte';
+
+    const authToken = localStorage.getItem('authToken')
 
     // post request body/payload
     let firstName = "";
@@ -40,24 +42,16 @@
             proficiencies
         })
         console.log(body)
-        const response = await fetch(url, {
-            headers,
-            body,
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'same-origin'
-        })
-        const json = await response.json()
-        const postResponse = JSON.stringify(json)
+        const response = await authorizedApiPostCall(authToken, body, url)
 
         // notify user whether creation was successful
-        console.log(postResponse)
-        if (response.ok) {
-            alert(`Successfully created mentor.\n\n${postResponse}`)
+        console.log(response)
+        if (response) {
+            alert(`Successfully created mentor`)
             window.location.reload()
         }
         else {
-            alert(`Failed to create mentor.\n\n${Error(postResponse)}`)
+            alert(`Failed to create mentor`)
         }
     }
 </script>
@@ -70,17 +64,15 @@
                 <h1>Create Mentor</h1>
                 <hr>
                 
-                <InputText label="First Name" bind:value={firstName} placeholder="Frodo" />
-                <InputText label="Last Name" bind:value={lastName} placeholder="Baggins" />
-                <InputText label="Email" bind:value={email} placeholder="frodofromtheshire@domain.com" />
-                <InputText label="Forum Username" bind:value={forumUsername} placeholder="littleHobbit666" />
-                <InputText label="Slack Username" bind:value={slackUsername} placeholder="frodoslack" />
-                <InputText label="telephone" bind:value={telephone} placeholder="8007006000"/>
-                <InputText label="Location" bind:value={location} placeholder="Mordor" />
+                <InputText label="First Name" bind:value={firstName} placeholder="Frodo" required />
+                <InputText label="Last Name" bind:value={lastName} placeholder="Baggins" required />
+                <InputText label="Email" bind:value={email} placeholder="frodofromtheshire@domain.com" required />
+                <InputText label="telephone" bind:value={telephone} placeholder="8007006000" required />
+                <InputText label="Location" bind:value={location} placeholder="Mordor" required />
                 <InputText label="Timezone Offset" bind:value={timezoneOffset} placeholder="-6" />
                 <InputText label="Bio" bind:value={bio}  placeholder="Just a wee hobbit from the shire that knows data science" />
                 <InputText label="Max Students" bind:value={maxStudents} placeholder="10" />
-                <CourseCheckbox label="Proficiencies" bind:checked={proficiencies} />
+                <CourseCheckbox label="Proficiencies" bind:checked={proficiencies} required />
                 
                 <button class="button" type="submit">Submit</button>
             </form>

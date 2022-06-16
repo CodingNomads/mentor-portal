@@ -6,5 +6,6 @@ enum class MentorshipOption(val title: String) {
     javaCareer("java career"),
     pythonWebDevCareer("python web wev career"),
     pythonDsmlCareer("python dsml career"),
-    other("Other")
+    other("Other"),
+    none("none")
 }

@@ -4,7 +4,7 @@
     import MentorDropdown from "./MentorDropdown.svelte";
     import MentorshipDropdown from "./MentorshipDropdown.svelte";
     
-    export let mentor;
+    export let mentorId;
     export let student;
     let mentorshipOption;
 
@@ -13,12 +13,12 @@
     async function assign(){
         const url = API_BASE_URL + "/api/assignMentor"
         const body = JSON.stringify({
-            "mentorId": mentor.id,
+            "mentorId": mentorId,
             "studentId": student.id,
             "mentorshipOption": mentorshipOption
         })
         const responseObject = await authorizedApiPostCall(authToken, body, url)
-        console.log(responseObject)
+        
         if (responseObject) {
             alert(`Successfully assigned mentor to Student.`)
             window.location.reload()
@@ -32,14 +32,14 @@
     <div class="columns">
         <div class="column">
             <div class="row">
-                <MentorDropdown label="Assign: " bind:value={mentor} />
+                <MentorDropdown id="mentorDropdown" label="Assign: " bind:value={mentorId} required />
             </div>
             <div class="row">
-                <MentorshipDropdown label="Mentorship Option" bind:value={mentorshipOption} />
+                <MentorshipDropdown id="mentorshipOption" label="Mentorship Option" bind:value={mentorshipOption} required />
             </div>
             <br>
             <div class="row">
-                <button class="button is-small" type="submit" disabled={!mentor || !mentorshipOption}>Submit</button>
+                <button class="button is-small" type="submit" disabled={!mentorId && !mentorshipOption}>Submit</button>
             </div>
         </div>
     </div>
