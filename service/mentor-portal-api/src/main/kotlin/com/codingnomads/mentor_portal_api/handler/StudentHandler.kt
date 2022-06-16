@@ -6,6 +6,7 @@ import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
 import com.codingnomads.mentor_portal_api.entity.enum.MentorshipOption
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
+import kotlin.reflect.typeOf
 
 /**
  * Handles Students
@@ -145,16 +146,8 @@ class StudentHandler(
         // validate courseTrack sent in studentPostPayload
         val courseTrackLowerCase = studentPostPayload.courseTrack.lowercase()
         val courseTrackVerification = CourseOption.values().filter { it.title == courseTrackLowerCase }
-        // validate the mentorshipOption sent in the student payload
-        val mentorshipOptionLowercase = studentPostPayload.mentorshipOption.lowercase()
-        val mentorshipOptionVerification = MentorshipOption.values().filter { it.title == mentorshipOptionLowercase }
-        println(studentPostPayload)
-        println(courseTrackLowerCase)
-        println(courseTrackVerification)
-        println(mentorshipOptionLowercase)
-        println(mentorshipOptionVerification)
         // if courseTrack is valid
-        if (courseTrackVerification.isNotEmpty() && mentorshipOptionVerification.isNotEmpty()){
+        if (courseTrackVerification.isNotEmpty()){
             // user table fields
             val userRow = UserRow(
                 email = studentPostPayload.email,
@@ -163,7 +156,7 @@ class StudentHandler(
                 roleCode = 20,
                 statusCode = 100,
                 flag = false,
-                bio = studentPostPayload.bio,
+                bio = studentPostPayload.bio!!,
                 timezoneOffset = studentPostPayload.timezoneOffset
             )
             userMapper.insertUser(userRow)
@@ -174,13 +167,12 @@ class StudentHandler(
                 userId = userId,
                 telephone = studentPostPayload.telephone,
                 location = studentPostPayload.location,
-                forumUsername = studentPostPayload.forumUsername,
-                slackUsername = studentPostPayload.slackUsername
+                forumUsername = studentPostPayload.forumUsername!!,
+                slackUsername = studentPostPayload.slackUsername!!
             )
             contactMapper.insertContact(contactRow)
 
-            // config data
-            // courseTrack
+            // config data: courseTrack
             val courseTrackOptionRow = userConfigOptionMapper.selectOptionByName("courseTrack")
             val courseTrackValueRow = ConfigValueRow(
                 optionId = courseTrackOptionRow.id,
@@ -188,63 +180,27 @@ class StudentHandler(
                 value = studentPostPayload.courseTrack
             )
             userConfigValueMapper.insertConfigValue(courseTrackValueRow)
-            // mentorshipOption
-            val mentorshipOptionRow = userConfigOptionMapper.selectOptionByName("mentorshipOption")
-            val mentorshipOptionValueRow = ConfigValueRow(
-                optionId = mentorshipOptionRow.id,
-                userId = userId,
-                value = studentPostPayload.mentorshipOption
-            )
-            userConfigValueMapper.insertConfigValue(mentorshipOptionValueRow)
 
-            // assign mentor if studentPostPayload.assignedMentors != null
-            // otherwise make assignedMentors and empty list
-            if (studentPostPayload.assignedMentors != null) {
-                val mentorStudentLookUpRow = MentorStudentLookupRow(
-                    mentorId = studentPostPayload.assignedMentors.id!!,
-                    studentId = userId,
-                    statusCode = 100
-                )
-                mentorStudentLookupMapper.insertMentorStudentLookup(mentorStudentLookUpRow)
-                val assignedMentors = mentorMapper.selectAssignedMentor(userId)
-                return StudentDataRelation(
-                    id = userId,
-                    email = userRow.email,
-                    firstName = userRow.firstName,
-                    lastName = userRow.lastName,
-                    roleCode = userRow.roleCode,
-                    statusCode = userRow.statusCode,
-                    flag = userRow.flag,
-                    bio = userRow.bio,
-                    location = contactRow.location,
-                    telephone = contactRow.telephone,
-                    forumUsername = contactRow.forumUsername,
-                    slackUsername = contactRow.slackUsername,
-                    assignedMentors = assignedMentors,
-                    courseTrack = courseTrackValueRow.value,
-                    mentorshipOption = mentorshipOptionValueRow.value
-                )
-            }else{
-                return StudentDataRelation(
-                    id = userId,
-                    email = userRow.email,
-                    firstName = userRow.firstName,
-                    lastName = userRow.lastName,
-                    roleCode = userRow.roleCode,
-                    statusCode = userRow.statusCode,
-                    flag = userRow.flag,
-                    bio = userRow.bio,
-                    location = contactRow.location,
-                    telephone = contactRow.telephone,
-                    forumUsername = contactRow.forumUsername,
-                    slackUsername = contactRow.slackUsername,
-                    assignedMentors = mutableListOf(),
-                    courseTrack = courseTrackValueRow.value,
-                    mentorshipOption = mentorshipOptionValueRow.value
-                )
-            }
-        } else {
-            throw Exception("Invalid courseTrack or mentorshipOption submitted")
+            return StudentDataRelation(
+                id = userId,
+                email = userRow.email,
+                firstName = userRow.firstName,
+                lastName = userRow.lastName,
+                roleCode = userRow.roleCode,
+                statusCode = userRow.statusCode,
+                flag = userRow.flag,
+                bio = userRow.bio,
+                location = contactRow.location,
+                telephone = contactRow.telephone,
+                forumUsername = contactRow.forumUsername,
+                slackUsername = contactRow.slackUsername,
+                assignedMentors = emptyList(),
+                courseTrack = courseTrackValueRow.value,
+                mentorshipOption = ""
+            )
+        }
+        else {
+            throw Exception("Invalid courseTrack submitted")
         }
     }
     /**

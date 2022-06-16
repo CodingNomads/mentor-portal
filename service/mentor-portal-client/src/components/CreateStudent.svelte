@@ -1,10 +1,9 @@
 <script>
-    import CourseCheckbox from './formInputs/CourseCheckbox.svelte';
-    import DateSelect from './formInputs/DateSelect.svelte';
-    import MentorDropdown from './formInputs/MentorDropdown.svelte';
+    import { authorizedApiPostCall } from '../js/apiCalls';
     import InputText from './formInputs/InputText.svelte';
-    import MentorshipDropdown from './formInputs/MentorshipDropdown.svelte';
     import CourseDropdown from './formInputs/CourseDropdown.svelte';
+
+    const authToken = localStorage.getItem('authToken')
 
     // post request body/payload
     let firstName = "";
@@ -16,54 +15,33 @@
     let slackUsername = "";
     let telephone = "";
     let courseTrack = "";
-    let mentorshipOption = "";
     let bio = "";
-    // let startDate = "";
-    // let endDate = "";
-    let assignedMentors = "";
 
     // post request function
     async function submitStudent() {
         const url = API_BASE_URL + "/api/students"
-        const headers = {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
+
         const body = JSON.stringify({
             "firstName": firstName,
             "lastName": lastName,
             "email": email,
-            "forumUsername": forumUsername,
-            "slackUsername": slackUsername,
             "telephone": telephone,
             "location": location,
             "timezoneOffset": timezoneOffset,
             "courseTrack": courseTrack,
-            "mentorshipOption": mentorshipOption,
             "bio": bio,
-            // startDate,
-            // endDate,
-            "assignedMentors": assignedMentors
         })
         console.log(body)
-        const response = await fetch(url, {
-            headers,
-            body,
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'same-origin'
-        })
-        const json = await response.json()
-        const postResponse = JSON.stringify(json)
+        const response = await authorizedApiPostCall(authToken, body, url)
         
         // notify user whether creation was successful
-        console.log(postResponse)
-        if (response.ok) {
+        console.log(response)
+        if (response) {
             alert(`Successfully created student.`)
             window.location.reload()
         }
         else {
-            alert(`Failed to create student.\n\n${Error(postResponse)}`)
+            alert(`Failed to create student.`)
         }
     } 
 </script>
@@ -76,20 +54,14 @@
                 <h1>Create Student</h1>
                 <hr>
                 
-                <InputText label="First Name" bind:value={firstName} placeholder="Samwise" />
-                <InputText label="Last Name" bind:value={lastName} placeholder="Gamjee" />
-                <InputText label="Email" bind:value={email} placeholder="potatoes@domain.com" />
-                <InputText label="Forum Username" bind:value={forumUsername} placeholder="boilthem" />
-                <InputText label="Slack Username" bind:value={slackUsername} placeholder="mashthem" />
-                <InputText label="telephone" bind:value={telephone} placeholder="8007006000"/>
-                <InputText label="Location" bind:value={location} placeholder="Not California" />
+                <InputText label="First Name" bind:value={firstName} placeholder="Samwise" required/>
+                <InputText label="Last Name" bind:value={lastName} placeholder="Gamjee" required/>
+                <InputText label="Email" bind:value={email} placeholder="potatoes@domain.com" required />
+                <InputText label="Telephone" bind:value={telephone} placeholder="8007006000" required/>
+                <InputText label="Location" bind:value={location} placeholder="Not California" required/>
                 <InputText label="Timezone Offset" bind:value={timezoneOffset} placeholder="-5"/>
-                <InputText label="Bio" bind:value={bio} placeholder="A hobbit that likes stews" />
-                <CourseDropdown label="Course Track" bind:value={courseTrack} />
-                <MentorshipDropdown label="Mentorship Option" bind:value={mentorshipOption} />
-                <!-- <DateSelect label="Start Date" bind:value={startDate} /> -->
-                <!-- <DateSelect label="End Date" bind:value={endDate} /> -->
-                <MentorDropdown label="Assign Mentor" bind:value={assignedMentors} />
+                <InputText label="Bio" bind:value={bio} placeholder="A hobbit's brief bio." />
+                <CourseDropdown label="Course Track" bind:value={courseTrack} required/>
                 
                 <button class="button" type="submit">Submit</button>
             </form>

@@ -4,6 +4,7 @@
     export let label;
     export let value;
     export let courseTrackList = [
+        "None",
         "Python Programming",
         "Django",
         "Flask",
@@ -17,8 +18,8 @@
 
 <div class="field">
     <label for={label} class="label">{capitolize(label)}</label>
-    <select span="supportType" name={label} id={label} bind:value>
-        {#each courseTrackList as course}
+    <select span="courseType" name={label} id={label} bind:value required>
+        {#each courseTrackList as course (courseTrackList.indexOf(course))}
             <option class="dropdown-item" type="text" value={course}>{course}</option>
         {/each}
     </select>

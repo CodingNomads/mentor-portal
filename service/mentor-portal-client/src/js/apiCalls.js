@@ -11,15 +11,13 @@ export async function authorizedApiGetCall(authToken, url){
         mode: "cors",
         credentials: "same-origin"
     })
-    // // if invalid authentication
+
     if(response.status === 500){
-        alert("The API may have broke, or you may have an expired token. Try to logout and log in.")
+        alert(`HTTP 500 Error.`)
     }
     else if(response.status === 403){
-        alert("You may not have valid permissions, or you might need to logout and get a new Token.")
-        window.location.replace(CLIENT_BASE_URL + "/login")
+        alert(`HTTP 403 Error.`)
     }
-    // if valid authentication
     else if (response.status === 200) {
         const responseObject = await response.json()
         return responseObject
@@ -40,12 +38,12 @@ export async function authorizedApiPostCall(authToken, body, url){
         mode: "cors",
         credentials: "same-origin"
     })
-    // if invalid authentication
+    
     if(response.status === 500){
-        alert("The API may have broke, or you may have an expired token. Try to logout and log in.")
+        alert(`HTTP 500 Error.`)
     }
     else if(response.status === 403){
-        alert("You may not have valid permissions, or you might need to logout and get a new Token.")
+        alert(`HTTP 403 Error.`)
     }
     else if(response.status === 200){
         const responseObject = await response.json()
@@ -67,13 +65,12 @@ export async function authorizedApiPutCall(authToken, body, url){
         mode: "cors",
         credentials: "same-origin"
     })
-    // if invalid authentication
+    
     if(response.status === 500){
-        alert("The API may have broke, or you may have an expired token. Try to logout and log in.")
+        alert(`HTTP 500 Error.`)
     }
     else if(response.status === 403){
-        alert("You may not have valid permissions, or you might need to logout and get a new Token.")
-        window.location.replace(CLIENT_BASE_URL + "/login")
+        alert(`HTTP 403 Error.`)
     }
     else if(response.status === 200){
         return response

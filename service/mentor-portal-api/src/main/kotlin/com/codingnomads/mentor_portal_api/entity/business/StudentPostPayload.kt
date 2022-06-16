@@ -7,7 +7,7 @@ data class StudentPostPayload(
     val id: Int? = null,
     val firstName: String,
     val lastName: String,
-    val bio: String,
+    val bio: String? = "UPDATE STUDENT BIO",
     val timezoneOffset: String,
     /**
      * contact fields
@@ -15,18 +15,10 @@ data class StudentPostPayload(
     val email: String,
     val telephone: String,
     val location: String,
-    val forumUsername: String,
-    val slackUsername: String,
-//    /**
-//     * security fields
-//     */
-//    val username: String,
-//    val passwordHash: String,
-//    val isAdmin: Boolean,
+    val forumUsername: String? = "",
+    val slackUsername: String? = "",
     /**
      * config
      */
     val courseTrack: String,
-    val mentorshipOption: String,
-    val assignedMentors: MentorData? = null
 )

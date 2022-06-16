@@ -6,6 +6,7 @@ import com.codingnomads.mentor_portal_api.entity.business.UserFlagPayload
 import com.codingnomads.mentor_portal_api.entity.business.UserUpdatePayload
 import com.codingnomads.mentor_portal_api.handler.MentorHandler
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -27,11 +28,13 @@ class MentorController(@Autowired private val mentorHandler: MentorHandler) {
     /**
      * Create mentor
      */
+    @PreAuthorize("hasAuthority('admin:write')")
     @PostMapping("/mentors")
     fun createMentor(@RequestBody payload: MentorPostPayload) = mentorHandler.createMentor(payload)
     /**
      * Update flag status for students
      */
+    @PreAuthorize("hasAuthority('admin:write')")
     @PutMapping("/mentors/{mentorId}")
     fun updateMentor(@RequestBody payload: UserUpdatePayload,
                      @PathVariable mentorId: Int) = mentorHandler.updateMentor(payload)
