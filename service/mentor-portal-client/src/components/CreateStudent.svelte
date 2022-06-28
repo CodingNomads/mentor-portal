@@ -3,7 +3,7 @@
     import InputText from './formInputs/InputText.svelte';
     import CourseDropdown from './formInputs/CourseDropdown.svelte';
 
-    const authToken = localStorage.getItem('authToken')
+    const authToken = sessionStorage.getItem('authToken')
 
     // post request body/payload
     let firstName = "";
@@ -11,11 +11,9 @@
     let location = "";
     let timezoneOffset = "";
     let email = "";
-    let forumUsername = "";
-    let slackUsername = "";
     let telephone = "";
-    let courseTrack = "";
-    let bio = "";
+    let courseTrack;
+    let bio;
 
     // post request function
     async function submitStudent() {

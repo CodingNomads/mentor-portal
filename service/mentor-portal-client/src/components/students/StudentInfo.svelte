@@ -1,5 +1,5 @@
 <script>
-    import { envelope, phone, slack, compass, home } from "svelte-awesome/icons";
+    import { envelope, phone, home } from "svelte-awesome/icons";
     import Icon from "svelte-awesome";
     import UpdateBio from "../formInputs/UpdateBio.svelte";
 
@@ -46,22 +46,6 @@
                 <i><span><Icon data={phone} scale={2} /></span></i>
             </div>
             <p class="is-medium">{student.telephone}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="tags has-addons">
-            <div class="column is-1">
-                <i><span><Icon data={slack} scale={2} /></span></i>
-            </div>
-            <p class="is-medium">{student.slackUsername}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="tags has-addons">
-            <div class="column is-1">
-                <i><span><Icon data={compass} scale={2} /></span></i>
-            </div>
-            <p class="is-medium">{student.forumUsername}</p>
         </div>
     </div>
     <div class="row">

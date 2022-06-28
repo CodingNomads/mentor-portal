@@ -8,7 +8,7 @@
     export let userId;
     export let value;
 
-    const authToken = localStorage.getItem("authToken")
+    const authToken = sessionStorage.getItem("authToken")
 
     async function submitUpdate() {
         const url = API_BASE_URL + `/api/students/${userId}`

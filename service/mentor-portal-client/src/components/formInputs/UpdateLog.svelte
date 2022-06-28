@@ -3,7 +3,7 @@
 
     import FlagDropdown from "../formInputs/FlagDropdown.svelte";
 
-    const authToken = localStorage.getItem("authToken")
+    const authToken = sessionStorage.getItem("authToken")
     export let userId;
     export let supportLogId;
     export let log;

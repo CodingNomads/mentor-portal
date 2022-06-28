@@ -6,7 +6,7 @@
     export let studentId;
     export let updatedBio;
 
-    const authToken = localStorage.getItem("authToken")
+    const authToken = sessionStorage.getItem("authToken")
 
     let mentorUrl = API_BASE_URL + `/api/mentors/${mentorId}`;
     let studentUrl = API_BASE_URL + `/api/students/${studentId}`;

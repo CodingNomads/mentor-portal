@@ -9,8 +9,8 @@
     export let filteredStudents = [];
 
     // authorization
-    const authToken = localStorage.getItem("authToken")
-    const isAdmin = localStorage.getItem("isAdmin")
+    const authToken = sessionStorage.getItem("authToken")
+    const isAdmin = sessionStorage.getItem("isAdmin")
 
     // edit variables
     let triggerContent;
@@ -92,7 +92,7 @@
                 </div>
 
                 <!-- COLUMN #2: courseTrack, mentorshipOption, assignedMentors -->
-                <div class="column is-offset-1 is-3">
+                <div class="column is-offset-1 is-4">
                     <!-- courseTrack row -->
                     <div class="row">
                         <div class="tags has-addons" id={student.id}>
@@ -127,7 +127,7 @@
                             <div class="tags has-addons">
                                 <span class="tag">assignedMentor</span>
                                 {#each student.assignedMentors as mentor}
-                                    <a class="tag is-link" href="/mentors/{mentor.id}">{mentor.firstName} {mentor.lastName} </a>
+                                    <a class="tag is-link" href="/mentors/{mentor.id}">{mentor.firstName} {mentor.lastName[0]}. </a>
                                 {/each}
                             </div>
                         </div>

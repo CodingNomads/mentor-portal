@@ -34,7 +34,6 @@ class MentorController(@Autowired private val mentorHandler: MentorHandler) {
     /**
      * Update flag status for students
      */
-    @PreAuthorize("hasAuthority('admin:write')")
     @PutMapping("/mentors/{mentorId}")
     fun updateMentor(@RequestBody payload: UserUpdatePayload,
                      @PathVariable mentorId: Int) = mentorHandler.updateMentor(payload)

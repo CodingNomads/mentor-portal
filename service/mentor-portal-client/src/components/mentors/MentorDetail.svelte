@@ -41,7 +41,7 @@
         <!-- container for title and progress -->
         <div class="row">
             <div class="column is-7">
-                <h1 class="title is-1"><strong>{mentor.firstName} {mentor.lastName} ({mentor.forumUsername})</strong></h1>
+                <h1 class="title is-1"><strong>{mentor.firstName} {mentor.lastName} ({mentor.email})</strong></h1>
                 <!-- progress bar: value=studentCount, max=maxStudent -->
                 <p><progress class="progress is-info" value={mentor.studentCount} max={mentor.maxStudents}>4</progress>{mentor.studentCount}/{mentor.maxStudents} students</p>
             </div>

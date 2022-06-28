@@ -12,11 +12,11 @@
 	
 	export let url = "";
 
-	const isAuthenticated = localStorage.getItem("authToken");
+	const isAuthenticated = sessionStorage.getItem("authToken");
 
 	if(!isAuthenticated){
 		navigate(CLIENT_BASE_URL + "/login", {replace: true})
-	};
+	}; 
 </script>
 
 <Router url ="{url}">

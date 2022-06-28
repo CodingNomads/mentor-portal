@@ -54,14 +54,14 @@
     <div class="row">
         <div class="columns">
             <div class="column is-one-fifth">
-                <DateSelect label="Date" bind:value={logDate} /> 
-                <MentorDropdown label="Mentor" bind:value={selectedMentor} />
-                <SupportTypeDropdown label="Type" bind:value={type} /> 
-                <FlagDropdown label="Flag" bind:value={supportLogFlag} />
-                <InputText class="input is-small" placeholder="20" label="Duration (minutes)" bind:value={duration} />
+                <DateSelect label="Date" bind:value={logDate} required /> 
+                <MentorDropdown label="Mentor" bind:value={selectedMentor} required />
+                <SupportTypeDropdown label="Type" bind:value={type} required /> 
+                <FlagDropdown label="Flag" bind:value={supportLogFlag} required />
+                <InputText class="input is-small" placeholder="20" label="Duration (minutes)" bind:value={duration} required />
             </div>
             <div class="column is-four-fifths">
-                <textarea class="textarea" bind:value={log} cols="130" rows="9"></textarea>
+                <textarea class="textarea" bind:value={log} cols="130" rows="9" required></textarea>
             </div>
         </div>
     </div>

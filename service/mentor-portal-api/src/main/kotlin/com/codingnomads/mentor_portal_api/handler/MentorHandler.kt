@@ -26,21 +26,35 @@ class MentorHandler(
      * Get all Mentors
      */
     fun getMentors(): List<MentorDataRelation> {
-        // lists
+        // empty list to append constructed mentors to
         val mentorList: MutableList<MentorDataRelation> = mutableListOf()
+        // mentorData
         val mentorDataList = mentorMapper.selectMentors()
+        // mentorship pair data
         val mentorshipDataList = mentorStudentLookupMapper.selectMentorships()
+        // students with mentors
         val studentsWithMentorsList = studentMapper.selectAllStudentsWithMentors()
-        val mentorsConfigValues = userConfigValueMapper.selectAllMentorValues()
-        // maps
         val studentsWithMentorsByIdMap: Map<Int, StudentData> = studentsWithMentorsList.associateBy { it.id!! }
         val mentorshipDataMap: Map<Int, MentorshipData> = mentorshipDataList.associateBy { it.mentorId }
+        // all mentors config data
+        val mentorsConfigValues = userConfigValueMapper.selectAllMentorValues()
+
+        // maxStudents config data
+        val maxStudentCountConfigList = mentorsConfigValues.filter { it.optionId == 1 }
+        val mappedMentorsStudentCount: Map<Int, UserConfigData> = maxStudentCountConfigList.associateBy { it.userId }
 
         for (mentor in mentorDataList){
+            println("MentorId: ${mentor.id} \nMentor Name: ${mentor.firstName}")
+            // key for accessing maxStudent value from userConfigData dictionary
+            val mentorId = mentor.id
+            // mentorship pairs and filtering assigned students
             val filteredMentorshipPair = mentorshipDataList.filter { it.mentorId == mentor.id }
             val filteredAssignedStudents = filteredMentorshipPair.map { student -> studentsWithMentorsByIdMap[student.studentId]!! }
-            val maxStudentCount = mentorsConfigValues.filter{ it.userId == mentor.id }.filter { it.optionId == 1 }[0].value.toInt()
-            val proficiencies = mentorsConfigValues.filter { it.userId == mentor.id }.filter { it.optionId == 2 }.map { proficiencyList -> proficiencyList.value }
+            // proficiencies & maxStudent config values
+            val proficienciesConfigList = mentorsConfigValues.filter { it.optionId == 2 }
+            val proficiencies = proficienciesConfigList.filter { it.userId == mentor.id }.filter { it.optionId == 2 }.map { proficiencyList -> proficiencyList.value }
+
+            println(mappedMentorsStudentCount[mentorId])
 
             if (mentorshipDataMap[mentor.id] != null){
                 val someMentor = MentorDataRelation(
@@ -58,7 +72,7 @@ class MentorHandler(
                     slackUsername = mentor.slackUsername,
                     assignedStudents = filteredAssignedStudents,
                     studentCount = filteredAssignedStudents.size,
-                    maxStudents = maxStudentCount,
+                    maxStudents = mappedMentorsStudentCount[mentorId]!!.value.toInt(),
                     proficiencies = proficiencies
             )
                 mentorList.add(someMentor)
@@ -78,7 +92,7 @@ class MentorHandler(
                     slackUsername = mentor.slackUsername,
                     assignedStudents = listOf(),
                     studentCount = 0,
-                    maxStudents = maxStudentCount,
+                    maxStudents = mappedMentorsStudentCount[mentorId]!!.value.toInt(),
                     proficiencies = proficiencies
                 )
                 mentorList.add(someMentor)
