@@ -27,25 +27,41 @@ class StudentHandler(
      * Get all Students
      */
     fun getStudents(): List<StudentDataRelation> {
-        // lists
+        // empty list to add constructed students to
         val studentList: MutableList<StudentDataRelation> = mutableListOf()
-        val studentDataList = studentMapper.selectStudents()                            // student-user and contact info
-        val mentorshipDataList = mentorStudentLookupMapper.selectMentorships()          // for mentor-student pairs
-        val mentorsList = mentorMapper.selectAllMentorsWithStudents()                   // for List<MentorData> that have students
-        val studentsConfigValuesList = userConfigValueMapper.selectAllStudentValues()   // for mapping their courseTrack
+        // base student data
+        val studentDataList = studentMapper.selectStudents()
+        // mentorship and mentors data
+        val mentorshipDataList = mentorStudentLookupMapper.selectMentorships()
+        val mentorsList = mentorMapper.selectAllMentorsWithStudents()
+        // config values for students
+        val studentsConfigValuesList = userConfigValueMapper.selectAllStudentValues()
         // maps
         val mentorsWithStudentsByIdMap: Map<Int, MentorData> = mentorsList.associateBy { it.id!! }
         val mentorshipPairMap: Map<Int, MentorshipData> = mentorshipDataList.associateBy { it.studentId }
 
         for (student in studentDataList){
-            val filteredStudentConfigValues = studentsConfigValuesList.filter { it.userId == student.id }
-            val studentCourseTrack = filteredStudentConfigValues.filter { it.optionId == 3 }
-            val studentMentorshipOption = filteredStudentConfigValues.filter { it.optionId == 4 }
+            // key for accessing dictionary values
+            val studentId = student.id
+            println("StudentId: ${student.id} \nStudent Name: ${student.firstName}")
+            println(studentsConfigValuesList)
+
+            // courseTrack config
+            val filteredStudentCourseTrackList = studentsConfigValuesList.filter { it.optionId == 3 }
+            println(filteredStudentCourseTrackList)
+            val studentCourseTrackMap: Map<Int, UserConfigData> = filteredStudentCourseTrackList.associateBy { it.userId }
+            println(studentCourseTrackMap)
+
+            // mentorshipOption config
+            val mentorshipOptionList = studentsConfigValuesList.filter { it.optionId == 4 }
+            println(mentorshipOptionList)
+            val mentorshipOptionMap: Map<Int, UserConfigData> = mentorshipOptionList.associateBy { it.userId }
+            println(mentorshipOptionMap)
             val filteredMentorshipPair = mentorshipDataList.filter { it.studentId == student.id }
-            val filteredMentors = filteredMentorshipPair.filter { true }.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
+            val filteredMentors = filteredMentorshipPair.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
             // if students have a mentor they also have a mentorshipOption
-            if (mentorshipPairMap[student.id] != null && studentMentorshipOption.isNotEmpty()){
-                println(studentMentorshipOption)
+            if (mentorshipPairMap[student.id] != null && mentorshipOptionList.isNotEmpty()){
+
                 val someStudent = StudentDataRelation(
                     id = student.id!!,
                     firstName = student.firstName,
@@ -60,8 +76,8 @@ class StudentHandler(
                     forumUsername = student.forumUsername,
                     slackUsername = student.slackUsername,
                     assignedMentors = filteredMentors,
-                    courseTrack = studentCourseTrack[0].value,
-                    mentorshipOption = studentMentorshipOption[0].value
+                    courseTrack = studentCourseTrackMap[studentId]!!.value,
+                    mentorshipOption = mentorshipOptionMap[studentId]!!.value
                 )
                 studentList.add(someStudent)
             }else{
@@ -79,7 +95,7 @@ class StudentHandler(
                     forumUsername = student.forumUsername,
                     slackUsername = student.slackUsername,
                     assignedMentors = mutableListOf(),
-                    courseTrack = studentCourseTrack[0].value,
+                    courseTrack = studentCourseTrackMap[studentId]!!.value,
                     mentorshipOption = ""
                 )
                 studentList.add(someStudent)

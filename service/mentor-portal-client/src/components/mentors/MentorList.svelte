@@ -7,7 +7,7 @@
     export let filteredMentors = [];   
 
     // authorization
-    const authToken = localStorage.getItem("authToken")
+    const authToken = sessionStorage.getItem("authToken")
 
     let searchMentors = (e) => {
         let searchString = e.target.value

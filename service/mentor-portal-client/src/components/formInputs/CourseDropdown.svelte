@@ -4,6 +4,7 @@
     export let label;
     export let value;
     export let courseTrackList = [
+        "-- select courseTrack --",
         "None",
         "Python Programming",
         "Django",

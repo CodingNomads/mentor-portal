@@ -5,7 +5,7 @@
     import UpdateLog from "../formInputs/UpdateLog.svelte";
 
     // admin check
-    const isAdmin = localStorage.getItem("isAdmin")
+    const isAdmin = sessionStorage.getItem("isAdmin")
 
     // initialize variables
     export let student;

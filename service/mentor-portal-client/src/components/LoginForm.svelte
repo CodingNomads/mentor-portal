@@ -26,14 +26,14 @@
         if(response.status === 200){
             // store email and token
             const authToken = response.headers.get("Authorization")
-            localStorage.setItem("authToken", authToken)
-            localStorage.setItem("userEmail", email)
+            sessionStorage.setItem("authToken", authToken)
+            sessionStorage.setItem("userEmail", email)
             // get request for userId required to redirect to detail page
             const getUrl = API_BASE_URL + `/api/user/${email}`
             const responseObject = await authorizedApiGetCall(authToken, getUrl)
             const userId = responseObject.id
             const isAdmin = responseObject.isAdmin
-            localStorage.setItem("isAdmin", isAdmin)
+            sessionStorage.setItem("isAdmin", isAdmin)
             window.location.replace(CLIENT_BASE_URL + `/mentors/${userId}`)
         }
         else{

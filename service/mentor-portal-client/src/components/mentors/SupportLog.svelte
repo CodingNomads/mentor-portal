@@ -6,9 +6,9 @@
 
     // initialize variables
     export let mentor;
-    const authToken = localStorage.getItem("authToken")
-    const userEmail = localStorage.getItem("userEmail")
-    const isAdmin = localStorage.getItem("isAdmin")
+    const authToken = sessionStorage.getItem("authToken")
+    const userEmail = sessionStorage.getItem("userEmail")
+    const isAdmin = sessionStorage.getItem("isAdmin")
     let addLog = false;
     let editTrigger = false;
 

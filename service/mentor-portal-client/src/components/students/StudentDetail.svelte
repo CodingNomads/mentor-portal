@@ -39,7 +39,7 @@ onDestroy(student, studentId)
         <!-- title row -->
         <div class="row">
             <div class="column is-7">
-                <h1 class="title is-1"><strong>{student.firstName} {student.lastName} ({student.forumUsername})</strong></h1>
+                <h1 class="title is-1"><strong>{student.firstName} {student.lastName} ({student.email})</strong></h1>
                 <p><progress class="progress is-info" value=10 max=10></progress></p> 
             </div>
         </div>

@@ -1,12 +1,12 @@
 <script>
-    import { slack, compass, phone, envelope, home} from "svelte-awesome/icons";
+    import { phone, envelope, home} from "svelte-awesome/icons";
     import Icon from "svelte-awesome";
     import UpdateBio from "../formInputs/UpdateBio.svelte";
 
     export let mentor;
 
-    const authToken = localStorage.getItem("authToken")
-    const userEmail = localStorage.getItem("userEmail")
+    const authToken = sessionStorage.getItem("authToken")
+    const userEmail = sessionStorage.getItem("userEmail")
 
     let editTrigger = false;
 
@@ -53,22 +53,6 @@
                 <i><span><Icon data={phone} scale={2} /></span></i>
             </div>
             <p class="is-medium">{mentor.telephone}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="tags has-addons">
-            <div class="column is-1">
-                <i><span><Icon data={slack} scale={2} /></span></i>
-            </div>
-            <p class="is-medium">{mentor.slackUsername}</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="tags has-addons">
-            <div class="column is-1">
-                <i><span><Icon data={compass} scale={2} /></span></i>
-            </div>
-            <p class="is-medium">{mentor.forumUsername}</p>
         </div>
     </div>
     <div class="row">

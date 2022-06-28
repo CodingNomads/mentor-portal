@@ -3,8 +3,8 @@
 
   const base_url = CLIENT_BASE_URL
   const loginUrl = CLIENT_BASE_URL + "/login"
-  const isAuthenticated = localStorage.getItem("authToken")
-  const isAdmin = localStorage.getItem("isAdmin")
+  const isAuthenticated = sessionStorage.getItem("authToken")
+  const isAdmin = sessionStorage.getItem("isAdmin")
   let navbarToggle = false;
   
   const toggleNavbar = () => {

@@ -7,7 +7,7 @@
 <ol>
 {#each mentor.assignedStudents as student (student.id)}
 <div class="column">
-     <li><a class="is-link is-small" href="/students/{student.id}">{student.firstName} {student.lastName} ({student.forumUsername})</a></li>
+     <li><a class="is-link is-small" href="/students/{student.id}">{student.firstName} {student.lastName} ({student.email})</a></li>
 </div>
 {/each}
 </ol> 

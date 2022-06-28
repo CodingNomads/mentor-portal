@@ -12,8 +12,6 @@
         "Python Web Dev Career",
         "Python DSML Career"
     ];
-
-    const disabledOption = document.getElementById("-- select mentorshipOption --").hidden()
 </script>
 
 <div class="field">

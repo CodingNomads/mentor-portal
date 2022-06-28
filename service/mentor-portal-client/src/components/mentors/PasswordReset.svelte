@@ -7,8 +7,8 @@
     let currentPassword;
     let newPassword;
     let confirmNewPassword;
-    const authToken = localStorage.getItem("authToken")
-    const userEmail = localStorage.getItem("userEmail")
+    const authToken = sessionStorage.getItem("authToken")
+    const userEmail = sessionStorage.getItem("userEmail")
 
     async function resetPassword() {
         if(userEmail === email && newPassword === confirmNewPassword){

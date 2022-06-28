@@ -4,7 +4,7 @@
     import CourseCheckbox from './formInputs/CourseCheckbox.svelte';
     import InputText from './formInputs/InputText.svelte';
 
-    const authToken = localStorage.getItem('authToken')
+    const authToken = sessionStorage.getItem('authToken')
 
     // post request body/payload
     let firstName = "";
