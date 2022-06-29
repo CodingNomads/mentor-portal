@@ -92,7 +92,7 @@
                 </div>
 
                 <!-- COLUMN #2: courseTrack, mentorshipOption, assignedMentors -->
-                <div class="column is-offset-1 is-4">
+                <div class="column is-offset-1 is-3">
                     <!-- courseTrack row -->
                     <div class="row">
                         <div class="tags has-addons" id={student.id}>
