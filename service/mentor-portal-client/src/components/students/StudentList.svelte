@@ -4,6 +4,8 @@
     import NavBar from "../../components/NavBar.svelte";
     import AssignMentor from "../formInputs/AssignMentor.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
+    import Icon from 'svelte-awesome';
+    import { flag } from "svelte-awesome/icons";
 
     export let studentList = [];
     export let filteredStudents = [];
@@ -19,11 +21,11 @@
     let mentorShipOptionLabel = "Update Mentorship";
 
     const searchStudents = (e) => {
-        let searchString = e.target.value
-        filteredStudents = studentList.filter(student => {
-            let firstName = student.firstName
-            let lastName = student.lastName
-            let fullName = student.firstName + " " + student.lastName
+        let searchString = e.target.value.toLowerCase();
+         filteredStudents = studentList.filter(student => {
+                let firstName = student.firstName.toLowerCase()
+                let lastName = student.lastName.toLowerCase()
+                let fullName = student.firstName.toLowerCase() + " " + student.lastName.toLowerCase()
             return firstName.includes(searchString) || lastName.includes(searchString) || fullName.includes(searchString)
         });
     };
@@ -55,6 +57,7 @@
     onMount(async () => {
         const url = API_BASE_URL + "/api/students"
         studentList = await authorizedApiGetCall(authToken, url)
+        filteredStudents = studentList
         }
     )
 
@@ -71,81 +74,83 @@
                 <h1 class="title is-1"><strong>Students</strong></h1>
             </div>
             <div class="column is-5">
-                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchStudents} placeholder="spacebar + backspace to populate" />
+                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchStudents} placeholder="Enter student name." />
             </div>
         </div>
     </div>
     <br>
-    <!-- filtered student list -->
-    {#if filteredStudents.length > 0}
-        {#each filteredStudents as student (student.id)}
-            <div class="columns">
-                <!-- COLUMN #1: name and flag -->
-                <div class="column is-3 is-offset-one-fifth">
-                    <div class="row">
-                        <a href="/students/{student.id}" class="button is-link is-medium"><strong>{student.firstName} {student.lastName}</strong></a>
-                    </div>
-                    {#if student.flag === true }
-                    <br>
-                    <span class="tag is-danger">Flagged</span>
-                    {/if}
-                </div>
-
-                <!-- COLUMN #2: courseTrack, mentorshipOption, assignedMentors -->
-                <div class="column is-offset-1 is-3">
-                    <!-- courseTrack row -->
-                    <div class="row">
-                        <div class="tags has-addons" id={student.id}>
-                            <span class="tag">courseTrack</span>
-                            <span class="tag is-dark is-small" on:mouseover={updateCourseTrack(student.id, student.courseTrack)} on:focus={updateCourseTrack(student.id, student.courseTrack)}>{student.courseTrack}</span>
-                            {#if triggerId === student.id && triggerContent === student.courseTrack && isAdmin === "true"}
-                                <div class="row" on:mouseleave={resetUpdateCourseTrack}>
-                                    <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
-                                </div>
-                            {/if}
-                        </div>
-                    </div>
-
-                    <!-- mentorship row -->
-                    <!-- if students are enrolled in mentorship programs -->
-                    {#if student.mentorshipOption}
+    <!-- student table -->
+    <table class='table is-fullwidth is-bordered'>
+        <thead>
+            <tr>
+                <th>fullName</th>
+                <th>courseTrack</th>
+                <th>mentorshipOption</th>
+                <th>assignedMentor</th>
+            </tr>
+        </thead>
+        <tbody >
+        {#each filteredStudents as student}
+            <tr>
+                <td>
+                    {#if student.flag}
                         <div class="row">
-                            <span class="tag">mentorshipOption</span>
-                            <span class="tag is-small is-dark" on:mouseover={updateMentorshipOption(student.id, student.mentorshipOption)} on:focus={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span>
-                            {#if triggerId == student.id && triggerContent === student.mentorshipOption && isAdmin === "true"}
-                                <div class="row" on:mouseleave={resetUpdateMentorshipOption}>
-                                    <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
+                            <div class="columns">
+                                <div class="column is-1">
+                                    <Icon data={flag} style="color:red"/>
                                 </div>
-                            {/if}
+                                <div class="column">
+                                    <a href="/students/{student.id}" class="is-link is-small"><strong>{student.firstName} {student.lastName}</strong></a>
+                                </div>
+                            </div>
                         </div>
-                    {/if}
-
-                    <!-- if students have mentors -->
-                    {#if student.assignedMentors.length > 0}
-                        <br>
+                    {:else}
                         <div class="row">
-                            <div class="tags has-addons">
-                                <span class="tag">assignedMentor</span>
-                                {#each student.assignedMentors as mentor}
-                                    <a class="tag is-link" href="/mentors/{mentor.id}">{mentor.firstName} {mentor.lastName[0]}. </a>
-                                {/each}
+                            <div class="columns">
+                                <div class="column is-1">
+                                    <!-- spacer -->
+                                </div>
+                                <div class="column">
+                                    <a href="/students/{student.id}" class="is-link is-small"><strong>{student.firstName} {student.lastName}</strong></a>
+                                </div>
                             </div>
                         </div>
                     {/if}
-                </div>
-
-                <!-- COLUMN #3: assigningMentor -->
-                <!-- if students DO NOT have mentors -->
-                {#if isAdmin === "true" && student.assignedMentors.length === 0}
-                    <div class="column is-3">
+                </td>
+                <td>
+                    <span class="is-small" on:click={updateCourseTrack(student.id, student.courseTrack)}>{student.courseTrack}</span>
+                    {#if triggerId === student.id && triggerContent === student.courseTrack && isAdmin === "true"}
+                        <div class="row">
+                            <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
+                            <button class='button is-small' on:click={resetUpdateCourseTrack}>Cancel</button>
+                        </div>
+                    {/if}
+                </td>
+                <td>
+                    {#if student.mentorshipOption}
+                        <span class="is-small" on:click={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span>
+                        {#if triggerId == student.id && triggerContent === student.mentorshipOption && isAdmin === "true"}
+                            <div class="row">
+                                <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
+                                <button class='button is-small' on:click={resetUpdateMentorshipOption}>Cancel</button>
+                            </div>
+                        {/if}
+                    {:else}
+                        None
+                    {/if}
+                </td>
+                <td>
+                    {#if student.assignedMentors.length > 0}
+                        {#each student.assignedMentors as mentor}
+                            <a class="is-link is-small" href="/mentors/{mentor.id}">{mentor.firstName} {mentor.lastName[0]}. </a>
+                            <br>
+                        {/each}
+                    {:else}
                         <AssignMentor bind:student={student} />
-                    </div>
-                {/if}
-            </div>
-            <!-- COLUMN #4: spacer between students -->
-            <div class="column is-two-thirds is-offset-2">
-                <hr>
-            </div>
+                    {/if}
+                </td>
+            </tr>    
         {/each}
-    {/if}
+        </tbody>
+    </table>
 </div>
