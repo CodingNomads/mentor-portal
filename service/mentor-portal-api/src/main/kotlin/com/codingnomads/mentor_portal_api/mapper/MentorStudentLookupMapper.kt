@@ -23,7 +23,13 @@ interface MentorStudentLookupMapper {
         const val MENTOR_STUDENT_LOOKUP_STATEMENT =
             """
                 SELECT
-                *
+                id,
+                mentor_id,
+                student_id,
+                status_code,
+                start_date,
+                end_date,
+                mentorship_status
                 FROM mentor_student_lookup
             """
         const val INSERT_MENTOR_STUDENT_LOOKUP_STATEMENT =

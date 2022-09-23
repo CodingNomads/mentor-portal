@@ -16,9 +16,11 @@
 
 <div class="field">
     <label for={label} class="label">{capitolize(label)}</label>
-    <select span="mentorshipType" placeholder="mentorshipOptions" name={label} id={label} bind:value required>
-        {#each mentorshipOptions as option (mentorshipOptions.indexOf(option))}
-            <option id={option} class="dropdown-item" type="text" value={option}>{option}</option>
-        {/each}
-    </select>
+    <div class="select is-small">
+        <select span="mentorshipType" placeholder="mentorshipOptions" name={label} id={label} bind:value required>
+            {#each mentorshipOptions as option (mentorshipOptions.indexOf(option))}
+                <option id={option} class="dropdown-item" type="text" value={option}>{option}</option>
+            {/each}
+        </select>
+    </div>
 </div>

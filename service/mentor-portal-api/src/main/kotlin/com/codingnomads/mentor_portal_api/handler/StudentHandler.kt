@@ -39,25 +39,27 @@ class StudentHandler(
         // maps
         val mentorsWithStudentsByIdMap: Map<Int, MentorData> = mentorsList.associateBy { it.id!! }
         val mentorshipPairMap: Map<Int, MentorshipData> = mentorshipDataList.associateBy { it.studentId }
+//        println("mentor_student_lookup $mentorshipPairMap")
 
         for (student in studentDataList){
             // key for accessing dictionary values
             val studentId = student.id
-            println("StudentId: ${student.id} \nStudent Name: ${student.firstName}")
-            println(studentsConfigValuesList)
+//            println("StudentId: ${student.id} \nStudent Name: ${student.firstName}")
+//            println(studentsConfigValuesList)
 
             // courseTrack config
             val filteredStudentCourseTrackList = studentsConfigValuesList.filter { it.optionId == 3 }
-            println(filteredStudentCourseTrackList)
+//            println(filteredStudentCourseTrackList)
             val studentCourseTrackMap: Map<Int, UserConfigData> = filteredStudentCourseTrackList.associateBy { it.userId }
-            println(studentCourseTrackMap)
+//            println(studentCourseTrackMap)
 
             // mentorshipOption config
             val mentorshipOptionList = studentsConfigValuesList.filter { it.optionId == 4 }
-            println(mentorshipOptionList)
+//            println(mentorshipOptionList)
             val mentorshipOptionMap: Map<Int, UserConfigData> = mentorshipOptionList.associateBy { it.userId }
-            println(mentorshipOptionMap)
+//            println(mentorshipOptionMap)
             val filteredMentorshipPair = mentorshipDataList.filter { it.studentId == student.id }
+            println("filtered mentor_student_lookup $filteredMentorshipPair")
             val filteredMentors = filteredMentorshipPair.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
             // if students have a mentor they also have a mentorshipOption
             if (mentorshipPairMap[student.id] != null && mentorshipOptionList.isNotEmpty()){
@@ -67,7 +69,7 @@ class StudentHandler(
                     firstName = student.firstName,
                     lastName = student.lastName,
                     roleCode = student.roleCode,
-                    statusCode = student.statusCode,
+                    statusDescription = student.statusDescription,
                     flag = student.flag,
                     bio = student.bio,
                     location = student.location,
@@ -86,7 +88,7 @@ class StudentHandler(
                     firstName = student.firstName,
                     lastName = student.lastName,
                     roleCode = student.roleCode,
-                    statusCode = student.statusCode,
+                    statusDescription = student.statusDescription,
                     flag = student.flag,
                     bio = student.bio,
                     location = student.location,
@@ -120,7 +122,7 @@ class StudentHandler(
                 firstName = studentData.firstName,
                 lastName = studentData.lastName,
                 roleCode = studentData.roleCode,
-                statusCode = studentData.statusCode,
+                statusDescription = studentData.statusDescription,
                 flag = studentData.flag,
                 bio = studentData.bio,
                 location = studentData.location,
@@ -139,7 +141,7 @@ class StudentHandler(
                 firstName = studentData.firstName,
                 lastName = studentData.lastName,
                 roleCode = studentData.roleCode,
-                statusCode = studentData.statusCode,
+                statusDescription = studentData.statusDescription,
                 flag = studentData.flag,
                 bio = studentData.bio,
                 location = studentData.location,
@@ -203,7 +205,7 @@ class StudentHandler(
                 firstName = userRow.firstName,
                 lastName = userRow.lastName,
                 roleCode = userRow.roleCode,
-                statusCode = userRow.statusCode,
+                statusDescription = "Active",
                 flag = userRow.flag,
                 bio = userRow.bio,
                 location = contactRow.location,
@@ -225,7 +227,7 @@ class StudentHandler(
     fun assignMentor(assignMentorPayload: AssignMentorPayload): StudentDataRelation{
         // check active status of student
         val studentDataCheck = studentMapper.selectStudentById(assignMentorPayload.studentId)
-        if (studentDataCheck.statusCode === 200){
+        if (studentDataCheck.statusDescription != "Active"){
             userMapper.updateStatusCode(assignMentorPayload.studentId, statusCode = 100)
         }
 
@@ -256,7 +258,7 @@ class StudentHandler(
             firstName = someStudentData.firstName,
             lastName = someStudentData.lastName,
             roleCode = someStudentData.roleCode,
-            statusCode = someStudentData.statusCode,
+            statusDescription = someStudentData.statusDescription,
             flag = someStudentData.flag,
             bio = someStudentData.bio,
             location = someStudentData.location,
@@ -277,19 +279,31 @@ class StudentHandler(
         // check for update fields in payload
         if (userUpdatePayload.flag != null){
             // update user flag
-            userMapper.updateFlag(userId=studentId, userUpdatePayload.flag)
+            userMapper.updateFlag(
+                userId=studentId,
+                flag=userUpdatePayload.flag
+            )
         }
         if (userUpdatePayload.bio != null){
             // update user bio
-            userMapper.updateBio(userId=studentId, userUpdatePayload.bio)
+            userMapper.updateBio(
+                userId=studentId,
+                bio=userUpdatePayload.bio
+            )
         }
         if (userUpdatePayload.courseTrack != null){
             // update courseTrack
-            userConfigValueMapper.updateCourseTrackValue(userId=studentId, userUpdatePayload.courseTrack)
+            userConfigValueMapper.updateCourseTrackValue(
+                userId=studentId,
+                courseTrack=userUpdatePayload.courseTrack
+            )
         }
         if (userUpdatePayload.mentorshipOption != null){
             // update mentorshipOption
-            userConfigValueMapper.updateMentorshipOptionValue(userId =studentId, userUpdatePayload.mentorshipOption)
+            userConfigValueMapper.updateMentorshipOptionValue(
+                userId=studentId,
+                mentorshipOption=userUpdatePayload.mentorshipOption
+            )
         }
 
         // return updated student object
@@ -297,23 +311,44 @@ class StudentHandler(
         val courseTrack = userConfigValueMapper.selectStudentCourseTrack(userUpdatePayload.userId)
         val mentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(userUpdatePayload.userId)
         val someStudentData = studentMapper.selectStudentById(userUpdatePayload.userId)
-        return StudentDataRelation(
-            id = userUpdatePayload.userId,
-            firstName = someStudentData.firstName,
-            lastName = someStudentData.lastName,
-            roleCode = someStudentData.roleCode,
-            statusCode = someStudentData.statusCode,
-            flag = someStudentData.flag,
-            bio = someStudentData.bio,
-            location = someStudentData.location,
-            email = someStudentData.email,
-            telephone = someStudentData.telephone,
-            forumUsername = someStudentData.forumUsername,
-            slackUsername = someStudentData.slackUsername,
-            assignedMentors = mentorData,
-            courseTrack = courseTrack.courseTrack,
-            mentorshipOption = mentorshipOption.mentorshipOption
-        )
+        if (mentorshipOption == null) {
+            return StudentDataRelation(
+                id = userUpdatePayload.userId,
+                firstName = someStudentData.firstName,
+                lastName = someStudentData.lastName,
+                roleCode = someStudentData.roleCode,
+                statusDescription = someStudentData.statusDescription,
+                flag = someStudentData.flag,
+                bio = someStudentData.bio,
+                location = someStudentData.location,
+                email = someStudentData.email,
+                telephone = someStudentData.telephone,
+                forumUsername = someStudentData.forumUsername,
+                slackUsername = someStudentData.slackUsername,
+                assignedMentors = mentorData,
+                courseTrack = courseTrack.courseTrack,
+                mentorshipOption = ""
+            )
+        }
+            else {
+                return StudentDataRelation(
+                    id = userUpdatePayload.userId,
+                    firstName = someStudentData.firstName,
+                    lastName = someStudentData.lastName,
+                    roleCode = someStudentData.roleCode,
+                    statusDescription = someStudentData.statusDescription,
+                    flag = someStudentData.flag,
+                    bio = someStudentData.bio,
+                    location = someStudentData.location,
+                    email = someStudentData.email,
+                    telephone = someStudentData.telephone,
+                    forumUsername = someStudentData.forumUsername,
+                    slackUsername = someStudentData.slackUsername,
+                    assignedMentors = mentorData,
+                    courseTrack = courseTrack.courseTrack,
+                    mentorshipOption = mentorshipOption.mentorshipOption
+                )
+            }
     }
 }
 

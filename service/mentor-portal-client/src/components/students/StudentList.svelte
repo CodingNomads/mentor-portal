@@ -4,8 +4,11 @@
     import NavBar from "../../components/NavBar.svelte";
     import AssignMentor from "../formInputs/AssignMentor.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
+    import UpdateStatus from "../formInputs/UpdateStatus.svelte";
     import Icon from 'svelte-awesome';
-    import { flag } from "svelte-awesome/icons";
+    import { flag, pencil } from "svelte-awesome/icons";
+    import CourseDropdown from "../formInputs/CourseDropdown.svelte";
+    import LogoutButton from "../LogoutButton.svelte";
 
     export let studentList = [];
     export let filteredStudents = [];
@@ -28,6 +31,18 @@
                 let fullName = student.firstName.toLowerCase() + " " + student.lastName.toLowerCase()
             return firstName.includes(searchString) || lastName.includes(searchString) || fullName.includes(searchString)
         });
+    };
+
+    function updateStatus(studentId, content) {
+        triggerId = studentId;
+        triggerContent = content;
+        return triggerId && triggerContent
+    };
+
+    const resetUpdateStatus = () => {
+        triggerId = 0;
+        triggerContent = "";
+        return triggerId && triggerContent
     };
 
     function updateCourseTrack(studentId, content) {
@@ -84,6 +99,7 @@
         <thead>
             <tr>
                 <th>fullName</th>
+                <th>studentStatus</th>
                 <th>courseTrack</th>
                 <th>mentorshipOption</th>
                 <th>assignedMentor</th>
@@ -92,6 +108,7 @@
         <tbody >
         {#each filteredStudents as student}
             <tr>
+                <!-- name -->
                 <td>
                     {#if student.flag}
                         <div class="row">
@@ -117,8 +134,44 @@
                         </div>
                     {/if}
                 </td>
+                <!-- studentStatus -->
                 <td>
-                    <span class="is-small" on:click={updateCourseTrack(student.id, student.courseTrack)}>{student.courseTrack}</span>
+                    <div class="row">
+                        <div class="columns">
+                            <!-- edit icon -->
+                            <div class="column is-1">
+                                <span class="is-small" on:click={updateStatus(student.id, student.statusDescription)}>
+                                    <Icon data={pencil} />
+                                </span>
+                            </div>
+                            <div class="column">
+                                {student.statusDescription}
+                            </div>
+                        </div>
+                    </div>
+                    {#if triggerId === student.id && triggerContent === student.statusDescription && isAdmin === "true"}
+                        <div class="row">
+                            <UpdateStatus userId={student.id} />
+                            <button class="button is-small" on:click={resetUpdateStatus}>Cancel</button>
+                        </div>
+                    {/if}
+                </td>
+                <!-- courseTrack -->
+                <td>
+                    <div class="row">
+                        <div class="columns">
+                            <!-- edit icon -->
+                            <div class="column is-1">
+                                <span class="is-small" on:click={updateCourseTrack(student.id, student.courseTrack)}>
+                                    <Icon data={pencil} />
+                                </span>
+                            </div>
+                            <!-- courseTrack title -->
+                            <div class="column">
+                                {student.courseTrack}
+                            </div>
+                        </div>
+                    </div>
                     {#if triggerId === student.id && triggerContent === student.courseTrack && isAdmin === "true"}
                         <div class="row">
                             <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
@@ -126,9 +179,23 @@
                         </div>
                     {/if}
                 </td>
+                <!-- mentorshipOption -->
                 <td>
                     {#if student.mentorshipOption}
-                        <span class="is-small" on:click={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span>
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-1">
+                                    <span class="is-small" on:click={updateMentorshipOption(student.id, student.mentorshipOption)}>
+                                        <Icon data={pencil} />
+                                    </span>
+                                </div>
+                                <!-- mentorshipOption title -->
+                                <div class="column">
+                                    {student.mentorshipOption}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <span class="is-small" on:click={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span> -->
                         {#if triggerId == student.id && triggerContent === student.mentorshipOption && isAdmin === "true"}
                             <div class="row">
                                 <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
@@ -136,9 +203,19 @@
                             </div>
                         {/if}
                     {:else}
-                        None
+                        <div class="row">
+                            <div class="columns">
+                                <div class="column is-1">
+                                    <!-- spacer -->
+                                </div>
+                                <div class="column">
+                                    None
+                                </div>
+                            </div>
+                        </div>
                     {/if}
                 </td>
+                <!-- assignedMentors -->
                 <td>
                     {#if student.assignedMentors.length > 0}
                         {#each student.assignedMentors as mentor}
@@ -146,7 +223,9 @@
                             <br>
                         {/each}
                     {:else}
-                        <AssignMentor bind:student={student} />
+                        <div class="row">
+                            <AssignMentor bind:student={student} />
+                        </div>
                     {/if}
                 </td>
             </tr>    

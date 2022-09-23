@@ -5,10 +5,14 @@ VALUES (10, 'mentor', 'A CodingNomads mentor'),
        (20, 'student', 'A CodingNomads student');
 
 INSERT INTO `status` (code, description)
-VALUES (100, 'active'),
-       (200, 'paused'),
-       (300, 'cancelled'),
-       (999, 'deleted');
+VALUES (100, 'Active'),
+       (200, 'Paused'),
+       (300, 'Cancelled'),
+       (400, 'Completed program'),
+       (500, 'Completed curriculum'),
+       (333, 'Dropped out'),
+       (666, 'MIA'),
+       (999, 'Deleted');
 
 INSERT INTO `user` (first_name, last_name, role_code, status_code, flag, timezone_offset, bio, email)
 VALUES ('student1', 'smith', 20, 100, 1, '-8', 'Bio for student1 with their goals', 'email1@email.com'),

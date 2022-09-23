@@ -30,18 +30,9 @@
 </script>
 
 <form class="form" on:submit|preventDefault={assign}>
-    <div class="columns">
-        <div class="column">
-            <div class="row">
-                <MentorDropdown id="mentorDropdown" label="Assign: " bind:value={mentor} required />
-            </div>
-            <div class="row">
-                <MentorshipDropdown id="mentorshipOption" label="Mentorship Option" bind:value={mentorshipOption} required />
-            </div>
-            <br>
-            <div class="row">
-                <button class="button is-small" type="submit" disabled={!mentor || !mentorshipOption}>Submit</button>
-            </div>
-        </div>
+    <div class="row">
+        <MentorDropdown id="mentorDropdown" label="Assign: " bind:value={mentor} required />
+        <MentorshipDropdown id="mentorshipOption" label="Mentorship Option" bind:value={mentorshipOption} required />
+        <button class="button is-small" type="submit" disabled={!mentor || !mentorshipOption}>Submit</button>
     </div>
 </form>
