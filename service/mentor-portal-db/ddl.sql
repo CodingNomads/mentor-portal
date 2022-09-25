@@ -32,7 +32,6 @@ CREATE TABLE `mentor_student_lookup` (
     `status_code` int NOT NULL,
     `start_date` timestamp,
     `end_date` timestamp,
-    `mentorship_status` varchar(255),
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),

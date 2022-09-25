@@ -65,7 +65,7 @@ interface StudentMapper {
                 user.first_name,
                 user.last_name,
                 user.role_code,
-                user.status_code, 
+                status.description, 
                 user.flag,
                 user.bio,
                 contact.location,
@@ -75,6 +75,7 @@ interface StudentMapper {
                 contact.slack_username 
                 FROM user
                 JOIN contact on user_id = user.id
+                JOIN status on user.status_code = status.code
                 WHERE role_code = 20 and user.id = #{value}
             """
         const val SELECT_ALL_STUDENTS_WITH_MENTORS =

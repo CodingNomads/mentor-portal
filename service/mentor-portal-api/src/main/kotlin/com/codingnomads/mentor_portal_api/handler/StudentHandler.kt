@@ -4,6 +4,7 @@ import com.codingnomads.mentor_portal_api.entity.business.*
 import com.codingnomads.mentor_portal_api.entity.data.*
 import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
 import com.codingnomads.mentor_portal_api.entity.enum.MentorshipOption
+import com.codingnomads.mentor_portal_api.entity.enum.UserStatus
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
 import kotlin.reflect.typeOf
@@ -16,7 +17,6 @@ class StudentHandler(
     private val contactMapper: ContactMapper,
     private val mentorMapper: MentorMapper,
     private val mentorStudentLookupMapper: MentorStudentLookupMapper,
-    private val securityMapper: SecurityMapper,
     private val studentMapper: StudentMapper,
     private val supportLogMapper: SupportLogMapper,
     private val userMapper: UserMapper,
@@ -306,11 +306,22 @@ class StudentHandler(
             )
         }
 
+        if (userUpdatePayload.statusDescription != null) {
+            val studentId = userUpdatePayload.userId
+            val statusDescription = userUpdatePayload.statusDescription
+            val validatedStatus = UserStatus.values().filter { it.description == statusDescription }
+            if (validatedStatus != null) {
+                // update status
+                userMapper.updateStatusCode(studentId, validatedStatus[0].code)
+            }
+        }
+
         // return updated student object
         val mentorData = mentorMapper.selectAssignedMentor(userUpdatePayload.userId)
         val courseTrack = userConfigValueMapper.selectStudentCourseTrack(userUpdatePayload.userId)
         val mentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(userUpdatePayload.userId)
         val someStudentData = studentMapper.selectStudentById(userUpdatePayload.userId)
+        println(someStudentData)
         if (mentorshipOption == null) {
             return StudentDataRelation(
                 id = userUpdatePayload.userId,

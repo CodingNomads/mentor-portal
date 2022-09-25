@@ -1,11 +1,9 @@
 <script>
     import { capitolize } from "../../js/capitolize";
-    import Icon from 'svelte-awesome';
-    import { arrowDown } from "svelte-awesome/icons";
 
-    let label;
-    let userId;
-    let value;
+    export let label;
+    export let value;
+    
     let statusOptions = [
         "-- select statusDescription --",
         "Active",
@@ -19,6 +17,7 @@
 </script>
 
 <div class="field">
+    <label for={label} class="label">{capitolize(label)}</label>
     <div class="select is-small">
         <select name="statusDescription" id="statusDescription" bind:value required>
             {#each statusOptions as status (statusOptions.indexOf(status))}

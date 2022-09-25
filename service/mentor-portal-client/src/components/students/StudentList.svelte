@@ -72,6 +72,7 @@
     onMount(async () => {
         const url = API_BASE_URL + "/api/students"
         studentList = await authorizedApiGetCall(authToken, url)
+        studentList.sort((a, b) => a.firstName.localeCompare(b.firstName))
         filteredStudents = studentList
         }
     )
@@ -149,7 +150,7 @@
                             </div>
                         </div>
                     </div>
-                    {#if triggerId === student.id && triggerContent === student.statusDescription && isAdmin === "true"}
+                    {#if triggerId === student.id && triggerId != 0 && triggerContent === student.statusDescription && isAdmin === "true"}
                         <div class="row">
                             <UpdateStatus userId={student.id} />
                             <button class="button is-small" on:click={resetUpdateStatus}>Cancel</button>
@@ -172,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                    {#if triggerId === student.id && triggerContent === student.courseTrack && isAdmin === "true"}
+                    {#if triggerId === student.id && triggerId != 0 && triggerContent === student.courseTrack && isAdmin === "true"}
                         <div class="row">
                             <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
                             <button class='button is-small' on:click={resetUpdateCourseTrack}>Cancel</button>
@@ -181,6 +182,7 @@
                 </td>
                 <!-- mentorshipOption -->
                 <td>
+                    <!-- if students have a mentorshipOption -->
                     {#if student.mentorshipOption}
                         <div class="row">
                             <div class="columns">
@@ -195,13 +197,13 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <span class="is-small" on:click={updateMentorshipOption(student.id, student.mentorshipOption)}>{student.mentorshipOption}</span> -->
-                        {#if triggerId == student.id && triggerContent === student.mentorshipOption && isAdmin === "true"}
+                        {#if triggerId == student.id && triggerId != 0 && triggerContent === student.mentorshipOption && isAdmin === "true"}
                             <div class="row">
                                 <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
                                 <button class='button is-small' on:click={resetUpdateMentorshipOption}>Cancel</button>
                             </div>
                         {/if}
+                    <!-- if students DO NOT have a mentorshipOption -->
                     {:else}
                         <div class="row">
                             <div class="columns">
