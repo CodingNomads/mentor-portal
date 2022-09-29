@@ -34,6 +34,8 @@
             const userId = responseObject.id
             const isAdmin = responseObject.isAdmin
             sessionStorage.setItem("isAdmin", isAdmin)
+            // save mentorId for supportLogs
+            sessionStorage.setItem("mentorId", String(userId))
             window.location.replace(CLIENT_BASE_URL + `/mentors/${userId}`)
         }
         else{

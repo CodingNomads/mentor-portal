@@ -46,6 +46,18 @@ interface UserConfigValueMapper {
     fun selectStudentMentorShipOption(studentId: Int): MentorshipOptionData
 
     /**
+     * Select a student program start date
+     */
+    @Select(SELECT_PROGRAM_START)
+    fun selectProgramStart(studentId: Int): UserConfigData
+
+    /**
+     * Select a student program end date
+     */
+    @Select(SELECT_PROGRAM_END)
+    fun selectProgramEnd(studentId: Int): UserConfigData
+
+    /**
      * create student config values: courseTrack and mentorshipOption
      */
     @Insert(INSERT_CONFIG_VALUE_STATEMENT + INSERT_CONFIG_VALUE_VALUES)
@@ -62,6 +74,31 @@ interface UserConfigValueMapper {
      */
     @Update(UPDATE_MENTORSHIP_OPTION_STATEMENT)
     fun updateMentorshipOptionValue(userId: Int, mentorshipOption: String): Int
+
+    /**
+     * Update student config value: programStart
+     */
+    @Update(UPDATE_PROGRAM_START_STATEMENT)
+    fun updateProgramStart(userId: Int, programStart: String): Int
+
+    /**
+     * Update student config value: programEnd
+     */
+    @Update(UPDATE_PROGRAM_END_STATEMENT)
+    fun updateProgramEnd(userId: Int, programEnd: String): Int
+
+
+    /**
+     * Create student program start
+     */
+    @Insert(INSERT_PROGRAM_START_STATEMENT + INSERT_PROGRAM_START_VALUES)
+    fun insertProgramStart(studentId: Int, optionId: Int, programStart: String): Int
+
+    /**
+     * Create student program end
+     */
+    @Insert(INSERT_PROGRAM_END_STATEMENT + INSERT_PROGRAM_END_VALUES)
+    fun insertProgramEnd(studentId: Int, optionId: Int, programEnd: String): Int
 
     companion object {
         const val SELECT_ALL_STUDENT_VALUES_STATEMENT =
@@ -130,6 +167,28 @@ interface UserConfigValueMapper {
                 JOIN user_config_option on user_config_value.option_id = user_config_option.id
                 WHERE user.id = #{studentId} and user_config_value.option_id = 4
             """
+        const val SELECT_PROGRAM_START =
+            """
+                SELECT DISTINCT
+                user_config_value.id,
+                user_config_value.user_id,
+                user_config_value.option_id,
+                user_config_value.value
+                FROM user_config_value
+                JOIN user on user_config_value.user_id = user.id
+                WHERE user_config_value.user_id = #{studentId} and user_config_value.option_id = 5
+            """
+        const val SELECT_PROGRAM_END =
+            """
+                SELECT DISTINCT
+                user_config_value.id,
+                user_config_value.user_id,
+                user_config_value.option_id,
+                user_config_value.value
+                FROM user_config_value
+                JOIN user on user_config_value.user_id = user.id
+                WHERE user_config_value.user_id = #{studentId} and user_config_value.option_id = 6
+            """
         const val INSERT_CONFIG_VALUE_STATEMENT =
             """
                 INSERT INTO user_config_value
@@ -159,6 +218,60 @@ interface UserConfigValueMapper {
                 UPDATE user_config_value
                 SET user_config_value.value = #{mentorshipOption}
                 WHERE user_config_value.user_id = #{userId} and user_config_value.option_id = 4
+            """
+
+        const val INSERT_PROGRAM_START_STATEMENT =
+            """
+                INSERT into user_config_value 
+                (
+                user_id,
+                option_id,
+                value
+                )
+                
+            """
+
+        const val INSERT_PROGRAM_START_VALUES =
+            """
+                VALUES
+                (
+                #{studentId},
+                #{optionId},
+                #{programStart}
+                )
+            """
+
+        const val INSERT_PROGRAM_END_STATEMENT =
+            """
+                INSERT into user_config_value
+                (
+                user_id,
+                option_id,
+                value
+                )
+            """
+
+        const val INSERT_PROGRAM_END_VALUES =
+            """
+                VALUES
+                (
+                #{studentId},
+                #{optionId},
+                #{programEnd}
+                )
+            """
+
+        const val UPDATE_PROGRAM_START_STATEMENT =
+            """
+                UPDATE user_config_value
+                SET user_config_value.value = #{programStart}
+                WHERE user_config_value.user_id = #{userId} and user_config_value.option_id = 5
+            """
+        const val UPDATE_PROGRAM_END_STATEMENT =
+            """
+                UPDATE user_config_value
+                SET user_config_value.value = #{programEnd}
+                WHERE user_config_value.user_id = #{userId} and user_config_value.option_id = 6
             """
     }
 }

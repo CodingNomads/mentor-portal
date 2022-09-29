@@ -24,6 +24,7 @@
     onMount(async () => {
         const url = API_BASE_URL + "/api/mentors"
         mentorList = await authorizedApiGetCall(authToken, url)
+        mentorList.sort((a, b) => a.firstName.localeCompare(b.firstName))
         filteredMentors = mentorList
     })
 

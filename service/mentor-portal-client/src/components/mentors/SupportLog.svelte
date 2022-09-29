@@ -6,15 +6,17 @@
 
     // initialize variables
     export let mentor;
-    const authToken = sessionStorage.getItem("authToken")
     const userEmail = sessionStorage.getItem("userEmail")
     const isAdmin = sessionStorage.getItem("isAdmin")
     let addLog = false;
     let editTrigger = false;
 
     // count flagged logs
-    let flaggedLogCount = mentor.supportLog.filter(log => log.flag === true).length
-    console.log(flaggedLogCount)
+    let flaggedLogCount = mentor.supportLog.filter(log => log.flag === true).length 
+    // filter logs by date
+    let supportLogList = mentor.supportLog.sort(function(a, b){
+        return new Date(b.logDate) - new Date(a.logDate)
+    })
 
     // handler functions
     const newLog = () => {
@@ -53,7 +55,7 @@
     
     <!-- display past logs -->
     {#if mentor.supportLog.length > 0}
-        {#each mentor.supportLog.reverse() as entry (entry.id)}
+        {#each supportLogList as entry (entry.id)}
             <!-- catch flagged logs -->
             {#if entry.flag === true}
                 <div class="notification is-danger">
@@ -64,7 +66,6 @@
                                 <p><em>{entry.logDate.split("T")[0]}</em></p>
                                 <p><em>{entry.type}</em></p>
                                 <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                                <p><em>{entry.duration} minutes</em></p>
                             </div>
                             <!-- support log topic body -->
                             <div class="is-offset-1 column is-three-fifths">
@@ -94,7 +95,6 @@
                             <p><em>{entry.logDate.split("T")[0]}</em></p>
                             <p><em>{entry.type}</em></p>
                             <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                            <p><em>{entry.duration} minutes</em></p>
                         </div>
                         <!-- support log topic body -->
                         <div class="is-offset-1 column is-three-fifths">

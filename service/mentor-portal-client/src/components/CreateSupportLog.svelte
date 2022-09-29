@@ -2,16 +2,15 @@
     import FlagDropdown from "./formInputs/FlagDropdown.svelte";
     import DateSelect from "./formInputs/DateSelect.svelte";
     import InputText from "./formInputs/InputText.svelte";
-    import MentorDropdown from "./formInputs/MentorDropdown.svelte";
     import SupportTypeDropdown from "./formInputs/SupportTypeDropdown.svelte";
 
     // support log variables
+    const mentorId = sessionStorage.getItem("mentorId");
     let log;
     let logDate;
     let type;
     let duration;
     export let supportLogFlag;
-    export let selectedMentor;
     export let studentId;
 
     async function postSupportLog () {
@@ -20,7 +19,7 @@
             "Access-Control-Allow-Origin": "*"
         }
         const body = JSON.stringify({
-            "mentorId": selectedMentor.id,
+            "mentorId": mentorId,
             "studentId": studentId,
             "type": type,
             "flag": supportLogFlag,
@@ -55,10 +54,9 @@
         <div class="columns">
             <div class="column is-one-fifth">
                 <DateSelect label="Date" bind:value={logDate} required /> 
-                <MentorDropdown label="Mentor" bind:value={selectedMentor} required />
+                <!-- <MentorDropdown label="Mentor" bind:value={selectedMentor} required /> -->
                 <SupportTypeDropdown label="Type" bind:value={type} required /> 
                 <FlagDropdown label="Flag" bind:value={supportLogFlag} required />
-                <InputText class="input is-small" placeholder="20" label="Duration (minutes)" bind:value={duration} required />
             </div>
             <div class="column is-four-fifths">
                 <textarea class="textarea" bind:value={log} cols="130" rows="9" required></textarea>

@@ -61,7 +61,7 @@ class SupportLogHandler(
             studentId = supportLogPayload.studentId,
             type = supportLogPayload.type,
             flag = supportLogPayload.flag,
-            duration = supportLogPayload.duration.toInt(),
+            duration = 0,
             log = supportLogPayload.log,
             logDate = supportLogPayload.logDate,
         )
@@ -82,7 +82,7 @@ class SupportLogHandler(
             studentId = supportLogRow.studentId,
             type = supportLogRow.type,
             flag = supportLogRow.flag,
-            duration = supportLogRow.duration.toInt(),
+            duration = 0,
             log = supportLogRow.log,
             logDate = supportLogRow.logDate
         )

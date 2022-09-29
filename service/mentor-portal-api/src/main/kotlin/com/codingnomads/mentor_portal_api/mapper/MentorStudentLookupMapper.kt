@@ -13,6 +13,13 @@ interface MentorStudentLookupMapper {
      */
     @Select(MENTOR_STUDENT_LOOKUP_STATEMENT)
     fun selectMentorships(): List<MentorshipData>
+
+    /**
+     * Select mentor_student_lookup date for single student
+     */
+    @Select(MENTOR_STUDENT_LOOKUP_BY_STUDENT)
+    fun selectMentorshipByStudent(studentId: Int): List<MentorshipData>
+
     /**
      * Insert mentor_student_lookup data
      */
@@ -28,10 +35,23 @@ interface MentorStudentLookupMapper {
                 student_id,
                 status_code,
                 start_date,
-                end_date,
-                mentorship_status
+                end_date
                 FROM mentor_student_lookup
             """
+
+        const val MENTOR_STUDENT_LOOKUP_BY_STUDENT =
+            """
+                SELECT
+                id,
+                mentor_id,
+                student_id,
+                status_code,
+                start_date,
+                end_date
+                FROM mentor_student_lookup
+                WHERE student_id = #{studentId}
+            """
+
         const val INSERT_MENTOR_STUDENT_LOOKUP_STATEMENT =
             """
                 INSERT INTO mentor_student_lookup

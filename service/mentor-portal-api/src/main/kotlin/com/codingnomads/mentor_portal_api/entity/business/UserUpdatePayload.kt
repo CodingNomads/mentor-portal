@@ -6,5 +6,7 @@ data class UserUpdatePayload(
     val flag: Boolean? = null,
     val courseTrack:String? = null,
     val mentorshipOption: String? = null,
-    val statusDescription: String? = null
+    val statusDescription: String? = null,
+    val programStart: String? = null,
+    val programEnd: String? = null
 )

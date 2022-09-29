@@ -113,10 +113,16 @@ class StudentHandler(
         val studentData = studentMapper.selectStudentById(studentId)
         val supportLog = supportLogMapper.selectSupportLogs(studentId)
         val studentCourseTrack = userConfigValueMapper.selectStudentCourseTrack(studentId)
+        val studentProgramStart = userConfigValueMapper.selectProgramStart(studentId)
+        val studentProgramEnd = userConfigValueMapper.selectProgramEnd(studentId)
         val mentorData = mentorMapper.selectAssignedMentor(studentId)
         val studentMentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(studentId)
 
+        val programStart = if (studentProgramStart === null) "" else studentProgramStart.value
+        val programEnd = if (studentProgramEnd === null) "" else studentProgramEnd.value
+
         if (mentorData === null || studentMentorshipOption === null){
+
             return Student(
                 id = studentData.id,
                 firstName = studentData.firstName,
@@ -133,7 +139,9 @@ class StudentHandler(
                 assignedMentors = emptyList(),
                 supportLog = supportLog,
                 courseTrack = studentCourseTrack.courseTrack,
-                mentorshipOption = ""
+                mentorshipOption = "",
+                programStart = programStart,
+                programEnd = programEnd
             )
         } else {
             return Student(
@@ -152,7 +160,9 @@ class StudentHandler(
                 assignedMentors = mentorData,
                 supportLog = supportLog,
                 courseTrack = studentCourseTrack.courseTrack,
-                mentorshipOption = studentMentorshipOption.mentorshipOption
+                mentorshipOption = studentMentorshipOption.mentorshipOption,
+                programStart = programStart,
+                programEnd = programEnd
             )
         }
     }
@@ -313,6 +323,30 @@ class StudentHandler(
             if (validatedStatus != null) {
                 // update status
                 userMapper.updateStatusCode(studentId, validatedStatus[0].code)
+            }
+        }
+
+        if (userUpdatePayload.programStart != null) {
+            val studentId = userUpdatePayload.userId
+            val programStart = userUpdatePayload.programStart
+            val optionId = 5
+            val programStartCheck = userConfigValueMapper.selectProgramStart(studentId)
+            if (programStartCheck === null) {
+                userConfigValueMapper.insertProgramStart(studentId, optionId, programStart)
+            }else{
+                userConfigValueMapper.updateProgramStart(studentId, programStart)
+            }
+        }
+
+        if (userUpdatePayload.programEnd != null) {
+            val studentId = userUpdatePayload.userId
+            val programEnd = userUpdatePayload.programEnd
+            val optionId = 6
+            val programEndCheck = userConfigValueMapper.selectProgramEnd(studentId)
+            if (programEndCheck === null) {
+                userConfigValueMapper.insertProgramEnd(studentId, optionId, programEnd)
+            } else {
+                userConfigValueMapper.updateProgramEnd(studentId, programEnd)
             }
         }
 

@@ -7,8 +7,6 @@
     import UpdateStatus from "../formInputs/UpdateStatus.svelte";
     import Icon from 'svelte-awesome';
     import { flag, pencil } from "svelte-awesome/icons";
-    import CourseDropdown from "../formInputs/CourseDropdown.svelte";
-    import LogoutButton from "../LogoutButton.svelte";
 
     export let studentList = [];
     export let filteredStudents = [];

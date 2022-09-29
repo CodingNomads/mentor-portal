@@ -14,7 +14,10 @@
 
     // count flagged logs
     let flaggedLogCount = student.supportLog.filter(log => log.flag === true).length
-    console.log(flaggedLogCount)
+    // filter logs by date
+    let supportLogList = student.supportLog.sort(function(a, b){
+        return new Date(b.logDate) - new Date(a.logDate) 
+    }) 
 
     // handler functions
     const newLog = () => {
@@ -51,7 +54,7 @@
     
     <!-- display past logs -->
     {#if student.supportLog.length > 0}
-        {#each student.supportLog as entry (entry.id)}
+        {#each supportLogList as entry (entry.id)}
             <!-- catch flagged logs -->
             {#if entry.flag === true}
                 <div class="notification is-danger">
@@ -62,7 +65,6 @@
                                 <p><em>{entry.logDate.split("T")[0]}</em></p>
                                 <p><em>{entry.type}</em></p>
                                 <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                                <p><em>{entry.duration} minutes</em></p>
                             </div>
                             <!-- support log topic body -->
                             <div class="is-offset-1 column is-three-fifths">
@@ -92,7 +94,6 @@
                             <p><em>{entry.logDate.split("T")[0]}</em></p>
                             <p><em>{entry.type}</em></p>
                             <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                            <p><em>{entry.duration} minutes</em></p>
                         </div>
                         <!-- support log topic body -->
                         <div class="is-offset-1 column is-three-fifths">

@@ -16,5 +16,7 @@ data class Student(
     val assignedMentors: List<MentorData>? = null,
     val supportLog: List<SupportLog>? = null,
     val courseTrack: String? = null,
-    val mentorshipOption: String? = null
+    val mentorshipOption: String? = null,
+    val programStart: String? = null,
+    val programEnd: String? = null
 )

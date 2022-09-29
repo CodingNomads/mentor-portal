@@ -2,6 +2,7 @@
     import { onMount, onDestroy } from "svelte";
     import { navOptions } from "./StudentNav.svelte";
     import NavBar from "../NavBar.svelte";
+    import { authorizedApiGetCall } from "../../js/apiCalls.js";
     // nav variables
     let selected = navOptions[0];
     let intSelected = 0;
@@ -13,19 +14,12 @@
     // student variables
     export let studentId;
     export let student;
+    // authToken
+    const authToken = sessionStorage.getItem("authToken")
 
     onMount(async() => {
         const url = API_BASE_URL + `/api/students/${studentId}`
-        const headers = {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
-        const response = await fetch(url, {
-            headers,
-            mode: 'cors',
-            credentials: "same-origin"
-        })
-        student = await response.json()
+        student = await authorizedApiGetCall(authToken, url)
     });
 
 onDestroy(student, studentId)

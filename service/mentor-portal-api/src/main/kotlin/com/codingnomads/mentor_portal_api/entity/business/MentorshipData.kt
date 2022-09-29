@@ -8,6 +8,5 @@ data class MentorshipData(
     val studentId: Int,
     val statusCode: Int,
     val startDate: Date? = null,
-    val endDate: Date? = null,
-    val mentorshipStatus: String? = ""
+    val endDate: Date? = null
 )
