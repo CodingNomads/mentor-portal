@@ -33,9 +33,7 @@ interface MentorStudentLookupMapper {
                 id,
                 mentor_id,
                 student_id,
-                status_code,
-                start_date,
-                end_date
+                status_code
                 FROM mentor_student_lookup
             """
 
@@ -45,9 +43,7 @@ interface MentorStudentLookupMapper {
                 id,
                 mentor_id,
                 student_id,
-                status_code,
-                start_date,
-                end_date
+                status_code
                 FROM mentor_student_lookup
                 WHERE student_id = #{studentId}
             """
