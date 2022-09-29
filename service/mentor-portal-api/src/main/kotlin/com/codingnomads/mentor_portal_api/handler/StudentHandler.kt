@@ -51,16 +51,14 @@ class StudentHandler(
             val filteredStudentCourseTrackList = studentsConfigValuesList.filter { it.optionId == 3 }
 //            println(filteredStudentCourseTrackList)
             val studentCourseTrackMap: Map<Int, UserConfigData> = filteredStudentCourseTrackList.associateBy { it.userId }
-//            println(studentCourseTrackMap)
+
 
             // mentorshipOption config
             val mentorshipOptionList = studentsConfigValuesList.filter { it.optionId == 4 }
-//            println(mentorshipOptionList)
             val mentorshipOptionMap: Map<Int, UserConfigData> = mentorshipOptionList.associateBy { it.userId }
-//            println(mentorshipOptionMap)
             val filteredMentorshipPair = mentorshipDataList.filter { it.studentId == student.id }
-            println("filtered mentor_student_lookup $filteredMentorshipPair")
             val filteredMentors = filteredMentorshipPair.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
+
             // if students have a mentor they also have a mentorshipOption
             if (mentorshipPairMap[student.id] != null && mentorshipOptionList.isNotEmpty()){
 

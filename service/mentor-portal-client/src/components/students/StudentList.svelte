@@ -97,11 +97,11 @@
     <table class='table is-fullwidth is-bordered'>
         <thead>
             <tr>
-                <th>fullName</th>
-                <th>studentStatus</th>
-                <th>courseTrack</th>
-                <th>mentorshipOption</th>
-                <th>assignedMentor</th>
+                <th>Full Name</th>
+                <th>Student Status</th>
+                <th>Course Track</th>
+                <th>Mentorship Option</th>
+                <th>Assigned Mentors</th>
             </tr>
         </thead>
         <tbody >

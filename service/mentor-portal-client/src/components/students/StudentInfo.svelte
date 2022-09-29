@@ -14,23 +14,6 @@
     };
 </script>
 
-<div class="box">
-    <div class="row">
-        <div class="column is-6 is-centered">
-            {#if editTrigger === false}
-            {student.bio}
-            <br>
-            <br>
-            <button class="button is-small" on:click={editBio}>Edit</button>
-            {:else}   
-            <UpdateBio studentId={student.id} bio={student.bio} />
-            <br>
-            <button class="button is-small" on:click={cancelEdit}>Cancel</button>
-            {/if}
-        </div>
-    </div>
-</div>
-
 <ul>
     <div class="row">
         <div class="tags has-addons">
@@ -57,3 +40,22 @@
         </div>
     </div>
 </ul> 
+
+<br>
+
+<div class="box">
+    <div class="row">
+        <div class="column is-6 is-centered">
+            {#if editTrigger === false}
+            {student.bio}
+            <br>
+            <br>
+            <button class="button is-small" on:click={editBio}>Edit</button>
+            {:else}   
+            <UpdateBio studentId={student.id} bio={student.bio} />
+            <br>
+            <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+            {/if}
+        </div>
+    </div>
+</div>

@@ -51,9 +51,9 @@
     <table class="table is-fullwidth is-bordered">
         <thead>
             <tr>
-                <th>fullName</th>
-                <th>mentorProficiencies</th>
-                <th>studentCount</th>
+                <th>Full Name</th>
+                <th>Mentor Proficiencies</th>
+                <th>Student Count</th>
             </tr>
         </thead>
         <tbody>

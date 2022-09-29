@@ -35,9 +35,9 @@
 <table class="table is-fullwidth is-bordered">
     <thead>
         <tr>
-            <th>courseTrack</th>
-            <th>programStart</th>
-            <th>programEnd</th>
+            <th>Course Track</th>
+            <th>Program Start</th>
+            <th>Program End</th>
         </tr>
     </thead>
     <tbody>
@@ -104,10 +104,7 @@
 <table class="table is-bordered">
     <thead>
         <tr>
-            <th>mentorName</th>
-            <!-- <th>mentorshipStart</th>
-            <th>mentorshipEnd</th>
-            <th>mentorshipStatus</th> -->
+            <th>Mentor Name</th>
         </tr>
     </thead>
     <tbody>
@@ -115,12 +112,6 @@
             <tr>
                 <!-- mentorName -->
                 <td>{mentor.firstName} {mentor.lastName}</td>
-                <!-- startDate -->
-                <!-- <td></td> -->
-                <!-- endDate -->
-                <!-- <td></td> -->
-                <!-- mentorshipStatus -->
-                <!-- <td></td> -->
             </tr>
         {/each}
     </tbody>
