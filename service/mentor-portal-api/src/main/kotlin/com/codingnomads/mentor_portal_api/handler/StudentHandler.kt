@@ -113,35 +113,12 @@ class StudentHandler(
         val studentCourseTrack = userConfigValueMapper.selectStudentCourseTrack(studentId)
         val studentProgramStart = userConfigValueMapper.selectProgramStart(studentId)
         val studentProgramEnd = userConfigValueMapper.selectProgramEnd(studentId)
-        val mentorData = mentorMapper.selectAssignedMentor(studentId)
-        val studentMentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(studentId)
-
+        // conditional data
+        val mentorData = if (mentorMapper.selectAssignedMentor(studentId) === null) emptyList() else mentorMapper.selectAssignedMentor(studentId)
+        val studentMentorshipOption = if (userConfigValueMapper.selectStudentMentorShipOption(studentId) === null) "" else userConfigValueMapper.selectStudentMentorShipOption(studentId).mentorshipOption
         val programStart = if (studentProgramStart === null) "" else studentProgramStart.value
         val programEnd = if (studentProgramEnd === null) "" else studentProgramEnd.value
 
-        if (mentorData === null || studentMentorshipOption === null){
-
-            return Student(
-                id = studentData.id,
-                firstName = studentData.firstName,
-                lastName = studentData.lastName,
-                roleCode = studentData.roleCode,
-                statusDescription = studentData.statusDescription,
-                flag = studentData.flag,
-                bio = studentData.bio,
-                location = studentData.location,
-                email = studentData.email,
-                telephone = studentData.telephone,
-                forumUsername = studentData.forumUsername,
-                slackUsername = studentData.slackUsername,
-                assignedMentors = emptyList(),
-                supportLog = supportLog,
-                courseTrack = studentCourseTrack.courseTrack,
-                mentorshipOption = "",
-                programStart = programStart,
-                programEnd = programEnd
-            )
-        } else {
             return Student(
                 id = studentData.id,
                 firstName = studentData.firstName,
@@ -158,11 +135,10 @@ class StudentHandler(
                 assignedMentors = mentorData,
                 supportLog = supportLog,
                 courseTrack = studentCourseTrack.courseTrack,
-                mentorshipOption = studentMentorshipOption.mentorshipOption,
+                mentorshipOption = studentMentorshipOption,
                 programStart = programStart,
                 programEnd = programEnd
             )
-        }
     }
 
     /**

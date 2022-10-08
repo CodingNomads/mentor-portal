@@ -3,9 +3,11 @@
     import Icon from "svelte-awesome";
     import CreateSupportLog from "../CreateSupportLog.svelte";
     import UpdateLog from "../formInputs/UpdateLog.svelte";
+    import { onDestroy } from "svelte";
 
     // admin check
     const isAdmin = sessionStorage.getItem("isAdmin")
+    const mentorId = sessionStorage.getItem("mentorId")
 
     // initialize variables
     export let student;
@@ -32,6 +34,8 @@
     const cancelEdit = () => {
         return editTrigger = false
     }
+
+    onDestroy(editTrigger, addLog)
 </script>
 
 <div class="container">
@@ -70,7 +74,7 @@
                             <div class="is-offset-1 column is-three-fifths">
                                 {#if editTrigger === false}
                                 <p>{entry.log}</p>
-                                    {#if isAdmin === "true"}
+                                    {#if isAdmin === "true" || entry.mentorId === parseInt(mentorId)}
                                         <br>
                                         <br>
                                         <button class="button is-small" on:click={editLog}>Edit</button>

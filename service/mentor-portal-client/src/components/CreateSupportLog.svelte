@@ -7,7 +7,7 @@
     // support log variables
     const mentorId = sessionStorage.getItem("mentorId");
     let log;
-    let logDate;
+    let logDate = new Date();
     let type;
     let duration;
     export let supportLogFlag;
@@ -53,8 +53,7 @@
     <div class="row">
         <div class="columns">
             <div class="column is-one-fifth">
-                <DateSelect label="Date" bind:value={logDate} required /> 
-                <!-- <MentorDropdown label="Mentor" bind:value={selectedMentor} required /> -->
+                <DateSelect label="Date" bind:value={logDate} /> 
                 <SupportTypeDropdown label="Type" bind:value={type} required /> 
                 <FlagDropdown label="Flag" bind:value={supportLogFlag} required />
             </div>
