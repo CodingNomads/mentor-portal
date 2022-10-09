@@ -101,7 +101,19 @@
                         </div>
                         <!-- support log topic body -->
                         <div class="is-offset-1 column is-three-fifths">
-                            <p>{entry.log}</p>
+                            {#if editTrigger === false}
+                                <p>{entry.log}</p>
+                                {#if isAdmin === "true" || entry.mentorId === parseInt(mentorId)}
+                                    <br>
+                                    <br>
+                                    <button class="button is-small" on:click={editLog}>Edit</button>
+                                {/if}
+                            <!-- triggered edit form -->
+                            {:else}
+                                <UpdateLog log={entry.log} userId={student.id} supportLogId={entry.id} />
+                                <br>
+                                <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                            {/if}
                         </div>
                     </div>
                 </div>
