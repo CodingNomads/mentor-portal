@@ -3,7 +3,6 @@
     import Icon from "svelte-awesome";
     import CreateSupportLog from "../CreateSupportLog.svelte";
     import UpdateLog from "../formInputs/UpdateLog.svelte";
-    import { onDestroy } from "svelte";
 
     // admin check
     const isAdmin = sessionStorage.getItem("isAdmin")
@@ -34,8 +33,6 @@
     const cancelEdit = () => {
         return editTrigger = false
     }
-
-    onDestroy(editTrigger, addLog)
 </script>
 
 <div class="container">

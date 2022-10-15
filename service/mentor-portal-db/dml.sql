@@ -19,9 +19,9 @@ VALUES ('student1', 'smith', 20, 100, 1, '-8', 'Bio for student1 with their goal
        ('mentor1', 'doe', 10, 100, 0, '-4', 'Bio for mentor1 with their history', 'admin@email.com'),
        ('student2', 'smith', 20, 100, 0, '-8', 'Bio for student2 with their goals', 'email3@email.com'),
        ('mentor2', 'doe', 10, 100, 1, '-4', 'Bio for mentor2 with their history', 'email4@email.com'),
-       ('inactiveStudent', 'smith', 20, 200, 1, '-4', 'Bio for inactive student', 'email5@email.com'),
+       ('inactiveStudent', 'smith', 20, 200, 0, '-4', 'Bio for inactive student', 'email5@email.com'),
        ('admin', 'admin', 10, 100, 0, '-8', 'Bio for admin with their history', 'email6@email.com'),
-       ('student', 'smith', 20, 100, 1, "-5", 'Bio for student with their goals', 'email7@email.com');
+       ('student', 'smith', 20, 100, 0, "-5", 'Bio for student with their goals', 'email7@email.com');
 
 INSERT INTO `security` (user_id, password_hash, is_admin)
 VALUES (1, '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 0),

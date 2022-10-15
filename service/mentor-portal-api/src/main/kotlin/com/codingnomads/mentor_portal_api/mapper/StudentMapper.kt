@@ -74,7 +74,7 @@ interface StudentMapper {
                 contact.forum_username,
                 contact.slack_username 
                 FROM user
-                JOIN contact on user_id = user.id
+                JOIN contact on contact.user_id = user.id
                 JOIN status on user.status_code = status.code
                 WHERE role_code = 20 and user.id = #{value}
             """

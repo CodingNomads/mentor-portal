@@ -6,6 +6,8 @@
     export let supportTypeList = [
         "Scheduled 1:1",
         "Impromptu 1:1",
+        "Skipped Meeting",
+        "Rescheduled Meeting",
         "Slack/Discord",
         "Forum",
         "Email",
