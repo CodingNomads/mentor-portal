@@ -6,9 +6,9 @@
     import PasswordReset from './PasswordReset.svelte';
     // mentor nav options
     export const navOptions = [
-        {page: "mentorInfo", component: MentorInfo},
-        {page: "assignedStudents", component: AssignedStudents},
-        {page: "supportLog", component: SupportLog},
-        {page: "passwordReset", component: PasswordReset}
+        {page: "Support Log", component: SupportLog},
+        {page: "Mentor Info", component: MentorInfo},
+        {page: "Assigned Students", component: AssignedStudents},
+        {page: "Password Reset", component: PasswordReset}
     ]
 </script>

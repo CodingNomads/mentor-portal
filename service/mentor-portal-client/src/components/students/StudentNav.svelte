@@ -6,8 +6,8 @@
 
     // export navOptions
     export const navOptions = [
-        {page: "studentInfo", component: StudentInfo},
-        {page: "supportLog", component:SupportLog},
-        {page: "programTable", component: MentorshipTable},
+        {page: "Support Log", component:SupportLog},
+        {page: "Student Info", component: StudentInfo},
+        {page: "Program Table", component: MentorshipTable},
     ];
 </script>
