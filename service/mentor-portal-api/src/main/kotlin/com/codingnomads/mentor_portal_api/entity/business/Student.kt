@@ -18,5 +18,7 @@ data class Student(
     val courseTrack: String? = null,
     val mentorshipOption: String? = null,
     val programStart: String? = null,
-    val programEnd: String? = null
+    val programEnd: String? = null,
+    val review: Boolean? = null,
+    val linkedinAlumni: Boolean? = false
 )

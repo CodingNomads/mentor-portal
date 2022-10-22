@@ -13,4 +13,5 @@ data class StudentData(
     val telephone: String,
     val forumUsername: String,
     val slackUsername: String,
+    val linkedinAlumni: Boolean? = false
 )

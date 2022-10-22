@@ -113,32 +113,37 @@ class StudentHandler(
         val studentCourseTrack = userConfigValueMapper.selectStudentCourseTrack(studentId)
         val studentProgramStart = userConfigValueMapper.selectProgramStart(studentId)
         val studentProgramEnd = userConfigValueMapper.selectProgramEnd(studentId)
+        val studentReview = userConfigValueMapper.selectStudentReview(studentId)
         // conditional data
         val mentorData = if (mentorMapper.selectAssignedMentor(studentId) === null) emptyList() else mentorMapper.selectAssignedMentor(studentId)
         val studentMentorshipOption = if (userConfigValueMapper.selectStudentMentorShipOption(studentId) === null) "" else userConfigValueMapper.selectStudentMentorShipOption(studentId).mentorshipOption
         val programStart = if (studentProgramStart === null) "" else studentProgramStart.value
         val programEnd = if (studentProgramEnd === null) "" else studentProgramEnd.value
+        val review = if (studentReview === null) false else studentReview.value.toBoolean()
+        val linkedinAlumni = if (studentData.linkedinAlumni === null) false else studentData.linkedinAlumni
 
-            return Student(
-                id = studentData.id,
-                firstName = studentData.firstName,
-                lastName = studentData.lastName,
-                roleCode = studentData.roleCode,
-                statusDescription = studentData.statusDescription,
-                flag = studentData.flag,
-                bio = studentData.bio,
-                location = studentData.location,
-                email = studentData.email,
-                telephone = studentData.telephone,
-                forumUsername = studentData.forumUsername,
-                slackUsername = studentData.slackUsername,
-                assignedMentors = mentorData,
-                supportLog = supportLog,
-                courseTrack = studentCourseTrack.courseTrack,
-                mentorshipOption = studentMentorshipOption,
-                programStart = programStart,
-                programEnd = programEnd
-            )
+        return Student(
+            id = studentData.id,
+            firstName = studentData.firstName,
+            lastName = studentData.lastName,
+            roleCode = studentData.roleCode,
+            statusDescription = studentData.statusDescription,
+            flag = studentData.flag,
+            bio = studentData.bio,
+            location = studentData.location,
+            email = studentData.email,
+            telephone = studentData.telephone,
+            forumUsername = studentData.forumUsername,
+            slackUsername = studentData.slackUsername,
+            assignedMentors = mentorData,
+            supportLog = supportLog,
+            courseTrack = studentCourseTrack.courseTrack,
+            mentorshipOption = studentMentorshipOption,
+            programStart = programStart,
+            programEnd = programEnd,
+            review = review,
+            linkedinAlumni = linkedinAlumni
+        )
     }
 
     /**
@@ -170,7 +175,8 @@ class StudentHandler(
                 telephone = studentPostPayload.telephone,
                 location = studentPostPayload.location,
                 forumUsername = studentPostPayload.forumUsername!!,
-                slackUsername = studentPostPayload.slackUsername!!
+                slackUsername = studentPostPayload.slackUsername!!,
+                linkedinAlumni = false
             )
             contactMapper.insertContact(contactRow)
 
@@ -268,21 +274,21 @@ class StudentHandler(
                 flag=userUpdatePayload.flag
             )
         }
-        if (userUpdatePayload.bio != null){
+        else if (userUpdatePayload.bio != null){
             // update user bio
             userMapper.updateBio(
                 userId=studentId,
                 bio=userUpdatePayload.bio
             )
         }
-        if (userUpdatePayload.courseTrack != null){
+        else if (userUpdatePayload.courseTrack != null){
             // update courseTrack
             userConfigValueMapper.updateCourseTrackValue(
                 userId=studentId,
                 courseTrack=userUpdatePayload.courseTrack
             )
         }
-        if (userUpdatePayload.mentorshipOption != null){
+        else if (userUpdatePayload.mentorshipOption != null){
             // update mentorshipOption
             userConfigValueMapper.updateMentorshipOptionValue(
                 userId=studentId,
@@ -290,7 +296,7 @@ class StudentHandler(
             )
         }
 
-        if (userUpdatePayload.statusDescription != null) {
+        else if (userUpdatePayload.statusDescription != null) {
             val studentId = userUpdatePayload.userId
             val statusDescription = userUpdatePayload.statusDescription
             val validatedStatus = UserStatus.values().filter { it.description == statusDescription }
@@ -300,7 +306,7 @@ class StudentHandler(
             }
         }
 
-        if (userUpdatePayload.programStart != null) {
+        else if (userUpdatePayload.programStart != null) {
             val studentId = userUpdatePayload.userId
             val programStart = userUpdatePayload.programStart
             val optionId = 5
@@ -312,7 +318,7 @@ class StudentHandler(
             }
         }
 
-        if (userUpdatePayload.programEnd != null) {
+        else if (userUpdatePayload.programEnd != null) {
             val studentId = userUpdatePayload.userId
             val programEnd = userUpdatePayload.programEnd
             val optionId = 6
@@ -324,50 +330,62 @@ class StudentHandler(
             }
         }
 
+        else if (userUpdatePayload.review != null) {
+            val studentId = userUpdatePayload.userId
+            val updatedReview = userUpdatePayload.review.toString()
+            val optionId = 7
+            val reviewCheck = userConfigValueMapper.selectStudentReview(studentId)
+            if (reviewCheck === null) {
+                userConfigValueMapper.insertReview(studentId, optionId, updatedReview)
+            } else {
+                userConfigValueMapper.updateReview(studentId, updatedReview )
+            }
+        }
+
+        else if (userUpdatePayload.linkedinAlumni != null) {
+            val studentId = userUpdatePayload.userId
+            val updatedLinkedinAlumni = userUpdatePayload.linkedinAlumni
+
+            contactMapper.updateLinkedinAlumni(studentId, updatedLinkedinAlumni)
+            // ADD linkedinAlumni to StudentDataRelation AND Student
+        }
+
         // return updated student object
         val mentorData = mentorMapper.selectAssignedMentor(userUpdatePayload.userId)
         val courseTrack = userConfigValueMapper.selectStudentCourseTrack(userUpdatePayload.userId)
-        val mentorshipOption = userConfigValueMapper.selectStudentMentorShipOption(userUpdatePayload.userId)
+        val mentorshipOptionCheck = userConfigValueMapper.selectStudentMentorShipOption(userUpdatePayload.userId)
+        val mentorshipOption = if (mentorshipOptionCheck === null) "" else mentorshipOptionCheck.mentorshipOption
         val someStudentData = studentMapper.selectStudentById(userUpdatePayload.userId)
+        val programStartCheck = userConfigValueMapper.selectProgramStart(studentId)
+        val programStart = if (programStartCheck === null) "None" else programStartCheck.value
+        val programEndCheck = userConfigValueMapper.selectProgramEnd(studentId)
+        val programEnd = if (programEndCheck === null) "None" else programEndCheck.value
+        val reviewCheck = userConfigValueMapper.selectStudentReview(studentId)
+        val review = if (reviewCheck === null) false else reviewCheck.value.toBoolean()
+
         println(someStudentData)
-        if (mentorshipOption == null) {
-            return StudentDataRelation(
-                id = userUpdatePayload.userId,
-                firstName = someStudentData.firstName,
-                lastName = someStudentData.lastName,
-                roleCode = someStudentData.roleCode,
-                statusDescription = someStudentData.statusDescription,
-                flag = someStudentData.flag,
-                bio = someStudentData.bio,
-                location = someStudentData.location,
-                email = someStudentData.email,
-                telephone = someStudentData.telephone,
-                forumUsername = someStudentData.forumUsername,
-                slackUsername = someStudentData.slackUsername,
-                assignedMentors = mentorData,
-                courseTrack = courseTrack.courseTrack,
-                mentorshipOption = ""
-            )
-        }
-            else {
-                return StudentDataRelation(
-                    id = userUpdatePayload.userId,
-                    firstName = someStudentData.firstName,
-                    lastName = someStudentData.lastName,
-                    roleCode = someStudentData.roleCode,
-                    statusDescription = someStudentData.statusDescription,
-                    flag = someStudentData.flag,
-                    bio = someStudentData.bio,
-                    location = someStudentData.location,
-                    email = someStudentData.email,
-                    telephone = someStudentData.telephone,
-                    forumUsername = someStudentData.forumUsername,
-                    slackUsername = someStudentData.slackUsername,
-                    assignedMentors = mentorData,
-                    courseTrack = courseTrack.courseTrack,
-                    mentorshipOption = mentorshipOption.mentorshipOption
-                )
-            }
+
+        return StudentDataRelation(
+            id = userUpdatePayload.userId,
+            firstName = someStudentData.firstName,
+            lastName = someStudentData.lastName,
+            roleCode = someStudentData.roleCode,
+            statusDescription = someStudentData.statusDescription,
+            flag = someStudentData.flag,
+            bio = someStudentData.bio,
+            location = someStudentData.location,
+            email = someStudentData.email,
+            telephone = someStudentData.telephone,
+            forumUsername = someStudentData.forumUsername,
+            slackUsername = someStudentData.slackUsername,
+            assignedMentors = mentorData,
+            courseTrack = courseTrack.courseTrack,
+            mentorshipOption = mentorshipOption,
+            programStart = programStart,
+            programEnd = programEnd,
+            review = review,
+            linkedinAlumni = someStudentData.linkedinAlumni
+        )
     }
 }
 

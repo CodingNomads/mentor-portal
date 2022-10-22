@@ -59,8 +59,9 @@ VALUES ("maxStudents", "The maximum students a mentor can be assigned.", 0),
        ("proficiencies", "The programming language(s) a mentor is proficient with.", 0),
        ("courseTrack", "The course a student is enrolled in.", 0),
        ("mentorshipOption", "The mentorship option a student is enrolled in.", 0),
-       ("programStart", "The program start date of a student", 0),
-       ("programEnd", "The program end date of a student", 0);
+       ("programStart", "The program start date of a student.", 0),
+       ("programEnd", "The program end date of a student.", 0),
+       ("studentReview", "A boolean for whether a student has written an online review.", 0);
 
 INSERT INTO `user_config_value` (user_id, option_id, value)
 VALUES (2, 1, "10"),

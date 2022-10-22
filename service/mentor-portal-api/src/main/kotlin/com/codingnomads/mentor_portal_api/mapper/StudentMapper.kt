@@ -51,9 +51,10 @@ interface StudentMapper {
                 user.email,
                 contact.telephone,
                 contact.forum_username,
-                contact.slack_username
+                contact.slack_username, 
+                contact.linkedin_alumni
                 FROM user
-                JOIN contact on user_id = user.id
+                JOIN contact on contact.user_id = user.id
                 JOIN status on status.code = user.status_code
                 WHERE role_code = 20
             """
@@ -72,7 +73,8 @@ interface StudentMapper {
                 user.email,
                 contact.telephone,
                 contact.forum_username,
-                contact.slack_username 
+                contact.slack_username,
+                contact.linkedin_alumni
                 FROM user
                 JOIN contact on contact.user_id = user.id
                 JOIN status on user.status_code = status.code
@@ -92,7 +94,8 @@ interface StudentMapper {
                 user.email,
                 contact.telephone,
                 contact.forum_username,
-                contact.slack_username
+                contact.slack_username, 
+                contact.linkedin_alumni
                 FROM user
                 JOIN mentor_student_lookup on user.id = mentor_student_lookup.student_id
                 JOIN contact on user.id = contact.user_id
@@ -112,7 +115,8 @@ interface StudentMapper {
                 user.email,
                 contact.telephone,
                 contact.forum_username,
-                contact.slack_username
+                contact.slack_username,
+                contact.linkedin_alumni
                 FROM user
                 JOIN contact on user.id = contact.user_id
                 JOIN mentor_student_lookup on user.id = mentor_student_lookup.student_id

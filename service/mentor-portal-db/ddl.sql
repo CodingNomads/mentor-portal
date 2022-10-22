@@ -64,6 +64,7 @@ CREATE TABLE `contact` (
     `location` varchar(255),
     `forum_username` varchar(255),
     `slack_username` varchar(255),
+    `linkedin_alumni` boolean,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),

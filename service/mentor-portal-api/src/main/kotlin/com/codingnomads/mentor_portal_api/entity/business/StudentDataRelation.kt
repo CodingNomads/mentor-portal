@@ -15,5 +15,9 @@ data class StudentDataRelation(
     val slackUsername: String,
     val assignedMentors: List<MentorData>,
     val courseTrack: String? = null,
-    val mentorshipOption: String? = null
+    val mentorshipOption: String? = null,
+    val programStart: String? = null,
+    val programEnd: String? = null,
+    val review: Boolean? = null,
+    val linkedinAlumni: Boolean? = false
 )

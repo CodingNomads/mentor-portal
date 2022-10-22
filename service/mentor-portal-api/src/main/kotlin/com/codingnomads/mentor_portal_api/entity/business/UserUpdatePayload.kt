@@ -8,5 +8,7 @@ data class UserUpdatePayload(
     val mentorshipOption: String? = null,
     val statusDescription: String? = null,
     val programStart: String? = null,
-    val programEnd: String? = null
+    val programEnd: String? = null,
+    val review: Boolean? = null,
+    val linkedinAlumni: Boolean? = null
 )
