@@ -7,6 +7,7 @@
     import UpdateStatus from "../formInputs/UpdateStatus.svelte";
     import Icon from 'svelte-awesome';
     import { flag, pencil } from "svelte-awesome/icons";
+    import UpdateDate from "../formInputs/UpdateDate.svelte";
 
     export let studentList = [];
     export let filteredStudents = [];
@@ -31,15 +32,27 @@
         });
     };
 
+    function cancelEdit() {
+        triggerId = 0;
+        triggerContent = "";
+        return triggerId && triggerContent
+    }
+
+    function editStart(studentId, labelTitle) {
+        triggerId = studentId;
+        triggerContent = labelTitle;
+        return triggerId && triggerContent
+    }
+
+    function editEnd(studentId, labelTitle) {
+        triggerId = studentId;
+        triggerContent = labelTitle;
+        return triggerId && triggerContent
+    }
+
     function updateStatus(studentId, content) {
         triggerId = studentId;
         triggerContent = content;
-        return triggerId && triggerContent
-    };
-
-    const resetUpdateStatus = () => {
-        triggerId = 0;
-        triggerContent = "";
         return triggerId && triggerContent
     };
 
@@ -49,21 +62,9 @@
         return triggerId && triggerContent
     };
 
-    const resetUpdateCourseTrack = () => {
-        triggerId = 0
-        triggerContent = ""
-        return triggerId && triggerContent
-    };
-
     function updateMentorshipOption(studentId, content) {
         triggerId = studentId
         triggerContent = content
-        return triggerId && triggerContent
-    };
-
-    const resetUpdateMentorshipOption = () => {
-        triggerId = 0
-        triggerContent = ""
         return triggerId && triggerContent
     };
 
@@ -101,6 +102,8 @@
                 <th>Student Status</th>
                 <th>Course Track</th>
                 <th>Mentorship Option</th>
+                <th>Program Start</th>
+                <th>Program End</th>
                 <th>Assigned Mentors</th>
             </tr>
         </thead>
@@ -151,7 +154,7 @@
                     {#if triggerId === student.id && triggerId != 0 && triggerContent === student.statusDescription && isAdmin === "true"}
                         <div class="row">
                             <UpdateStatus userId={student.id} />
-                            <button class="button is-small" on:click={resetUpdateStatus}>Cancel</button>
+                            <button class="button is-small" on:click={cancelEdit}>Cancel</button>
                         </div>
                     {/if}
                 </td>
@@ -174,7 +177,7 @@
                     {#if triggerId === student.id && triggerId != 0 && triggerContent === student.courseTrack && isAdmin === "true"}
                         <div class="row">
                             <UpdateCourseMentorship label={courseTrackLabel} userId={student.id} />
-                            <button class='button is-small' on:click={resetUpdateCourseTrack}>Cancel</button>
+                            <button class='button is-small' on:click={cancelEdit}>Cancel</button>
                         </div>
                     {/if}
                 </td>
@@ -198,7 +201,7 @@
                         {#if triggerId == student.id && triggerId != 0 && triggerContent === student.mentorshipOption && isAdmin === "true"}
                             <div class="row">
                                 <UpdateCourseMentorship label={mentorShipOptionLabel} userId={student.id} />
-                                <button class='button is-small' on:click={resetUpdateMentorshipOption}>Cancel</button>
+                                <button class='button is-small' on:click={cancelEdit}>Cancel</button>
                             </div>
                         {/if}
                     <!-- if students DO NOT have a mentorshipOption -->
@@ -211,6 +214,52 @@
                                 <div class="column">
                                     None
                                 </div>
+                            </div>
+                        </div>
+                    {/if}
+                </td>
+                <!-- programStart -->
+                <td>
+                    <div class="row">
+                        <div class="columns">
+                            <div class="column is-1">
+                                <span class="is-small" on:click={editStart(student.id, "Update startDate")}>
+                                    <Icon data={pencil} />
+                                </span>
+                            </div>
+                            <div class="column">
+                                {student.programStart}
+                            </div>
+                        </div>
+                    </div>
+                    {#if triggerContent === "Update startDate" && triggerId === student.id && isAdmin === "true"}
+                        <div class="columns">
+                            <div class="column">
+                                <UpdateDate studentId={student.id} label="Update startDate" />
+                                <button class='button is-small' on:click={cancelEdit}>Cancel</button>
+                            </div>
+                        </div>
+                    {/if}
+                </td>
+                <!-- programEnd -->
+                <td>
+                    <div class="row">
+                        <div class="columns">
+                            <div class="column is-1">
+                                <span class="is-small" on:click={editEnd(student.id, "Update endDate")}>
+                                    <Icon data={pencil} />
+                                </span>
+                            </div>
+                            <div class="column">
+                                {student.programEnd}
+                            </div>
+                        </div>
+                    </div>
+                    {#if triggerContent === "Update endDate" && triggerId === student.id && isAdmin === "true"}
+                        <div class="columns">
+                            <div class="column">
+                                <UpdateDate studentId={student.id} label="Update endDate" />
+                                <button class='button is-small' on:click={cancelEdit}>Cancel</button>
                             </div>
                         </div>
                     {/if}

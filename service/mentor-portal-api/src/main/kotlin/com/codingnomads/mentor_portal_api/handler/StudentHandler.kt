@@ -39,25 +39,37 @@ class StudentHandler(
         // maps
         val mentorsWithStudentsByIdMap: Map<Int, MentorData> = mentorsList.associateBy { it.id!! }
         val mentorshipPairMap: Map<Int, MentorshipData> = mentorshipDataList.associateBy { it.studentId }
-//        println("mentor_student_lookup $mentorshipPairMap")
 
         for (student in studentDataList){
             // key for accessing dictionary values
             val studentId = student.id
-//            println("StudentId: ${student.id} \nStudent Name: ${student.firstName}")
-//            println(studentsConfigValuesList)
 
             // courseTrack config
             val filteredStudentCourseTrackList = studentsConfigValuesList.filter { it.optionId == 3 }
-//            println(filteredStudentCourseTrackList)
             val studentCourseTrackMap: Map<Int, UserConfigData> = filteredStudentCourseTrackList.associateBy { it.userId }
-
 
             // mentorshipOption config
             val mentorshipOptionList = studentsConfigValuesList.filter { it.optionId == 4 }
             val mentorshipOptionMap: Map<Int, UserConfigData> = mentorshipOptionList.associateBy { it.userId }
             val filteredMentorshipPair = mentorshipDataList.filter { it.studentId == student.id }
             val filteredMentors = filteredMentorshipPair.map { mentor -> mentorsWithStudentsByIdMap[mentor.mentorId]!! }
+
+            // programStart config
+            val filteredStudentProgramStart = studentsConfigValuesList.filter { it.optionId == 5 }
+            val studentProgramStartMap: Map<Int, UserConfigData> = filteredStudentProgramStart.associateBy { it.userId }
+            val programStart = if (studentProgramStartMap[studentId] === null) "" else studentProgramStartMap[studentId]!!.value
+
+            // programEnd config
+            val filteredStudentProgramEnd = studentsConfigValuesList.filter { it.optionId == 6 }
+            val studentProgramEndMap: Map<Int, UserConfigData> = filteredStudentProgramEnd.associateBy { it.userId }
+            val programEnd = if (studentProgramEndMap[studentId] === null) "" else studentProgramEndMap[studentId]!!.value
+
+            // program review config
+            val filteredStudentReview = studentsConfigValuesList.filter { it.optionId == 7 }
+            val studentReviewMap: Map<Int, UserConfigData> = filteredStudentReview.associateBy { it.userId }
+            val review = if (studentReviewMap[studentId] === null) false else studentReviewMap[studentId]!!.value.toBoolean()
+
+            val linkedinAlumni = if (student.linkedinAlumni === null) false else student.linkedinAlumni
 
             // if students have a mentor they also have a mentorshipOption
             if (mentorshipPairMap[student.id] != null && mentorshipOptionList.isNotEmpty()){
@@ -77,7 +89,11 @@ class StudentHandler(
                     slackUsername = student.slackUsername,
                     assignedMentors = filteredMentors,
                     courseTrack = studentCourseTrackMap[studentId]!!.value,
-                    mentorshipOption = mentorshipOptionMap[studentId]!!.value
+                    mentorshipOption = mentorshipOptionMap[studentId]!!.value,
+                    programStart = programStart,
+                    programEnd = programEnd,
+                    review = review,
+                    linkedinAlumni = linkedinAlumni
                 )
                 studentList.add(someStudent)
             }else{
@@ -96,7 +112,11 @@ class StudentHandler(
                     slackUsername = student.slackUsername,
                     assignedMentors = mutableListOf(),
                     courseTrack = studentCourseTrackMap[studentId]!!.value,
-                    mentorshipOption = ""
+                    mentorshipOption = "",
+                    programStart = programStart,
+                    programEnd = programEnd,
+                    review = review,
+                    linkedinAlumni = linkedinAlumni
                 )
                 studentList.add(someStudent)
             }

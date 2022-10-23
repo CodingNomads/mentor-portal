@@ -8,6 +8,7 @@
     import StudentInfo from "./StudentInfo.svelte";
     import UpdateLinkedinAlumni from "../formInputs/UpdateLinkedinAlumni.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
+    import UpdateStatus from "../formInputs/UpdateStatus.svelte";
 
     export let student;
     let mentorStudentLookupData;
@@ -19,6 +20,12 @@
     let triggerId;
 
     function editCourseTrack(studentId, labelTitle) {
+        triggerId = studentId;
+        label = labelTitle;
+        return triggerId && label
+    }
+
+    function editStatus(studentId, labelTitle) {
         triggerId = studentId;
         label = labelTitle;
         return triggerId && label
@@ -58,6 +65,7 @@
     <thead>
         <tr>
             <th>Course Track</th>
+            <th>Student Status</th>
             <th>Program Start</th>
             <th>Program End</th>
             <th>Student Review</th>
@@ -84,6 +92,29 @@
                     <div class="columns">
                         <div class="column">
                             <UpdateCourseMentorship label="Update Course" userId={student.id} />
+                            <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                        </div>
+                    </div>
+                {/if}
+            </td>
+            <!-- studentStatus -->
+            <td>
+                <div class="row">
+                    <div class="columns">
+                        <div class="column is-1">
+                            <span class="is-small" on:click={editStatus(student.id, "Update Status")}>
+                                <Icon data={pencil} />
+                            </span>
+                        </div>
+                        <div class="column">
+                            {student.statusDescription}
+                        </div>
+                    </div>
+                </div>
+                {#if label === "Update Status" && triggerId === student.id && isAdmin === "true"}
+                    <div class="columns">
+                        <div class="column">
+                            <UpdateStatus userId={student.id} />
                             <button class="button is-small" on:click={cancelEdit}>Cancel</button>
                         </div>
                     </div>
