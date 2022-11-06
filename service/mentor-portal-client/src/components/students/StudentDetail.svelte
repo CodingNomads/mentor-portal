@@ -29,7 +29,7 @@ onDestroy(student, studentId)
     <NavBar />
     {#if student}
     <br>
-    <div class="card-content">
+    <div class="container">
         <!-- title row -->
         <div class="row">
             <div class="column is-7">
@@ -44,11 +44,9 @@ onDestroy(student, studentId)
                 <a class={intSelected==i ? "button is-small is-info active p-2 ml-1" : "p-2 ml-1 button is-light is-small"} on:click={changeComponent} id={i} role="tab">{option.page}</a>
             {/each}
         </div>
-        <!-- selected nav row -->
+        <!-- selected nav -->
         <br>
-        <div class="row">
-            <svelte:component this={selected.component} student={student}/>
-        </div>
+        <svelte:component this={selected.component} student={student}/>
     </div>
     {/if}
 </div>

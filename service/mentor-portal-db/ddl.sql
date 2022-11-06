@@ -82,7 +82,7 @@ CREATE TABLE `support_log` (
     `type` varchar(255),
     `flag` tinyint NOT NULL COMMENT 'Flag boolean for admin attention',
     `duration` int(10),
-    `log` varchar(255) NOT NULL,
+    `log` varchar(2000) NOT NULL,
     `log_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

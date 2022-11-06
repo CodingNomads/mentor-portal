@@ -1,8 +1,32 @@
 <script>
+    import { onMount } from "svelte";
+    import Quill from "../../node_modules/quill/dist/quill.js";
+
     import FlagDropdown from "./formInputs/FlagDropdown.svelte";
     import DateSelect from "./formInputs/DateSelect.svelte";
-    import InputText from "./formInputs/InputText.svelte";
     import SupportTypeDropdown from "./formInputs/SupportTypeDropdown.svelte";
+
+    let quill;
+
+    onMount( () => {
+        // quill toobar options
+        const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],
+            [{list: 'ordered'}, {list: 'bullet'}],
+            [{size: ['small', 'large', 'huge', false]}],
+            [{header: [1, 2, 3, 4, 5, 6, false]}],
+            ['blockquote', 'code-block']
+        ]
+        // quill rich text config
+        const createContainer = document.getElementById("createEditor");
+        quill = new Quill(createContainer, {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            placeholder: "Format your support log entry here.",
+            theme: "snow"
+        });
+    });
 
     // support log variables
     const mentorId = sessionStorage.getItem("mentorId");
@@ -24,7 +48,7 @@
             "type": type,
             "flag": supportLogFlag,
             "duration": duration,
-            "log": log,
+            "log": quill.root.innerHTML,
             "logDate": logDate
         })
         console.log(body)
@@ -49,21 +73,28 @@
     };
 </script>
 
-<form class="form-box" on:submit|preventDefault={postSupportLog}>
-    <div class="row">
-        <div class="columns">
-            <div class="column is-one-fifth">
-                <DateSelect label="Date" bind:value={logDate} /> 
-                <SupportTypeDropdown label="Type" bind:value={type} required /> 
-                <FlagDropdown label="Flag" bind:value={supportLogFlag} required />
-            </div>
-            <div class="column is-four-fifths">
-                <textarea class="textarea" bind:value={log} cols="130" rows="9" required></textarea>
+<svelte:head>
+	<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</svelte:head>
+
+<main>
+    <form class="form-box" on:submit|preventDefault={postSupportLog}>
+        <div class="row">
+            <div class="columns">
+                <div class="column is-one-fifth">
+                    <DateSelect label="Date" bind:value={logDate} /> 
+                    <SupportTypeDropdown label="Type" bind:value={type} required /> 
+                    <FlagDropdown label="Flag" bind:value={supportLogFlag} required />
+                </div>
+                <div class="column is-four-fifths">
+                    <!-- <textarea class="textarea" bind:value={log} cols="130" rows="9" required></textarea> -->
+                    <div id="createEditor" />
+                </div>
             </div>
         </div>
-    </div>
-    <br>
-    <div class="buttons">
-        <button class="button is-small">Submit</button>
-    </div>
-</form>
+        <br>
+        <div class="buttons">
+            <button class="button is-small">Submit</button>
+        </div>
+    </form>
+</main>
