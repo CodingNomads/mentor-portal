@@ -51,7 +51,6 @@
             "log": quill.root.innerHTML,
             "logDate": logDate
         })
-        console.log(body)
         const url = API_BASE_URL + `/api/supportLog`
         const response = await fetch(url, {
             headers,

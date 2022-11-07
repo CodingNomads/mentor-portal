@@ -114,6 +114,12 @@
                                         {/if}
                                     </div>
                                 </div>
+                                <!-- triggered edit form -->
+                                {#if editLogId === entry.id}
+                                    <UpdateLog log={entry.log} userId={mentor.id} supportLogId={entry.id} />
+                                    <br>
+                                    <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                                {/if}
                             </div>
                         </tr>
                     {/if}
