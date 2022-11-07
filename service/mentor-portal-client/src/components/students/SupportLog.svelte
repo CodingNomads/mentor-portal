@@ -11,7 +11,7 @@
     // initialize variables
     export let student;
     let addLog = false;
-    let editTrigger = false;
+    // let editTrigger = false;
     let editLogId;
 
     // count flagged logs
@@ -31,13 +31,11 @@
     };
     function editLog(supportLogId) {
         editLogId = supportLogId;
-        editTrigger = true;
-        return editTrigger && editLogId
+        return editLogId
     };
     const cancelEdit = () => {
         editLogId = 0;
-        editTrigger = false;
-        return editTrigger && editLogId
+        return editLogId
     };
 </script>
 
@@ -67,8 +65,7 @@
                     <!-- catch flagged logs -->
                     {#if entry.flag === true}
                         <tr>
-                            <div class="notification is-danger">
-                                {#if editTrigger === false}
+                            <div class="notification is-danger is-light">
                                 <div class="columns">
                                     <!-- meta data -->
                                     <div class="column is-one-fifth">
@@ -78,28 +75,18 @@
                                     </div>
                                     <!-- support log topic body -->
                                     <div class="is-offset-1 column is-three-fifths">
-                                        <!-- {#if editTrigger === false} -->
-                                            <div class="content">
-                                                {@html entry.log}
-                                            </div>
-                                            {#if isAdmin === "true" || entry.mentorId === parseInt(mentorId)}
-                                                <br>
-                                                <br>
-                                                <button class="button is-small" on:click={() => editLog(entry.id)}>Edit</button>
-                                            {/if}
-                                        <!-- {/if} -->
-                                        <!-- triggered edit form -->
-                                        <!-- {#if editTrigger === true}
-                                            {#if editLogId === entry.id && isAdmin === "true" || entry.mentorId === parseInt(mentorId)}
-                                                <UpdateLog log={entry.log} userId={student.id} supportLogId={entry.id} />
-                                                <button class="button is-small" on:click={cancelEdit}>Cancel</button>
-                                            {/if}
-                                        {/if} -->
+                                        <div class="content">
+                                            {@html entry.log}
+                                        </div>
+                                        {#if isAdmin === "true" || entry.mentorId === parseInt(mentorId)}
+                                            <br>
+                                            <br>
+                                            <button class="button is-small" on:click={() => editLog(entry.id)}>Edit</button>
+                                        {/if}
                                     </div>
                                 </div>
-                                {/if}
                                 <!-- triggered edit form -->
-                                {#if editTrigger === true && editLogId === entry.id}
+                                {#if editLogId === entry.id}
                                     <UpdateLog log={entry.log} userId={student.id} supportLogId={entry.id} />
                                     <button class="button is-small" on:click={cancelEdit}>Cancel</button>
                                 {/if}
@@ -109,28 +96,26 @@
                     {:else}
                         <tr>
                             <div class="box">
-                                {#if editTrigger === false}
-                                    <div class="columns">
-                                        <!-- meta data -->
-                                        <div class="column is-one-fifth">
-                                            <p><em>{entry.logDate.split("T")[0]}</em></p>
-                                            <p><em>{entry.type}</em></p>
-                                            <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                                        </div>
-                                        <!-- support log topic body -->
-                                        <div class="is-offset-1 column is-three-fifths">
-                                            <div class="content">
-                                                {@html entry.log}
-                                            </div>
-                                            {#if isAdmin === "true" || entry.mentorId === parseInt(mentorId)}
-                                                <br>
-                                                <br>
-                                                <button class="button is-small" on:click={() => editLog(entry.id)}>Edit</button>
-                                            {/if}
-                                        </div>
+                                <div class="columns">
+                                    <!-- meta data -->
+                                    <div class="column is-one-fifth">
+                                        <p><em>{entry.logDate.split("T")[0]}</em></p>
+                                        <p><em>{entry.type}</em></p>
+                                        <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
                                     </div>
-                                {/if}
-                                {#if editTrigger === true && editLogId === entry.id}
+                                    <!-- support log topic body -->
+                                    <div class="is-offset-1 column is-three-fifths">
+                                        <div class="content">
+                                            {@html entry.log}
+                                        </div>
+                                        {#if isAdmin === "true" || entry.mentorId === parseInt(mentorId)}
+                                            <br>
+                                            <br>
+                                            <button class="button is-small" on:click={() => editLog(entry.id)}>Edit</button>
+                                        {/if}
+                                    </div>
+                                </div>
+                                {#if editLogId === entry.id}
                                     <UpdateLog log={entry.log} userId={student.id} supportLogId={entry.id} />
                                     <button class="button is-small" on:click={cancelEdit}>Cancel</button>
                                 {/if}

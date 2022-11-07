@@ -18,7 +18,7 @@
         const toolbarOptions = [
             ['bold', 'italic', 'underline', 'strike'],
             [{list: 'ordered'}, {list: 'bullet'}],
-            [{size: ['small', 'large', 'huge', false]}],
+            [{size: ['small', false, 'large', 'huge']}],
             [{header: [1, 2, 3, 4, 5, 6, false]}],
             ['blockquote', 'code-block']
         ]
