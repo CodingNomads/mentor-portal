@@ -10,7 +10,6 @@
     const isAdmin = sessionStorage.getItem("isAdmin")
     let addLog = false;
     let editLogId;
-    let editTrigger = false;
 
     // count flagged logs
     let flaggedLogCount = mentor.supportLog.filter(log => log.flag === true).length 
@@ -108,6 +107,11 @@
                                         <div class="content">
                                             {@html entry.log}
                                         </div>
+                                        {#if isAdmin === "true"}
+                                            <br>
+                                            <br>
+                                            <button class="button is-small" on:click={() => editLog(entry.id)}>Edit</button>
+                                        {/if}
                                     </div>
                                 </div>
                             </div>
