@@ -16,11 +16,11 @@
     onMount( () => {
         // quill toobar options
         const toolbarOptions = [
+            [{header: [1, 2, 3, 4, 5, 6, false]}],
             ['bold', 'italic', 'underline', 'strike'],
             [{list: 'ordered'}, {list: 'bullet'}],
-            [{size: ['small', false, 'large', 'huge']}],
-            [{header: [1, 2, 3, 4, 5, 6, false]}],
-            ['blockquote', 'code-block']
+            ['blockquote', 'code-block'],
+            ['link']
         ]
         // quill editor setup
         const updateContainer = document.getElementById("updateEditor");
