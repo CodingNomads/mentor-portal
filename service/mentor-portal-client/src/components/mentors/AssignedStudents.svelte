@@ -14,6 +14,6 @@
 
 {:else}  
 <div class="box">
-    This mentor currently has no students
+    This mentor currently has no active students
 </div> 
 {/if}

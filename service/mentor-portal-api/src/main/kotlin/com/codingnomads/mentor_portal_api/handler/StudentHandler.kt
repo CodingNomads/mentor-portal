@@ -3,11 +3,9 @@ package com.codingnomads.mentor_portal_api.handler
 import com.codingnomads.mentor_portal_api.entity.business.*
 import com.codingnomads.mentor_portal_api.entity.data.*
 import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
-import com.codingnomads.mentor_portal_api.entity.enum.MentorshipOption
 import com.codingnomads.mentor_portal_api.entity.enum.UserStatus
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
-import kotlin.reflect.typeOf
 
 /**
  * Handles Students
@@ -285,7 +283,6 @@ class StudentHandler(
      * Update student
      */
     fun updateStudent(userUpdatePayload: UserUpdatePayload, studentId: Int): StudentDataRelation{
-        println(userUpdatePayload)
         // check for update fields in payload
         if (userUpdatePayload.flag != null){
             // update user flag

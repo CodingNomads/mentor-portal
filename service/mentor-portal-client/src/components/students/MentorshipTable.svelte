@@ -5,13 +5,13 @@
     import { pencil } from "svelte-awesome/icons";
     import UpdateDate from "../formInputs/UpdateDate.svelte";
     import UpdateReview from "../formInputs/UpdateReview.svelte";
-    import StudentInfo from "./StudentInfo.svelte";
     import UpdateLinkedinAlumni from "../formInputs/UpdateLinkedinAlumni.svelte";
     import UpdateCourseMentorship from "../formInputs/UpdateCourseMentorship.svelte";
     import UpdateStatus from "../formInputs/UpdateStatus.svelte";
+    import UpdateMentorRelationship from "../formInputs/UpdateMentorRelationship.svelte";
 
     export let student;
-    let mentorStudentLookupData;
+    let mentorStudentLookupData = [];
     let authToken = sessionStorage.getItem("authToken")
     const isAdmin = sessionStorage.getItem("isAdmin")
 
@@ -55,9 +55,16 @@
         return triggerId & label
     }
 
+    function editMentorshipStatus(relationId, labelTitle) {
+        triggerId = relationId;
+        label = labelTitle;
+        return triggerId & label
+    }
+
     onMount(async () => {
         const url = API_BASE_URL + `/api/msl/${student.id}`
         mentorStudentLookupData = await authorizedApiGetCall(authToken, url)
+        console.log(mentorStudentLookupData);
     })
 </script>
 
@@ -223,6 +230,7 @@
     <thead>
         <tr>
             <th>Mentor Name</th>
+            <th>Mentorship Status</th>
         </tr>
     </thead>
     <tbody>
@@ -230,6 +238,34 @@
             <tr>
                 <!-- mentorName -->
                 <td>{mentor.firstName} {mentor.lastName}</td>
+                <!-- mentorshipStatus -->
+                {#each mentorStudentLookupData as data}
+                    {#if data.mentorId === mentor.id && data.studentId === student.id}
+                        <!-- <td>{data.description}</td> -->
+                        <td>
+                            <div class="row">
+                                <div class="columns">
+                                    <div class="column is-1">
+                                        <span class="is-small" on:click={editMentorshipStatus(data.id, "UpdateMentorshipStatus")}>
+                                            <Icon data={pencil} />
+                                        </span>
+                                    </div>
+                                    <div class="column">
+                                        {data.description}
+                                    </div>
+                                </div>
+                            </div>
+                            {#if label === "UpdateMentorshipStatus" && triggerId === data.id && isAdmin === "true"}
+                                <div class="columns">
+                                    <div class="column">
+                                        <UpdateMentorRelationship studentId={student.id} mentorId={mentor.id} relationId={data.id} />
+                                        <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                                    </div>
+                                </div>
+                            {/if}
+                        </td>
+                    {/if}
+                {/each}
             </tr>
         {/each}
     </tbody>

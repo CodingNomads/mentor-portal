@@ -48,7 +48,7 @@ class MentorHandler(
             // key for accessing maxStudent value from userConfigData dictionary
             val mentorId = mentor.id
             // mentorship pairs and filtering assigned students
-            val filteredMentorshipPair = mentorshipDataList.filter { it.mentorId == mentor.id }
+            val filteredMentorshipPair = mentorshipDataList.filter { it.mentorId == mentor.id && it.statusCode == 200}
             val filteredAssignedStudents = filteredMentorshipPair.map { student -> studentsWithMentorsByIdMap[student.studentId]!! }
             // proficiencies & maxStudent config values
             val proficienciesConfigList = mentorsConfigValues.filter { it.optionId == 2 }

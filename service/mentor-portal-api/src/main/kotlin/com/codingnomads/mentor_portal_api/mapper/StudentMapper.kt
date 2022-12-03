@@ -120,7 +120,7 @@ interface StudentMapper {
                 FROM user
                 JOIN contact on user.id = contact.user_id
                 JOIN mentor_student_lookup on user.id = mentor_student_lookup.student_id
-                WHERE user.role_code = 20 and mentor_student_lookup.mentor_id = #{value}
+                WHERE user.role_code = 20 and mentor_student_lookup.mentor_id = #{value} and mentor_student_lookup.status_code = 100
             """
     }
 }

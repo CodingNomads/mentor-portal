@@ -1,11 +1,8 @@
 package com.codingnomads.mentor_portal_api.entity.business
 
-import java.sql.Date
-
-data class MentorshipData(
+data class MentorStudentLookupUpdate(
     val id: Int,
     val mentorId: Int,
     val studentId: Int,
-    val statusCode: Int,
     val description: String
 )

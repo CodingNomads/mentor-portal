@@ -24,10 +24,10 @@
 
     const searchStudents = (e) => {
         let searchString = e.target.value.toLowerCase();
-         filteredStudents = studentList.filter(student => {
-                let firstName = student.firstName.toLowerCase()
-                let lastName = student.lastName.toLowerCase()
-                let fullName = student.firstName.toLowerCase() + " " + student.lastName.toLowerCase()
+        filteredStudents = studentList.filter(student => {
+            let firstName = student.firstName.toLowerCase()
+            let lastName = student.lastName.toLowerCase()
+            let fullName = student.firstName.toLowerCase() + " " + student.lastName.toLowerCase()
             return firstName.includes(searchString) || lastName.includes(searchString) || fullName.includes(searchString)
         });
     };
