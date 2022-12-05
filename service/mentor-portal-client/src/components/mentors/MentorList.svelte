@@ -103,3 +103,6 @@
         </tbody>
     </table>
 </div>
+<footer class="footer">
+
+</footer>

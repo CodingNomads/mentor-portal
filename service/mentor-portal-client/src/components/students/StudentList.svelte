@@ -32,6 +32,61 @@
         });
     };
 
+    const allFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            return student
+        });
+    }
+
+    const activeFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            const activeStatus = "active";
+            return student.statusDescription.toLowerCase().includes(activeStatus)
+        });
+    }
+
+    const pausedFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            const pausedStatus = "paused";
+            return student.statusDescription.toLowerCase().includes(pausedStatus)
+        });
+    }
+
+    const cancelledFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            const cancelledStatus = "cancelled";
+            return student.statusDescription.toLowerCase().includes(cancelledStatus)
+        });
+    }
+
+    const compProgramFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            const compProgramStatus = "completed program";
+            return student.statusDescription.toLowerCase().includes(compProgramStatus)
+        });
+    }
+
+    const compCurriculumFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            const compCurriculumStatus = "completed curriculum";
+            return student.statusDescription.toLowerCase().includes(compCurriculumStatus)
+        });
+    }
+
+    const droppedFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            const droppedStatus = "dropped out";
+            return student.statusDescription.toLowerCase().includes(droppedStatus)
+        });
+    }
+
+    const miaFilter = (e) => {
+        filteredStudents = studentList.filter(student => {
+            const miaStatus = "mia";
+            return student.statusDescription.toLowerCase().includes(miaStatus)
+        });
+    }
+
     function cancelEdit() {
         triggerId = 0;
         triggerContent = "";
@@ -92,6 +147,18 @@
                 <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchStudents} placeholder="Enter student name." />
             </div>
         </div>
+    </div>
+    <br>
+    <!-- student status filter -->
+    <div class="row">
+        <button id="allFilter" class="button is-light" on:click={allFilter}>All</button>
+        <button id="activeFilter" class="button is-light is-primary" on:click={activeFilter}>Active</button>
+        <button id="pausedFilter" class="button is-light is-warning" on:click={pausedFilter}>Paused</button>
+        <button id="cancelledFilter" class="button is-light is-danger" on:click={cancelledFilter}>Cancelled</button>
+        <button id="compProgramFilter" class="button is-light is-info" on:click={compProgramFilter}>Completed Program</button>
+        <button id="compCurriculumFilter" class="button is-light is-success" on:click={compCurriculumFilter}>Completed Curriculum</button>
+        <button id="droppedFilter" class="button is-light" on:click={droppedFilter}>Dropped Out</button>
+        <button id="miaFilter" class="button is-light" on:click={miaFilter}>MIA</button>
     </div>
     <br>
     <!-- student table -->
@@ -282,3 +349,6 @@
         </tbody>
     </table>
 </div>
+<footer class="footer">
+
+</footer>

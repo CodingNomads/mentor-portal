@@ -20,7 +20,7 @@
 
         if (response.status === 200){
             alert("Successfully updated mentorship status.")
-            // window.location.reload()
+            window.location.reload()
         }
         else {
             alert("Failed to update mentorship status.")

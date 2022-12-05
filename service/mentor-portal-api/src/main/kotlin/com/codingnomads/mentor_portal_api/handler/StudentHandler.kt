@@ -6,6 +6,7 @@ import com.codingnomads.mentor_portal_api.entity.enum.CourseOption
 import com.codingnomads.mentor_portal_api.entity.enum.UserStatus
 import com.codingnomads.mentor_portal_api.mapper.*
 import org.springframework.stereotype.Component
+import java.util.*
 
 /**
  * Handles Students
@@ -133,12 +134,12 @@ class StudentHandler(
         val studentProgramEnd = userConfigValueMapper.selectProgramEnd(studentId)
         val studentReview = userConfigValueMapper.selectStudentReview(studentId)
         // conditional data
-        val mentorData = if (mentorMapper.selectAssignedMentor(studentId) === null) emptyList() else mentorMapper.selectAssignedMentor(studentId)
-        val studentMentorshipOption = if (userConfigValueMapper.selectStudentMentorShipOption(studentId) === null) "" else userConfigValueMapper.selectStudentMentorShipOption(studentId).mentorshipOption
-        val programStart = if (studentProgramStart === null) "" else studentProgramStart.value
-        val programEnd = if (studentProgramEnd === null) "" else studentProgramEnd.value
-        val review = if (studentReview === null) false else studentReview.value.toBoolean()
-        val linkedinAlumni = if (studentData.linkedinAlumni === null) false else studentData.linkedinAlumni
+        val mentorData = if (mentorMapper.selectAssignedMentor(studentId) == null) emptyList() else mentorMapper.selectAssignedMentor(studentId)
+        val studentMentorshipOption = if (userConfigValueMapper.selectStudentMentorShipOption(studentId) == null) "" else userConfigValueMapper.selectStudentMentorShipOption(studentId).mentorshipOption
+        val programStart = if (studentProgramStart == null) "" else studentProgramStart.value
+        val programEnd = if (studentProgramEnd == null) "" else studentProgramEnd.value
+        val review = if (studentReview == null) false else studentReview.value.toBoolean()
+        val linkedinAlumni = studentData.linkedinAlumni ?: false
 
         return Student(
             id = studentData.id,
@@ -315,8 +316,8 @@ class StudentHandler(
 
         else if (userUpdatePayload.statusDescription != null) {
             val studentId = userUpdatePayload.userId
-            val statusDescription = userUpdatePayload.statusDescription
-            val validatedStatus = UserStatus.values().filter { it.description == statusDescription }
+            val statusDescription = userUpdatePayload.statusDescription.lowercase()
+            val validatedStatus = UserStatus.values().filter { it.description.lowercase() == statusDescription }
             if (validatedStatus != null) {
                 // update status
                 userMapper.updateStatusCode(studentId, validatedStatus[0].code)

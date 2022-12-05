@@ -50,3 +50,6 @@ onDestroy(student, studentId)
     </div>
     {/if}
 </div>
+<footer class="footer">
+    
+</footer>
