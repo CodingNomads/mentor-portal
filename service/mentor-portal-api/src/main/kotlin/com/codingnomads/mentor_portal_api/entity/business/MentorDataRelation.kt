@@ -13,7 +13,7 @@ data class  MentorDataRelation(
     val telephone: String,
     val forumUsername: String,
     val slackUsername: String,
-    val assignedStudents: List<StudentData>,
+    val assignedStudents: List<StudentData?> = mutableListOf(),
     val studentCount: Int,
     val maxStudents: Int,
     val proficiencies: List<String>

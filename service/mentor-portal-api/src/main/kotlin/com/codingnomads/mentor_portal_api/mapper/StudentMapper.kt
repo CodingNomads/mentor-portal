@@ -56,7 +56,7 @@ interface StudentMapper {
                 FROM user
                 JOIN contact on contact.user_id = user.id
                 JOIN status on status.code = user.status_code
-                WHERE role_code = 20
+                WHERE role_code = 20 
             """
 
         const val SELECT_STUDENT_STATEMENT =
@@ -87,7 +87,7 @@ interface StudentMapper {
                 user.first_name,
                 user.last_name,
                 user.role_code,
-                user.status_code,
+                status.description,
                 user.flag,
                 user.bio,
                 contact.location,
@@ -99,7 +99,8 @@ interface StudentMapper {
                 FROM user
                 JOIN mentor_student_lookup on user.id = mentor_student_lookup.student_id
                 JOIN contact on user.id = contact.user_id
-                WHERE role_code = 20
+                JOIN status on status.code = user.status_code
+                WHERE user.role_code = 20 and status.description = "Active"
             """
         const val SELECT_ASSIGNED_STUDENTS =
             """
@@ -120,7 +121,7 @@ interface StudentMapper {
                 FROM user
                 JOIN contact on user.id = contact.user_id
                 JOIN mentor_student_lookup on user.id = mentor_student_lookup.student_id
-                WHERE user.role_code = 20 and mentor_student_lookup.mentor_id = #{value} and mentor_student_lookup.status_code = 100
+                WHERE user.role_code = 20 and mentor_student_lookup.mentor_id = #{value} and user.status_code = 100
             """
     }
 }

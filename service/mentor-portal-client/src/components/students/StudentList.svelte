@@ -17,6 +17,7 @@
     const isAdmin = sessionStorage.getItem("isAdmin")
 
     // edit variables
+    let selectedFilter;
     let triggerContent;
     let triggerId;
     let courseTrackLabel = "Update Course";
@@ -36,6 +37,7 @@
         filteredStudents = studentList.filter(student => {
             return student
         });
+        selectedFilter = "All";
     }
 
     const activeFilter = (e) => {
@@ -43,6 +45,7 @@
             const activeStatus = "active";
             return student.statusDescription.toLowerCase().includes(activeStatus)
         });
+        selectedFilter = "Active"
     }
 
     const pausedFilter = (e) => {
@@ -50,6 +53,7 @@
             const pausedStatus = "paused";
             return student.statusDescription.toLowerCase().includes(pausedStatus)
         });
+        selectedFilter = "Paused";
     }
 
     const cancelledFilter = (e) => {
@@ -57,6 +61,7 @@
             const cancelledStatus = "cancelled";
             return student.statusDescription.toLowerCase().includes(cancelledStatus)
         });
+        selectedFilter = "Cancelled";
     }
 
     const compProgramFilter = (e) => {
@@ -64,6 +69,7 @@
             const compProgramStatus = "completed program";
             return student.statusDescription.toLowerCase().includes(compProgramStatus)
         });
+        selectedFilter = "Completed Program"; 
     }
 
     const compCurriculumFilter = (e) => {
@@ -71,6 +77,7 @@
             const compCurriculumStatus = "completed curriculum";
             return student.statusDescription.toLowerCase().includes(compCurriculumStatus)
         });
+        selectedFilter = "Completed Curriculum";
     }
 
     const droppedFilter = (e) => {
@@ -78,6 +85,7 @@
             const droppedStatus = "dropped out";
             return student.statusDescription.toLowerCase().includes(droppedStatus)
         });
+        selectedFilter = "Dropped Out."
     }
 
     const miaFilter = (e) => {
@@ -85,6 +93,7 @@
             const miaStatus = "mia";
             return student.statusDescription.toLowerCase().includes(miaStatus)
         });
+        selectedFilter = "MIA";
     }
 
     function cancelEdit() {
@@ -175,7 +184,16 @@
             </tr>
         </thead>
         <tbody >
-        {#each filteredStudents as student}
+        {#if filteredStudents.length === 0}
+            <tr>
+                <div class="tile is-light">
+                    <p class="title">
+                        No students returned with the status: <em>{selectedFilter}</em>.
+                    </p>
+                </div>
+            </tr>
+        {:else}
+            {#each filteredStudents as student}
             <tr>
                 <!-- name -->
                 <td>
@@ -345,7 +363,8 @@
                     {/if}
                 </td>
             </tr>    
-        {/each}
+            {/each}
+        {/if}
         </tbody>
     </table>
 </div>

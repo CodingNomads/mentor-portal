@@ -64,7 +64,6 @@
     onMount(async () => {
         const url = API_BASE_URL + `/api/msl/${student.id}`
         mentorStudentLookupData = await authorizedApiGetCall(authToken, url)
-        console.log(mentorStudentLookupData);
     })
 </script>
 
