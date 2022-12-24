@@ -15,9 +15,12 @@ import org.springframework.stereotype.Component
 @Component
 class SupportLogHandler(
     private val supportLogMapper: SupportLogMapper,
-    private val studentMapper: StudentMapper,
     private val userMapper: UserMapper
     ){
+    /**
+     * GET all supportlogs
+     */
+    fun getAllSupportLogs() = supportLogMapper.selectAllSupportLogs()
     /**
      * Get all of a student's support logs
      */

@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api")
 class SupportLogController(@Autowired private val supportLogHandler: SupportLogHandler) {
     /**
+     * GET all supportlogs
+     */
+    @GetMapping("/supportlogs")
+    fun getAllSupportLogs(): List<SupportLog> = supportLogHandler.getAllSupportLogs()
+    /**
      * GET all of a user's support logs
      */
     @GetMapping("/{userId}/supportLogs")

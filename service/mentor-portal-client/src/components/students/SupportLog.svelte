@@ -11,7 +11,6 @@
     // initialize variables
     export let student;
     let addLog = false;
-    // let editTrigger = false;
     let editLogId;
 
     // count flagged logs
