@@ -8,6 +8,11 @@ import org.apache.ibatis.annotations.*
 @Mapper
 interface SupportLogMapper {
     /**
+     * SELECT all support logs
+     */
+    @Select(SELECT_ALL_SUPPORT_LOGS_STATEMENT)
+    fun selectAllSupportLogs(): List<SupportLog>
+    /**
      * SELECT ALL of a user's support logs
      */
     @Select(SELECT_SUPPORT_LOGS_STATEMENT)
@@ -31,6 +36,27 @@ interface SupportLogMapper {
     fun updateSupportLogFlag(supportLogId: Int, flag: Boolean, log: String)
 
     companion object {
+        const val SELECT_ALL_SUPPORT_LOGS_STATEMENT =
+            """
+                SELECT DISTINCT
+                support_log.id,
+                user.first_name,
+                user.last_name,
+                support_log.mentor_id,
+                support_log.student_id,
+                support_log.type,
+                support_log.flag,
+                support_log.duration,
+                support_log.log,
+                support_log.log_date,
+                support_log.created_at,
+                support_log.updated_at
+                FROM user
+                JOIN support_log on user.id = mentor_id
+                WHERE user.role_code = 10
+                ORDER BY support_log.log_date DESC
+                LIMIT 100
+            """
         const val SELECT_SUPPORT_LOGS_STATEMENT =
             """
                SELECT DISTINCT

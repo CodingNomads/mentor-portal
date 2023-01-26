@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api")
 class SupportLogController(@Autowired private val supportLogHandler: SupportLogHandler) {
     /**
+     * GET all supportlogs
+     */
+    @GetMapping("/supportlogs")
+    fun getAllSupportLogs(): List<SupportLog> = supportLogHandler.getAllSupportLogs()
+    /**
      * GET all of a user's support logs
      */
     @GetMapping("/{userId}/supportLogs")
@@ -27,9 +32,9 @@ class SupportLogController(@Autowired private val supportLogHandler: SupportLogH
     /**
      * PUT endpoint for updating flag of single support log
      */
-    @PreAuthorize("hasAuthority('admin:write')")
+    @PreAuthorize("hasAuthority('student:write')")
     @PutMapping("/{userId}/supportLogs/{supportLogId}")
-    fun updateSupportLogFlag(@RequestBody payload: SupportLogFlagPayload,
+    fun updateSupportLog(@RequestBody payload: SupportLogFlagPayload,
                              @PathVariable userId: Int,
                              @PathVariable supportLogId: Int) = supportLogHandler.updateSupportLog(payload, userId, supportLogId)
     /**

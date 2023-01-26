@@ -5,7 +5,7 @@ data class StudentData(
     val firstName: String,
     val lastName: String,
     val roleCode: Int = 20,
-    val statusCode: Int,
+    val statusDescription: String,
     val flag: Boolean,
     val bio: String,
     val location: String,
@@ -13,4 +13,5 @@ data class StudentData(
     val telephone: String,
     val forumUsername: String,
     val slackUsername: String,
+    val linkedinAlumni: Boolean? = false
 )

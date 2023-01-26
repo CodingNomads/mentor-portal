@@ -63,3 +63,6 @@
     <p class="alert is-warning">Mentor Detail Page: Didn't load :/</p>
     {/if}
 </div>
+<footer class="footer">
+
+</footer>

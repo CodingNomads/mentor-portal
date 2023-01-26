@@ -6,15 +6,17 @@
 
     // initialize variables
     export let mentor;
-    const authToken = sessionStorage.getItem("authToken")
     const userEmail = sessionStorage.getItem("userEmail")
     const isAdmin = sessionStorage.getItem("isAdmin")
     let addLog = false;
-    let editTrigger = false;
+    let editLogId;
 
     // count flagged logs
-    let flaggedLogCount = mentor.supportLog.filter(log => log.flag === true).length
-    console.log(flaggedLogCount)
+    let flaggedLogCount = mentor.supportLog.filter(log => log.flag === true).length 
+    // filter logs by date
+    let supportLogList = mentor.supportLog.sort(function(a, b){
+        return new Date(b.logDate) - new Date(a.logDate)
+    })
 
     // handler functions
     const newLog = () => {
@@ -23,11 +25,13 @@
     const resetAddLog = () => {
         return addLog = false;
     };
-    const editLog = () => {
-        return editTrigger = true
+    function editLog(supportLogId) {
+        editLogId = supportLogId
+        return editLogId
     }
     const cancelEdit = () => {
-        return editTrigger = false
+        editLogId = 0;
+        return editLogId
     }
 </script>
 
@@ -53,57 +57,75 @@
     
     <!-- display past logs -->
     {#if mentor.supportLog.length > 0}
-        {#each mentor.supportLog.reverse() as entry (entry.id)}
-            <!-- catch flagged logs -->
-            {#if entry.flag === true}
-                <div class="notification is-danger">
-                    <div class="row">
-                        <div class="columns">
-                            <!-- meta data -->
-                            <div class="column is-one-fifth">
-                                <p><em>{entry.logDate.split("T")[0]}</em></p>
-                                <p><em>{entry.type}</em></p>
-                                <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                                <p><em>{entry.duration} minutes</em></p>
-                            </div>
-                            <!-- support log topic body -->
-                            <div class="is-offset-1 column is-three-fifths">
-                                {#if editTrigger === false}
-                                <p>{entry.log}</p>
-                                    {#if isAdmin === "true"}
-                                        <br>
-                                        <br>
-                                        <button class="button is-small" on:click={editLog}>Edit</button>
-                                    {/if}
+        <table class="table is-fullwidth">
+            <tbody>
+                {#each supportLogList as entry (entry.id)}
+                    <!-- catch flagged logs -->
+                    {#if entry.flag === true}
+                        <tr>
+                            <div class="notification is-danger is-light">
+                                <div class="columns">
+                                    <!-- meta data -->
+                                    <div class="column is-one-fifth">
+                                        <p><em>{entry.logDate.split("T")[0]}</em></p>
+                                        <p><em>{entry.type}</em></p>
+                                        <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
+                                    </div>
+                                    <!-- support log topic body -->
+                                    <div class="is-offset-1 column is-three-fifths">
+                                        <div class="content">
+                                            {@html entry.log}
+                                        </div>
+                                        {#if isAdmin === "true"}
+                                            <br>
+                                            <br>
+                                            <button class="button is-small" on:click={() => editLog(entry.id)}>Edit</button>
+                                        {/if}
+                                    </div>
+                                </div>
                                 <!-- triggered edit form -->
-                                {:else}
-                                <UpdateLog log={entry.log} userId={mentor.id} supportLogId={entry.id} />
-                                <br>
-                                <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                                {#if editLogId === entry.id}
+                                    <UpdateLog log={entry.log} userId={mentor.id} supportLogId={entry.id} />
+                                    <br>
+                                    <button class="button is-small" on:click={cancelEdit}>Cancel</button>
                                 {/if}
                             </div>
-                        </div>
-                    </div>
-                </div>
-            {:else}
-            <div class="box">
-                <div class="row">
-                    <div class="columns">
-                        <!-- meta data -->
-                        <div class="column is-one-fifth">
-                            <p><em>{entry.logDate.split("T")[0]}</em></p>
-                            <p><em>{entry.type}</em></p>
-                            <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
-                            <p><em>{entry.duration} minutes</em></p>
-                        </div>
-                        <!-- support log topic body -->
-                        <div class="is-offset-1 column is-three-fifths">
-                            <p>{entry.log}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {/if}
-        {/each}
+                        </tr>
+                    <!-- non-flagged logs -->
+                    {:else}
+                        <tr>
+                            <div class="box">
+                                <div class="columns">
+                                    <!-- meta data -->
+                                    <div class="column is-one-fifth">
+                                        <p><em>{entry.logDate.split("T")[0]}</em></p>
+                                        <p><em>{entry.type}</em></p>
+                                        <p><em>{entry.mentorFirstName} {entry.mentorLastName}</em></p>
+                                    </div>
+                                    <!-- support log topic body -->
+                                    <div class="is-offset-1 column is-three-fifths">
+                                        <div class="content">
+                                            {@html entry.log}
+                                        </div>
+                                        {#if isAdmin === "true"}
+                                            <br>
+                                            <br>
+                                            <button class="button is-small" on:click={() => editLog(entry.id)}>Edit</button>
+                                        {/if}
+                                    </div>
+                                </div>
+                                <!-- triggered edit form -->
+                                {#if editLogId === entry.id}
+                                    <UpdateLog log={entry.log} userId={mentor.id} supportLogId={entry.id} />
+                                    <br>
+                                    <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                                {/if}
+                            </div>
+                        </tr>
+                    {/if}
+                    <br>
+                {/each}
+            </tbody>
+        </table>
     {/if}    
 </div>

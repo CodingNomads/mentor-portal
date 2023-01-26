@@ -7,7 +7,7 @@ data class SupportLogPayload(
     val studentId: Int,
     val type: String,
     val flag: Boolean,
-    val duration: Int,
+    val duration: Int? = null,
     val log: String,
     val logDate: Timestamp,
 )

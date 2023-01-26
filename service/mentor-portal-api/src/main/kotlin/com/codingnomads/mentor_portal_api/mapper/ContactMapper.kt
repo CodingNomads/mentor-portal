@@ -13,6 +13,11 @@ interface ContactMapper {
     @Insert(INSERT_CONTACT_STATEMENT + INSERT_CONTACT_VALUES)
     @Options(useGeneratedKeys = true, keyProperty = "id")
     fun insertContact(contactRow: ContactRow): Int
+    /**
+     * Insert linkedin_alumni boolean
+     */
+    @Insert(UPDATE_LINKEDIN_ALUMNI_STATEMENT)
+    fun updateLinkedinAlumni(studentId: Int, linkedinAlumni: Boolean): Int
 
     companion object{
         const val INSERT_CONTACT_STATEMENT =
@@ -23,9 +28,19 @@ interface ContactMapper {
                 telephone,
                 location,
                 forum_username,
-                slack_username
+                slack_username,
+                linkedin_alumni
                 )
             """
-        const val INSERT_CONTACT_VALUES = "VALUES (#{userId}, #{telephone}, #{location}, #{forumUsername}, #{slackUsername})"
+        const val INSERT_CONTACT_VALUES =
+            """
+                VALUES (#{userId}, #{telephone}, #{location}, #{forumUsername}, #{slackUsername}, false)
+            """
+        const val UPDATE_LINKEDIN_ALUMNI_STATEMENT =
+            """
+                UPDATE contact
+                SET contact.linkedin_alumni = #{linkedinAlumni}
+                WHERE contact.user_id = #{studentId}
+            """
     }
 }

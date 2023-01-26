@@ -2,6 +2,7 @@
     import { onMount, onDestroy } from "svelte";
     import { navOptions } from "./StudentNav.svelte";
     import NavBar from "../NavBar.svelte";
+    import { authorizedApiGetCall } from "../../js/apiCalls.js";
     // nav variables
     let selected = navOptions[0];
     let intSelected = 0;
@@ -13,19 +14,12 @@
     // student variables
     export let studentId;
     export let student;
+    // authToken
+    const authToken = sessionStorage.getItem("authToken")
 
     onMount(async() => {
         const url = API_BASE_URL + `/api/students/${studentId}`
-        const headers = {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        }
-        const response = await fetch(url, {
-            headers,
-            mode: 'cors',
-            credentials: "same-origin"
-        })
-        student = await response.json()
+        student = await authorizedApiGetCall(authToken, url)
     });
 
 onDestroy(student, studentId)
@@ -35,7 +29,7 @@ onDestroy(student, studentId)
     <NavBar />
     {#if student}
     <br>
-    <div class="card-content">
+    <div class="container">
         <!-- title row -->
         <div class="row">
             <div class="column is-7">
@@ -50,11 +44,12 @@ onDestroy(student, studentId)
                 <a class={intSelected==i ? "button is-small is-info active p-2 ml-1" : "p-2 ml-1 button is-light is-small"} on:click={changeComponent} id={i} role="tab">{option.page}</a>
             {/each}
         </div>
-        <!-- selected nav row -->
+        <!-- selected nav -->
         <br>
-        <div class="row">
-            <svelte:component this={selected.component} student={student}/>
-        </div>
+        <svelte:component this={selected.component} student={student}/>
     </div>
     {/if}
 </div>
+<footer class="footer">
+    
+</footer>

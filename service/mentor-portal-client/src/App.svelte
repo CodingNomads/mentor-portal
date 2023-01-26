@@ -9,6 +9,7 @@
 	import Status from './routes/Status.svelte';
 	import Student from './routes/Student.svelte';
 	import Mentor from './routes/Mentor.svelte';
+    import SupportLogs from './routes/SupportLogs.svelte';
 	
 	export let url = "";
 
@@ -32,6 +33,10 @@
 
 		<Route path="/admin">
 			<Admin />
+		</Route>
+
+		<Route path="/supportlogs">
+			<SupportLogs />
 		</Route>
 
 		<Route path="/status">

@@ -5,7 +5,7 @@ data class Student(
     val firstName: String,
     val lastName: String,
     val roleCode: Int = 20,
-    val statusCode: Int,
+    val statusDescription: String,
     val flag: Boolean,
     val bio: String,
     val location: String,
@@ -16,5 +16,9 @@ data class Student(
     val assignedMentors: List<MentorData>? = null,
     val supportLog: List<SupportLog>? = null,
     val courseTrack: String? = null,
-    val mentorshipOption: String? = null
+    val mentorshipOption: String? = null,
+    val programStart: String? = null,
+    val programEnd: String? = null,
+    val review: Boolean? = null,
+    val linkedinAlumni: Boolean? = false
 )

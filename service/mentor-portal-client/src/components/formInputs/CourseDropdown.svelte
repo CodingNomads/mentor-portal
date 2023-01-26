@@ -19,9 +19,11 @@
 
 <div class="field">
     <label for={label} class="label">{capitolize(label)}</label>
-    <select span="courseType" name={label} id={label} bind:value required>
-        {#each courseTrackList as course (courseTrackList.indexOf(course))}
-            <option class="dropdown-item" type="text" value={course}>{course}</option>
-        {/each}
-    </select>
+    <div class="select is-small">
+        <select span="courseType" name={label} id={label} bind:value required>
+            {#each courseTrackList as course (courseTrackList.indexOf(course))}
+                <option class="dropdown-item" type="text" value={course}>{course}</option>
+            {/each}
+        </select>
+    </div>
 </div>

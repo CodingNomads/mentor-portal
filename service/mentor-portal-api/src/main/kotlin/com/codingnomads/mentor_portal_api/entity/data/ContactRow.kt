@@ -9,4 +9,5 @@ data class ContactRow(
     val location: String,
     val forumUsername: String,
     val slackUsername: String,
+    val linkedinAlumni: Boolean? = false
 )

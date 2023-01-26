@@ -5,38 +5,21 @@
 
     export let mentor;
 
-    const authToken = sessionStorage.getItem("authToken")
-    const userEmail = sessionStorage.getItem("userEmail")
+    const isAdmin = sessionStorage.getItem("isAdmin")
+    let adminCheck;
+    let editTrigger;
 
-    let editTrigger = false;
-
-    const editBio = () => {
-        return editTrigger = true
+    function editBio(isAdmin, editThis) {
+        adminCheck = isAdmin;
+        editTrigger = editThis;
+        return adminCheck && editTrigger
     };
     const cancelEdit = () => {
-        return editTrigger = false
+        adminCheck = "";
+        editTrigger = false;
+        return adminCheck && editTrigger
     };
 </script>
-
-<div class="box">
-    <div class="row">
-        <div class="column is-6 is-centered">
-            {#if editTrigger === false}
-                {mentor.bio}
-                <br>
-                <br>
-                <!-- restrict bio edit to the logged in user and their bio -->
-                {#if userEmail === mentor.email}
-                    <button class="button is-small" on:click={editBio}>Edit</button>
-                {/if}
-            {:else}   
-                <UpdateBio mentorId={mentor.id} bio={mentor.bio} />
-                <br>
-                <button class="button is-small" on:click={cancelEdit}>Cancel</button>
-            {/if}
-        </div>
-    </div>
-</div>
 
 <ul>
     <div class="row">
@@ -64,3 +47,31 @@
         </div>
     </div>
 </ul>   
+
+<br>
+
+<table class="table is-fullwidth">
+    <tbody>
+        <tr>
+            <div class="box">
+                <div class="columns">
+                    <div class="column is-8 is-centered">
+                        <div class="content">
+                            {@html mentor.bio}
+                        </div>
+                        <br>
+                        <!-- restrict bio edit to admin -->
+                        {#if isAdmin === "true"}
+                            <button class="button is-small" on:click={() => editBio(isAdmin, true)}>Edit</button>
+                        {/if}
+                        {#if adminCheck === isAdmin && editTrigger === true}   
+                            <UpdateBio mentorId={mentor.id} bio={mentor.bio} />
+                            <button class="button is-small" on:click={cancelEdit}>Cancel</button>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </tr>
+    </tbody>
+</table>
+<br>

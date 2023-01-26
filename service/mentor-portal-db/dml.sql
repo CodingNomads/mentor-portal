@@ -5,19 +5,23 @@ VALUES (10, 'mentor', 'A CodingNomads mentor'),
        (20, 'student', 'A CodingNomads student');
 
 INSERT INTO `status` (code, description)
-VALUES (100, 'active'),
-       (200, 'paused'),
-       (300, 'cancelled'),
-       (999, 'deleted');
+VALUES (100, 'Active'),
+       (200, 'Paused'),
+       (300, 'Cancelled'),
+       (400, 'Completed program'),
+       (500, 'Completed curriculum'),
+       (333, 'Dropped out'),
+       (666, 'MIA'),
+       (999, 'Deleted');
 
 INSERT INTO `user` (first_name, last_name, role_code, status_code, flag, timezone_offset, bio, email)
 VALUES ('student1', 'smith', 20, 100, 1, '-8', 'Bio for student1 with their goals', 'email1@email.com'),
        ('mentor1', 'doe', 10, 100, 0, '-4', 'Bio for mentor1 with their history', 'admin@email.com'),
        ('student2', 'smith', 20, 100, 0, '-8', 'Bio for student2 with their goals', 'email3@email.com'),
        ('mentor2', 'doe', 10, 100, 1, '-4', 'Bio for mentor2 with their history', 'email4@email.com'),
-       ('inactiveStudent', 'smith', 20, 200, 1, '-4', 'Bio for inactive student', 'email5@email.com'),
+       ('inactiveStudent', 'smith', 20, 200, 0, '-4', 'Bio for inactive student', 'email5@email.com'),
        ('admin', 'admin', 10, 100, 0, '-8', 'Bio for admin with their history', 'email6@email.com'),
-       ('student', 'smith', 20, 100, 1, "-5", 'Bio for student with their goals', 'email7@email.com');
+       ('student', 'smith', 20, 100, 0, "-5", 'Bio for student with their goals', 'email7@email.com');
 
 INSERT INTO `security` (user_id, password_hash, is_admin)
 VALUES (1, '$2a$10$ttex2IYnW9u95E/qOQmS7uBoa4LNL7v/9BrYz/7Z8BJ77rHEGhA/2', 0),
@@ -54,7 +58,10 @@ INSERT INTO `user_config_option` (option_name, description, is_sensitive)
 VALUES ("maxStudents", "The maximum students a mentor can be assigned.", 0),
        ("proficiencies", "The programming language(s) a mentor is proficient with.", 0),
        ("courseTrack", "The course a student is enrolled in.", 0),
-       ("mentorshipOption", "The mentorship option a student is enrolled in.", 0);
+       ("mentorshipOption", "The mentorship option a student is enrolled in.", 0),
+       ("programStart", "The program start date of a student.", 0),
+       ("programEnd", "The program end date of a student.", 0),
+       ("studentReview", "A boolean for whether a student has written an online review.", 0);
 
 INSERT INTO `user_config_value` (user_id, option_id, value)
 VALUES (2, 1, "10"),

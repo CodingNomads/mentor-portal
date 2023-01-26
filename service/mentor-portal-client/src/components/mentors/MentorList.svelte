@@ -2,6 +2,8 @@
     import { onMount, onDestroy } from "svelte"; 
     import NavBar from "../../components/NavBar.svelte";
     import { authorizedApiGetCall } from "../../js/apiCalls";
+    import Icon from 'svelte-awesome';
+    import { flag } from "svelte-awesome/icons";
 
     export let mentorList = [];
     export let filteredMentors = [];   
@@ -10,11 +12,11 @@
     const authToken = sessionStorage.getItem("authToken")
 
     let searchMentors = (e) => {
-        let searchString = e.target.value
+        let searchString = e.target.value.toLowerCase()
         filteredMentors = mentorList.filter(mentor => {
-            let firstName = mentor.firstName
-            let lastName = mentor.lastName
-            let fullName = mentor.firstName + " " + mentor.lastName
+            let firstName = mentor.firstName.toLowerCase()
+            let lastName = mentor.lastName.toLowerCase()
+            let fullName = firstName + " " + lastName
             return firstName.includes(searchString) || lastName.includes(searchString) || fullName.includes(searchString)
         });
     };
@@ -22,6 +24,8 @@
     onMount(async () => {
         const url = API_BASE_URL + "/api/mentors"
         mentorList = await authorizedApiGetCall(authToken, url)
+        mentorList.sort((a, b) => a.firstName.localeCompare(b.firstName))
+        filteredMentors = mentorList
     })
 
     onDestroy(mentorList, filteredMentors)
@@ -38,49 +42,67 @@
                 <h1 class="title is-1"><strong>Mentors</strong></h1>
             </div>
             <div class="column is-5">
-                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchMentors} placeholder="spacebar + backspace to populate" />
+                <input class="input is-info is-medium" type="text" id="searchBar" on:keyup={searchMentors} placeholder="Enter mentor name." />
             </div>
         </div>
     </div>          
     <br>
-    <!-- filtered mentor list -->
-    {#if filteredMentors.length > 0}
-        {#each filteredMentors as mentor (mentor.id)}
-            <div class="row">
-                <div class="columns">
-                    <div class="column is-2 is-offset-one-fifth">
-                        <!-- mentor name -->
-                        <div class="row">
-                            <a href="/mentors/{mentor.id}" class="button is-link is-medium"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
-                        </div>
-                        <!-- quick view of proficiencies -->
-                        <div class="row">
-                            {#each mentor.proficiencies as proficiency}
-                            <span class="tag is-dark">{proficiency} </span>
-                            {/each}
-                        </div>
-                        <!-- flagged status -->
-                        <br>
-                        <div class="row">
-                            {#if mentor.flag === true }
-                            <span class="tag is-danger">Flagged</span>
-                            {/if}
-                        </div>
-                    </div>
-                    <!-- offset student count view -->
-                    <div class="column is-offset-1 is-4">
+    <!-- mentor table -->
+    <table class="table is-fullwidth is-bordered">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Mentor Proficiencies</th>
+                <th>Student Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each filteredMentors as mentor}
+                <tr>
+                    <td>
+                        {#if mentor.flag}
+                            <div class="row">
+                                <div class="columns">
+                                    <div class="column is-1">
+                                        <Icon data={flag} style="color:red"/>
+                                    </div>
+                                    <div class="column">
+                                        <a href="/mentors/{mentor.id}" class="is-link is-small"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
+                                    </div>
+                                </div>
+                            </div>
+                        {:else}
+                            <div class="row">
+                                <div class="columns">
+                                    <div class="column is-1">
+                                        <!-- spacer -->
+                                    </div>
+                                    <div class="column">
+                                        <a href="/mentors/{mentor.id}" class="is-link is-small"><strong>{mentor.firstName} {mentor.lastName}</strong></a>
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
+                    </td>
+                    <td>
+                        {#each mentor.proficiencies as proficiency}
+                            {proficiency}
+                            <br>
+                        {/each}
+                    </td>
+                    <td>
                         <div class="row">
                             <progress class="progress is-small is-info" value={mentor.studentCount} max={mentor.maxStudents}></progress>
                         </div>
                         <div class="row">
                             <p><em>{mentor.studentCount}/{mentor.maxStudents} students</em></p>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-three-fifths is-offset-one-fifth">
-                <hr>
-            </div>
-        {/each}
-    {/if}
+                    </td>
+                </tr>
+            {/each}
+        </tbody>
+    </table>
 </div>
+<footer class="footer">
+
+</footer>

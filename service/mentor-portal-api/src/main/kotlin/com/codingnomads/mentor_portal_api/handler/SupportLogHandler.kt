@@ -15,9 +15,12 @@ import org.springframework.stereotype.Component
 @Component
 class SupportLogHandler(
     private val supportLogMapper: SupportLogMapper,
-    private val studentMapper: StudentMapper,
     private val userMapper: UserMapper
     ){
+    /**
+     * GET all supportlogs
+     */
+    fun getAllSupportLogs() = supportLogMapper.selectAllSupportLogs()
     /**
      * Get all of a student's support logs
      */
@@ -61,7 +64,7 @@ class SupportLogHandler(
             studentId = supportLogPayload.studentId,
             type = supportLogPayload.type,
             flag = supportLogPayload.flag,
-            duration = supportLogPayload.duration.toInt(),
+            duration = 0,
             log = supportLogPayload.log,
             logDate = supportLogPayload.logDate,
         )
@@ -82,7 +85,7 @@ class SupportLogHandler(
             studentId = supportLogRow.studentId,
             type = supportLogRow.type,
             flag = supportLogRow.flag,
-            duration = supportLogRow.duration.toInt(),
+            duration = 0,
             log = supportLogRow.log,
             logDate = supportLogRow.logDate
         )

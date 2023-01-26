@@ -9,6 +9,7 @@ data class Contact(
     val location: String,
     val forumUsername: String,
     val slackUsername: String,
+    val linkedinAlumni: Boolean? = false
 ){
     companion object {
         fun fromEntity(contactRow: ContactRow) = Contact (
@@ -17,7 +18,8 @@ data class Contact(
             telephone = contactRow.telephone,
             location = contactRow.location,
             forumUsername = contactRow.forumUsername,
-            slackUsername = contactRow.slackUsername
+            slackUsername = contactRow.slackUsername,
+            linkedinAlumni = contactRow.linkedinAlumni
                 )
     }
 }

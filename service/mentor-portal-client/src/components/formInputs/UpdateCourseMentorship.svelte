@@ -45,8 +45,8 @@
 {#if label === "Update Course"}
     <form class="form" on:submit|preventDefault={submitUpdate}>
         <CourseDropdown label={label} bind:value={value} />
-    <button class="button is-small">Submit</button>
-</form>
+        <button class="button is-small">Submit</button>
+    </form>
 {/if}
 
 {#if label === "Update Mentorship"}
